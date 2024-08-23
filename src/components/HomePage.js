@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import usePageNavigation from "../uesPageNavigation";
+import "../sass/shareStyle.scss"
+import {FaHandHoldingWater, FaHome } from "react-icons/fa"
 
 function HomePage() {
     
@@ -10,8 +12,9 @@ function HomePage() {
     }
   return (
     <div>
-        <div>home page</div>
+        <div className="text">home page</div>
         <div onClick={handlePassValue}>Passout</div>
+        <div><FaHome/></div>
     </div>
   );
 }

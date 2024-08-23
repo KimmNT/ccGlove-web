@@ -11,8 +11,8 @@ $light : #FFF;
 $boxShadow:-10px 10px 5px rgb(217, 217, 217);
 
 @font-face {
-    font-family: Robo;
-    src: url(../fonts/Roboto-Regular.ttf);
+    font-family: FiraSan;
+    src: url(../fonts/FiraSans-Regular.ttf);
 }
 
 
@@ -20,11 +20,14 @@ html{
     font-size: 62.5%;
 }
 body{
-    font-family: "Robo";
+    font-family: "FiraSan";
     scroll-behavior: smooth;
 }
 img{
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+.text{
+    font-size: 20rem;
 }
