@@ -1,0 +1,87 @@
+//COLORES
+$primary : #141E46;
+$btnColor : #F0EEED;
+$bgColor : #EDEDED;
+$softRed : #F45050;
+$softYellow : #FFC861;
+$dark : #000;
+$light : #FFF;
+
+//VARIABLE
+$boxShadow:-10px 10px 5px rgb(217, 217, 217);
+
+$breakpoint-small: 600px;
+$breakpoint-medium: 990px;
+$breakpoint-large: 1200px;
+
+@font-face {
+    font-family: FiraSan;
+    src: url(../fonts/FiraSans-Regular.ttf);
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+html{
+    font-size: 62.5%;
+}
+body{
+    font-family: "FiraSan";
+    scroll-behavior: smooth;
+}
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.logo__container{
+    width: 7rem;
+    height: 7rem;
+}
+.container{
+    width: 100%;
+    background-color: $bgColor;
+    .content{ 
+        max-width: 375px !important;
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 20rem 0 10rem;
+        .large__text{
+            font-size: 10rem;
+        }
+        .medium__text{
+            font-size: 5rem;
+        }
+        .small__text{
+            font-size: 1.5rem;
+        }
+    }
+    .navbar__container{
+        width: 100%;
+        position: relative;
+        background-color: $light;
+        z-index: 1;
+        .navbar__header{
+            width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 0;
+        background-color: $light;
+        position: fixed;
+        border-bottom: 1px solid $dark;
+            .navbar__menu{
+                display: flex;
+            align-items: center;
+            gap: 2rem;
+                .menu__item{
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

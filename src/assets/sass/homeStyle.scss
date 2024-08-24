@@ -1,0 +1,107 @@
+//COLORES
+$primary : #141E46;
+$btnColor : #F0EEED;
+$bgColor : #EDEDED;
+$softRed : #F45050;
+$softYellow : #FFC861;
+$dark : #000;
+$light : #FFF;
+
+//VARIABLE
+$boxShadow:-10px 10px 5px rgb(217, 217, 217);
+
+$breakpoint-small: 600px;
+$breakpoint-medium: 990px;
+$breakpoint-large: 1200px;
+
+@font-face {
+    font-family: FiraSan;
+    src: url(../fonts/FiraSans-Regular.ttf);
+}
+
+.home__container{
+    width: 100%;
+    position: relative;
+    .order__container{
+        width: 100%;
+        .order__content{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            .order__item{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                background-color: $light;
+                padding: 2rem;
+                border-radius: 2rem;
+                gap: 1rem;
+                border: 1px solid $primary;
+                cursor: pointer;
+                color: $primary;
+                &:hover{
+                    background-color: $primary;
+                    color: $light;
+                    transition: all ease-in-out .2s;
+                }
+                .order__item_box{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .box__title{
+                    }
+                    .box__value{
+                        font-weight: 600;
+                    }
+                    .status{
+                        padding: .5rem 1rem;
+                        border-radius: 1rem;
+                        &.pending{
+                            color: $dark;
+                            background-color: $softYellow;
+                        }
+                        &.confirmed{
+                            color: $light;
+                            background-color: $primary;
+                        }
+                        &.working{
+                            color: $light;
+                            background-color: $primary;
+                        }
+                        &.done{
+                            color: $light;
+                            background-color: #1B5E20;
+                        }
+                        &.cancel{
+                            color: $light;
+                            background-color: $softRed;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .refresh{
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+        background-color: $primary;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        .refresh__icon{
+            font-size: 2rem;
+            color: $light;
+        }
+    }
+}
+
+
+

@@ -1,0 +1,129 @@
+//COLORES
+$primary : #141E46;
+$btnColor : #F0EEED;
+$bgColor : #EDEDED;
+$softRed : #F45050;
+$softYellow : #FFC861;
+$dark : #000;
+$light : #FFF;
+
+//VARIABLE
+$boxShadow:-10px 10px 5px rgb(217, 217, 217);
+
+$breakpoint-small: 600px;
+$breakpoint-medium: 990px;
+$breakpoint-large: 1200px;
+
+@font-face {
+    font-family: FiraSan;
+    src: url(../fonts/FiraSans-Regular.ttf);
+}
+
+.order__detail_container{
+    width: 100%;
+    position: relative;
+    .order_detail_header{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+            .header__goback{
+                width: 4rem;
+                height: 4rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                background-color: $primary;
+                font-size: 2rem;
+                color: $light;
+            }
+            .header__order_id{
+                font-size: 2rem;
+                font-weight: 600;
+            }
+    }
+    .order__detail_content{
+        width: 100%;
+        .order__detail{
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 5rem;
+            .order__column{
+                width: 100%;
+                background-color: $light;
+                padding: 2rem 1rem;
+                border-radius: 2rem;
+                display: flex;
+                flex-direction: column;
+                gap: 3rem;
+                .order__box{
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .box__title{
+                        margin: 0 1rem;
+                    }
+                    .box__info{
+                        display: flex;
+                        align-items: center;
+                        margin: 0 1rem;
+                        gap: 2rem;
+                        .box__value{
+                        font-weight: 900;
+                        padding: .5rem 1rem;
+                        border-radius: .5rem;
+                        &.pending{
+                            background-color: $softYellow;
+                            color: $dark;
+                        }
+                        &.confirm{
+                            background-color: $primary;
+                            color: $light;
+                        }
+                        &.done{
+                            background-color: $primary;
+                            color: $light;
+                        }
+                        &.cancel{
+                            background-color: $softRed;
+                            color: $light;
+                        }
+                        }
+                        .box__state{
+                            display: flex;
+                            align-items: center;
+                            .state__btn{
+                                padding: .5rem 1rem;
+                                border-radius: .5rem;
+                                &.pending{
+                                    background-color: $softYellow;
+                                    color: $dark;
+                                }
+                                &.confirm{
+                                    background-color: $primary;
+                                    color: $light;
+                                }
+                                &.done{
+                                    background-color: $primary;
+                                    color: $light;
+                                }
+                                &.cancel{
+                                    background-color: $softRed;
+                                    color: $light;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
