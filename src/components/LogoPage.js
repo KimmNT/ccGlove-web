@@ -5,7 +5,9 @@ import "../assets/sass/shareStyle.scss";
 export default function LogoPage() {
   return (
     <div className="logo__container">
-      <img src={Logo} alt="Logo" />
+      <div className="logo__content">
+        <span className="logo__content_highlight">cc</span>Gloves
+      </div>
     </div>
   );
 }
