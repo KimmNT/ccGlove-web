@@ -4,7 +4,7 @@ import "../assets/sass/orderDetailStyle.scss";
 import { FaAngleLeft } from "react-icons/fa";
 
 import usePageNavigation from "../uesPageNavigation";
-import { deleteDoc, doc, getDoc, or, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function OrderDetail() {
@@ -66,7 +66,7 @@ export default function OrderDetail() {
                       <div className="box__value small__text pending">
                         Pending
                       </div>
-                    ) : order.status == 1 ? (
+                    ) : order.status === 1 ? (
                       <div className="box__value small__text confirm">
                         Confirmed
                       </div>

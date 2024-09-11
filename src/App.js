@@ -10,6 +10,8 @@ import CustomOrder from "./components/Order/CustomOrder";
 import OrderDetail from "./components/OrderDetail";
 import NavbarPage from "./components/NavbarPage";
 import FooterPage from "./components/FooterPage";
+import ContactPage from "./components/ContactPage";
+import OrderPage from "./components/Order/OrderPage";
 
 function App() {
   return (
@@ -20,12 +22,14 @@ function App() {
           <Routes>
             <Route path="/" index element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="*" element={<NotFoundPage />} />{" "}
             {/* Fallback route for 404 */}
             {/* ORDER */}
-            <Route path="/hourlyOrder" element={<HourOrder />} />
-            <Route path="/dailyOrder" element={<DayOrder />} />
-            <Route path="/customOrder" element={<CustomOrder />} />
+            <Route path="/order" element={<OrderPage />} />
+            <Route path="/order/hourlyOrder" element={<HourOrder />} />
+            <Route path="/order/dailyOrder" element={<DayOrder />} />
+            <Route path="/order/customOrder" element={<CustomOrder />} />
             <Route path="/orderDetail/:orderId" element={<OrderDetail />} />
           </Routes>
         </div>

@@ -37,6 +37,9 @@ img{
     height: 100%;
     object-fit: cover;
 }
+a{
+    text-decoration: none;
+}
 .container{
     width: 100%;
     background-color: $bgColor;
@@ -91,21 +94,24 @@ img{
             padding: 1rem 1rem;
             border-radius: 3rem;
             border-bottom: 1px solid $dark;
-            .navbar__icon{
-                width: 4rem;
-                height: 4rem;
-                border-radius: 50%;
+            .navbar__side_controller{
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 2rem;
-                z-index: 1;
-                cursor: pointer;
-                color: $light;
-                transform: rotate(90deg);
-                margin-right: 1rem;
-                &.hide{
-                    visibility: hidden;
+                gap: 2rem;
+                .navbar__icon{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 2rem;
+                    z-index: 1;
+                    cursor: pointer;
+                    color: $light;
+                    margin-right: 1rem;
+                    &.hide{
+                        visibility: hidden;
+                    }
+                    &.hamburger{
+                        transform: rotate(90deg);
+                    }
                 }
             }
     }
@@ -187,19 +193,28 @@ img{
                 .menu__login{
                     display: flex;
                     align-items: center;
-                    gap: 2rem;
-                    border-radius: 1px solid $dark;
+                    gap: 1rem;
                     background-color: $dark;
                     color: $light;
                     padding: 1rem 2rem;
                     border-radius: 1rem;
                     cursor: pointer;
+                    transition: $transition;
+                    &:hover{
+                        transition: $transition;
+                        background-color: $softYellow;
+                        color: $dark;
+                        .menu__login_icon{
+                            transform: translateX(10px);
+                        }
+                    }
                     .menu__login_value{
-                        font-size: 1.5rem;
+                        font-size: 2rem;
                         text-transform: uppercase;
                     }
                     .menu__login_icon{
-                        font-size: 1.5rem;
+                        transition: $transition;
+                        font-size: 2rem;
                     }
                 }
             }
@@ -232,6 +247,7 @@ img{
             .social__icon{
                 font-size: 2rem;
                 cursor: pointer;
+                color: $dark;
             }
         }
     }
@@ -255,7 +271,98 @@ img{
     height: 3rem;
     object-fit: contain;
 }
+.colored{
+    background: $primary;
+    color: $light;
+    border-radius: 2rem;
+    padding: 3rem 2rem;
+}
+.lighted{
+    background: $light;
+    color: $dark;
+    border-radius: 2rem;
+    padding: 3rem 2rem;
+}
+.left{
+    transform: translateX(-10px);
+}
+.right{
+    transform: translateX(10px);
+}
+.sliding{
+    animation: sliding linear infinite 20s;
+}
+.movingUpDown{
+    transition: $transition;
+    animation: movingUpDown forwards infinite 4s;
+}
+.movingDownUp{
+    transition: $transition;
+    animation: movingDownUp forwards infinite 4s;
+}
+.movingLeftRight{
+    transition: $transition;
+    animation: movingLeftRight forwards infinite 4s;
+}
+.shaking{
 
+}
+
+@keyframes colorChanging {
+    0% {
+        color: $primary;
+    }
+    33% {
+        color: $softYellow;
+    }
+    66% {
+        color: $softRed;
+    }
+    100% {
+        color: $primary;
+    }
+}
+@keyframes movingUpDown {
+    0%{
+        transform: translateY(10px);
+    }
+    50%{
+        transform: translateY(-10px);
+    }
+    100%{
+        transform: translateY(10px);
+    }
+}
+@keyframes movingDownUp {
+    0%{
+        transform: translateY(-10px);
+    }
+    50%{
+        transform: translateY(10px);
+    }
+    100%{
+        transform: translateY(-10px);
+    }
+}
+@keyframes movingLeftRight {
+    0%{
+        transform: translateX(-10px);
+    }
+    50%{
+        transform: translateX(10px);
+    }
+    100%{
+        transform: translateX(-10px);
+    }
+}
+@keyframes sliding {
+    from {
+        transform: translateX(0); /* Start from the left */
+      }
+      to {
+        transform: translateX(-100%); /* Move all the way to the left by 100% of the content's width */
+      }
+}
 @keyframes rolling {
     0%{
         transform: rotate(0deg);

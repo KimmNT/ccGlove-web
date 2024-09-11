@@ -22,6 +22,7 @@ import { db } from "../firebase";
 
 function HomePage() {
   const [reviews, setReviews] = useState([]);
+  const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
 
   useEffect(() => {
     getReviews();
@@ -55,7 +56,10 @@ function HomePage() {
           most.
           <img src={Shining} alt="shining" className="shining rolling" />
         </div>
-        <div className="headline__btn_book">
+        <div
+          className="headline__btn_book"
+          onClick={() => navigateToPage("/order")}
+        >
           <div className="btn__book_text">book now</div>
           <FaLongArrowAltRight className="btn__book_icon" />
         </div>
