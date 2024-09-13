@@ -10,7 +10,7 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 
 export default function HourOrder() {
-  const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
+  const { navigateToPage,state } = usePageNavigation(); // Custom hook to navigate
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [duration, setDuration] = useState(3);
@@ -21,6 +21,7 @@ export default function HourOrder() {
   const [isDuration, setIsDuration] = useState(false);
   const [isClose, setIsClose] = useState(false);
   const [alertValue, setAlertValue] = useState("");
+  const [isAlert,setIsAlert] = useState(false)
 
   const durationTime = [
     { time: 3 },
@@ -41,7 +42,7 @@ export default function HourOrder() {
   const holidayArray = [
     {
       name: "Testing Day",
-      date: "06/09",
+      date: "14/09",
     },
     {
       name: "Christmas Day",
@@ -65,14 +66,38 @@ export default function HourOrder() {
     },
   ];
 
+  console.log(state)
+  
+  useEffect(()=>{
+    window.scrollTo({
+        top: 0,       // Scroll to the top
+        behavior: 'smooth'  // Smooth scrolling transition
+      });    
+  },[])
+
   useEffect(() => {
-    if (getCurrentHour() > 7 && getCurrentHour() < 19) {
+    if(state){
+      state.workingTime.workingTime.map((working)=>{
+        setSelectedDate(moment(working.selectedDate,'DD/MM/YYYY').toString())
+        setStartTime(working.startTime);
+        setDuration(working.duration)
+        const holiday = isHoliday(moment(working.selectedDate,'DD/MM/YYYY').toString());
+        if (holiday) {
+          setIsHolidaySelected(true);
+          setIsAlert(true);
+          setAlertValue(`Today is ${holiday.name}. We will add 1000¥/h to the total invoice for holiday occasions.`);
+        } else {
+          setIsHolidaySelected(false);
+        }
+      })
+    } else if (getCurrentHour() > 7 && getCurrentHour() < 19) {
       setStartTime(getCurrentHour() + 4);
     } else {
       setIsClose(true);
+      setIsAlert(true);
       setAlertValue("Sorry we closed!");
     }
-  }, []);
+  }, [state]);
 
   useEffect(() => {
     if (isHolidaySelected) {
@@ -98,6 +123,7 @@ export default function HourOrder() {
     const currentTime = new Date();
 
     if (selectedDay.isBefore(currentDay)) {
+      setIsAlert(true);
       setAlertValue("You cannot select a date from the past!");
       setIsClose(true);
       setStartTime(0);
@@ -106,15 +132,15 @@ export default function HourOrder() {
       setIsClose(true);
       setAlertValue("Sorry we closed!");
       setStartTime(0);
+      setIsAlert(true);
       return;
     }
     const holiday = isHoliday(newDate);
     if (holiday) {
       setIsHolidaySelected(true);
-      console.log(
-        `Today is ${holiday.name}`,
-        "We will add 1000¥/h to the total invoice for holiday occasions."
-      );
+      setIsAlert(true);
+      setAlertValue(`Today is ${holiday.name}.We will add 1000¥/h to the total invoice for holiday occasions.`);
+      setStartTime(0);
     } else {
       setIsHolidaySelected(false);
     }
@@ -150,6 +176,22 @@ export default function HourOrder() {
   const sortedNumbers = numbers
     .filter((number) => number.time <= maxTime)
     .sort((a, b) => a.time - b.time);
+
+
+    const handleNavigate = () =>{
+      navigateToPage("/inforOrder",{
+        paymentCount:paymentCount,
+        workingTime:[
+          {
+            detail:"",
+            duration:duration,
+            selectedDate:moment(selectedDate).format("DD/MM/YYYY"),
+            startTime:startTime,
+            title:""
+          }
+        ]
+      })
+    }
 
   return (
     <div className="order__container">
@@ -195,7 +237,7 @@ export default function HourOrder() {
         </div>
       )}
       {startTime > 0 && (
-        <div className="order__payment">
+        <div className="order__payment" onClick={handleNavigate}>
           <div className="order__payment_value">{paymentCount}¥</div>
           <div className="order__payment_container">
             <div className="order__payment_content">
@@ -249,6 +291,16 @@ export default function HourOrder() {
               </div>
             )}
             <div className="pop__close" onClick={() => setIsPopUp(false)}>
+              close
+            </div>
+          </div>
+        </div>
+      )}
+      {isAlert && (
+        <div className="pop__container">
+          <div className="pop__content">
+            <div className="pop__alert">{alertValue}</div>
+            <div className="pop__close" onClick={() => setIsAlert(false)}>
               close
             </div>
           </div>

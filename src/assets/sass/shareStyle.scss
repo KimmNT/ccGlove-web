@@ -47,7 +47,7 @@ a{
         max-width: 375px !important;
         min-height: 100vh;
         margin: 0 auto;
-        padding: 15rem 0 10rem;
+        padding: 10rem 0;
         .large__text{
             font-size: 10rem;
         }
@@ -200,10 +200,12 @@ a{
                     border-radius: 1rem;
                     cursor: pointer;
                     transition: $transition;
+                    border: 2px solid $dark;
                     &:hover{
                         transition: $transition;
                         background-color: $softYellow;
                         color: $dark;
+                        border: 2px solid $dark;
                         .menu__login_icon{
                             transform: translateX(10px);
                         }
@@ -211,6 +213,7 @@ a{
                     .menu__login_value{
                         font-size: 2rem;
                         text-transform: uppercase;
+                        font-weight: 600;
                     }
                     .menu__login_icon{
                         transition: $transition;

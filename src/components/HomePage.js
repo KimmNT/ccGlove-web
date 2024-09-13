@@ -24,6 +24,13 @@ function HomePage() {
   const [reviews, setReviews] = useState([]);
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
 
+  useEffect(()=>{
+    window.scrollTo({
+        top: 0,       // Scroll to the top
+        behavior: 'smooth'  // Smooth scrolling transition
+      });    
+  },[])
+
   useEffect(() => {
     getReviews();
   }, []);

@@ -16,16 +16,16 @@ import {
   FaLongArrowAltRight,
   FaToolbox,
 } from "react-icons/fa";
-import { FaFaceGrinBeam } from "react-icons/fa6";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
 
 function AboutPage() {
-  const { state, navigateToPage } = usePageNavigation();
+  const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
 
-  const handleGoBack = () => {
-    navigateToPage("/");
-  };
+  useEffect(()=>{
+    window.scrollTo({
+        top: 0,       // Scroll to the top
+        behavior: 'smooth'  // Smooth scrolling transition
+      });    
+  },[])
 
   return (
     <div className="home__container">
@@ -223,7 +223,7 @@ function AboutPage() {
           </div>
           <div className="break__text">OR</div>
           <div className="image__group">
-            <div className="headline__btn_book">
+            <div className="headline__btn_book" onClick={()=>navigateToPage("/order")}>
               <div className="btn__book_text">book now</div>
               <FaLongArrowAltRight className="btn__book_icon" />
             </div>

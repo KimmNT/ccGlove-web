@@ -2,29 +2,25 @@ import { useEffect, useState } from "react";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
-import Bloom from "../../assets/images/broom.png";
 import Spray from "../../assets/images/spray.png";
-import Shining from "../../assets/images/shining.png";
-import Cleaning1 from "../../assets/images/cleaning1.jpg";
-import Cleaning3 from "../../assets/images/cleaning3.jpg";
-import Cleaning4 from "../../assets/images/cleaning4.jpg";
-import Cleaning5 from "../../assets/images/sheduling.jpg";
 import {
   FaCalendarCheck,
   FaClock,
   FaLongArrowAltRight,
   FaToolbox,
 } from "react-icons/fa";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 export default function OrderPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
-  const [date, setDate] = useState(new Date());
 
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-  };
+  useEffect(()=>{
+    window.scrollTo({
+        top: 0,       // Scroll to the top
+        behavior: 'smooth'  // Smooth scrolling transition
+      });    
+  },[])
+
   return (
     <div className="home__container">
       <div className="home__headline">

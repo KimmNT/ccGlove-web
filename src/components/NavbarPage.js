@@ -73,7 +73,7 @@ export default function NavbarPage() {
               <div
                 className="menu__item"
                 onClick={() => {
-                  navigateToPage("/about", { valu: "123123" });
+                  navigateToPage("/about");
                   setIsNavBar(false);
                 }}
               >

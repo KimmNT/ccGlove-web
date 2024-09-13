@@ -1,0 +1,91 @@
+//COLORES
+$primary : #141E46;
+$btnColor : #F0EEED;
+$bgColor : #EDEDED;
+$softRed : #F45050;
+$softYellow : #FFC861;
+$softYelloToWhite:#FFD381;
+$dark : #000;
+$light : #FFF;
+$softGrey:#d3d3d3;
+
+//VARIABLE
+$boxShadow:-10px 10px 5px rgb(217, 217, 217);
+$transition: all ease-in-out .2s;
+$boxShadow: 8px 8px 10px 1px rgba(78, 78, 78, 0.34);
+
+$breakpoint-small: 600px;
+$breakpoint-medium: 990px;
+$breakpoint-large: 1200px;
+
+@font-face {
+    font-family: FiraSan;
+    src: url(../fonts/FiraSans-Regular.ttf);
+}
+
+.nf__container{
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 100vh;
+    .nf__content{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5rem;
+        .nf__headline{
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        .nf__contact{
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            .nf__contact_title{
+                font-size: 2rem;
+            }
+            .nf__contact_item{
+                font-size: 2rem;
+                font-weight: 600;
+            }
+            .nf__contact_break{
+                font-size: 2rem;
+                text-transform: uppercase;
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                gap: 3rem;
+                &::before{
+                    content: "";
+                    display: block;
+                    width: 10rem;
+                    height: .2rem;
+                    background-color: $primary;
+                }
+                &::after{
+                    content: "";
+                    display: block;
+                    width: 10rem;
+                    height: .2rem;
+                    background-color: $primary;
+                }
+            }
+        }
+        .nf__back{
+            background-color: $softYellow;
+            padding: 2rem 3rem;
+            font-size: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 1.5rem;
+            cursor: pointer;
+        }
+    }
+}
