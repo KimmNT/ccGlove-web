@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route,useLocation  } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import "./assets/sass/shareStyle.scss";
 import HomePage from "./components/HomePage";
 import NotFoundPage from "./components/NotFoundPage";
@@ -13,12 +18,13 @@ import FooterPage from "./components/FooterPage";
 import ContactPage from "./components/ContactPage";
 import OrderPage from "./components/Order/OrderPage";
 import InforOrder from "./components/Order/InforOrder";
+import Testing from "./components/Testing";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  
+
   // Conditionally render Navbar and Footer
-  const showLayout = location.pathname !== '/*'; // Update the condition based on your 404 path
+  const showLayout = location.pathname !== "/*"; // Update the condition based on your 404 path
 
   return (
     <>
@@ -33,24 +39,26 @@ const Layout = ({ children }) => {
 
 function App() {
   return (
-<Router>
-    <Layout>
-      <Routes>
-        <Route path="/" index element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        {/* ORDER */}
-        <Route path="/order" element={<OrderPage />} />
-        <Route path="/order/hourlyOrder" element={<HourOrder />} />
-        <Route path="/order/dailyOrder" element={<DayOrder />} />
-        <Route path="/order/customOrder" element={<CustomOrder />} />
-        <Route path="/orderDetail/:orderId" element={<OrderDetail />} />
-        <Route path="/inforOrder" element={<InforOrder />} />
-        {/* Fallback route for 404 */}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Layout>
-  </Router>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" index element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          {/* ORDER */}
+          <Route path="/order" element={<OrderPage />} />
+          <Route path="/order/hourlyOrder" element={<HourOrder />} />
+          <Route path="/order/dailyOrder" element={<DayOrder />} />
+          <Route path="/order/customOrder" element={<CustomOrder />} />
+          <Route path="/orderDetail/:orderId" element={<OrderDetail />} />
+          <Route path="/inforOrder" element={<InforOrder />} />
+          {/* Fallback route for 404 */}
+          {/* <Route path="*" element={<NotFoundPage />} /> */}
+          {/* Testing */}
+          <Route path="/testing" element={<Testing />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 

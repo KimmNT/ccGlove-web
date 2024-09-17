@@ -6,6 +6,7 @@ import { FaDownload, FaHome } from "react-icons/fa";
 import { collection, deleteDoc, doc, getDocs, query } from "firebase/firestore";
 import { db } from "../firebase";
 import LogoPage from "./LogoPage";
+import axios from "axios";
 
 export default function Testing() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
@@ -42,79 +43,96 @@ export default function Testing() {
   //     console.error("Error fetching order details:", error);
   //   }
   // };
+
+  const handleGet = () => {
+    axios
+      .get("/api/user")
+      .then((response) => {
+        setOrderList(response.data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
+
+  console.log(orderList);
   return (
-    <div className="container">
-      <div className="content">
-        <div className="home__container">
-          <div className="order__container">
-            <div className="order__content">
-              {orderList.map((order, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleToOrderDetail(order)}
-                  className="order__item"
-                >
-                  <div className="order__item_box">
-                    <div className="box__title small__text">Order ID</div>
-                    <div className="box__value small__text">#{order.id}</div>
-                  </div>
-                  <div className="order__item_box">
-                    <div className="box__title small__text">Service</div>
-                    {order.type === 0 ? (
-                      <div className="box__value small__text">
-                        Hire in Hours
-                      </div>
-                    ) : order.type === 1 ? (
-                      <div className="box__value small__text">Hire in Days</div>
-                    ) : (
-                      <div className="box__value small__text">
-                        Hire with Custom
-                      </div>
-                    )}
-                  </div>
-                  <div className="order__item_box">
-                    <div className="box__title small__text">User name</div>
-                    <div className="box__value small__text">
-                      {order.userFirstName} {order.userLastName}
-                    </div>
-                  </div>
-                  <div className="order__item_box">
-                    <div className="box__title small__text">Created Date</div>
-                    <div className="box__value small__text">
-                      {order.created.date}
-                    </div>
-                  </div>
-                  <div className="order__item_box">
-                    <div className="box__title small__text">Order status</div>
-                    {order.status === 0 ? (
-                      <div className="box__value small__text status pending">
-                        Pending
-                      </div>
-                    ) : order.status === 1 ? (
-                      <div className="box__value small__text status confirmed">
-                        Confirmed
-                      </div>
-                    ) : order.status === 2 ? (
-                      <div className="box__value small__text status working">
-                        Working
-                      </div>
-                    ) : order.status === 3 ? (
-                      <div className="box__value small__text status done">
-                        Done
-                      </div>
-                    ) : (
-                      <div className="box__value small__text status cancel">
-                        Cancel
-                      </div>
-                    )}
-                  </div>
-                  {/* <div onClick={() => handleDetele(order)}>delete</div> */}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+    // <div className="container">
+    //   <div className="content">
+    //     <div className="home__container">
+    //       <div className="order__container">
+    //         <div className="order__content">
+    //           {orderList.map((order, index) => (
+    //             <div
+    //               key={index}
+    //               onClick={() => handleToOrderDetail(order)}
+    //               className="order__item"
+    //             >
+    //               <div className="order__item_box">
+    //                 <div className="box__title small__text">Order ID</div>
+    //                 <div className="box__value small__text">#{order.id}</div>
+    //               </div>
+    //               <div className="order__item_box">
+    //                 <div className="box__title small__text">Service</div>
+    //                 {order.type === 0 ? (
+    //                   <div className="box__value small__text">
+    //                     Hire in Hours
+    //                   </div>
+    //                 ) : order.type === 1 ? (
+    //                   <div className="box__value small__text">Hire in Days</div>
+    //                 ) : (
+    //                   <div className="box__value small__text">
+    //                     Hire with Custom
+    //                   </div>
+    //                 )}
+    //               </div>
+    //               <div className="order__item_box">
+    //                 <div className="box__title small__text">User name</div>
+    //                 <div className="box__value small__text">
+    //                   {order.userFirstName} {order.userLastName}
+    //                 </div>
+    //               </div>
+    //               <div className="order__item_box">
+    //                 <div className="box__title small__text">Created Date</div>
+    //                 <div className="box__value small__text">
+    //                   {order.created.date}
+    //                 </div>
+    //               </div>
+    //               <div className="order__item_box">
+    //                 <div className="box__title small__text">Order status</div>
+    //                 {order.status === 0 ? (
+    //                   <div className="box__value small__text status pending">
+    //                     Pending
+    //                   </div>
+    //                 ) : order.status === 1 ? (
+    //                   <div className="box__value small__text status confirmed">
+    //                     Confirmed
+    //                   </div>
+    //                 ) : order.status === 2 ? (
+    //                   <div className="box__value small__text status working">
+    //                     Working
+    //                   </div>
+    //                 ) : order.status === 3 ? (
+    //                   <div className="box__value small__text status done">
+    //                     Done
+    //                   </div>
+    //                 ) : (
+    //                   <div className="box__value small__text status cancel">
+    //                     Cancel
+    //                   </div>
+    //                 )}
+    //               </div>
+    //               {/* <div onClick={() => handleDetele(order)}>delete</div> */}
+    //             </div>
+    //           ))}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+    <div>
+      okela
+      <button onClick={handleGet}>GET</button>
     </div>
   );
 }
