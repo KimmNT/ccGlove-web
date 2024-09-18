@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
-import usePageNavigation from "../uesPageNavigation"; // Corrected import path
+import { useEffect } from "react";
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
 import Shining from "../assets/images/shining.png";
 
 export default function ContactPage() {
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-        top: 0,       // Scroll to the top
-        behavior: 'smooth'  // Smooth scrolling transition
-      });    
-  },[])
+      top: 0, // Scroll to the top
+      behavior: "smooth", // Smooth scrolling transition
+    });
+  }, []);
   return (
     <div className="home__container">
       <div className="home__headline">

@@ -225,6 +225,44 @@ a{
     }
     }
 }
+.page__headline{
+    position: sticky;
+    top: 7rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    background-color: $light;
+    padding: 2rem 0;
+    gap: 13rem;
+    transition: $transition;
+    border-radius: 0 0 2rem 2rem;
+    box-shadow: $boxShadow;
+    &.onTop{
+        transition: $transition;
+    box-shadow: $boxShadow;
+    border-radius: 2rem;
+    }
+    .page__headline_icon_container{
+        width: 4rem;
+        height: 4rem;
+        font-size: 1rem;
+        background-color: $primary;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        .page__headline_icon{
+            font-size: 2rem;
+            color: $light;
+        }   
+    }
+    .page__headline_title{
+        font-size: 2rem;
+        font-weight: 600;
+    }
+}
 .footer__container{
     background-color: $softYellow;
     display: flex;

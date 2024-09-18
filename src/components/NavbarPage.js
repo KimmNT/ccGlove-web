@@ -4,13 +4,7 @@ import usePageNavigation from "../uesPageNavigation"; // Corrected import path
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
 import LogoPage from "./LogoPage";
-import {
-  FaBars,
-  FaGitter,
-  FaLongArrowAltRight,
-  FaTimes,
-  FaUser,
-} from "react-icons/fa";
+import { FaGitter, FaLongArrowAltRight, FaTimes, FaUser } from "react-icons/fa";
 
 export default function NavbarPage() {
   // State to store the width of the window
@@ -21,6 +15,7 @@ export default function NavbarPage() {
 
   // Function to update the state with the new window width
   const handleResize = () => {
+    console.log(windowWidth);
     setWindowWidth(window.innerWidth);
   };
 

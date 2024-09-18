@@ -30,48 +30,14 @@ $breakpoint-large: 1200px;
     align-items: center;
     flex-direction: column;
     gap: 5rem;
-    .info__headline{
-        position: sticky;
-        top: 7rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        width: 100%;
-        background-color: $light;
-        padding: 2rem 0;
-        gap: 13rem;
-        transition: $transition;
-        border-radius: 0 0 2rem 2rem;
-        &.onTop{
-            transition: $transition;
-        box-shadow: $boxShadow;
-        border-radius: 2rem;
-        }
-        .info__headline_icon_container{
-            width: 4rem;
-            height: 4rem;
-            font-size: 1rem;
-            background-color: $primary;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            .info__headline_icon{
-                font-size: 2rem;
-                color: $light;
-            }   
-        }
-        .info__headline_title{
-            font-size: 2rem;
-            font-weight: 600;
-        }
-    }
     .info__list{
         width: 90%;
         display: flex;
         flex-direction: column;
         gap: 2rem;
+        background-color: $light;
+        padding: 2rem;
+        border-radius: 1rem;
         .info__item{
             width: 100%;
             display: flex;
@@ -96,17 +62,38 @@ $breakpoint-large: 1200px;
                     font-size: 1.7rem;
                 }
                 input{
-                    width: 100%;
                     padding: 1rem;
                     outline: none;
                     border: none;
                     border-radius: 1rem;
-                    background-color: $light;
+                    background-color: $btnColor;
                     font-weight: 600;
                     font-family: "FiraSan";
                     font-size: 1.5rem;
                 }
             }
+        }
+    }
+    .info__saved{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: end;
+        width: 100%;
+        .info__saved_checkbox{
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background-color: $light;
+            transition: $transition;
+            border: 2px solid $primary;
+            &.saved{
+                transition: $transition;
+                background-color: $primary;
+            }
+        }
+        .info__saved_value{
+            font-size: 1.5rem;
         }
     }
 }

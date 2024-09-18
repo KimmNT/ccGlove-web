@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import usePageNavigation from "../uesPageNavigation"; // Corrected import path
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
@@ -20,12 +20,12 @@ import {
 function AboutPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-        top: 0,       // Scroll to the top
-        behavior: 'smooth'  // Smooth scrolling transition
-      });    
-  },[])
+      top: 0, // Scroll to the top
+      behavior: "smooth", // Smooth scrolling transition
+    });
+  }, []);
 
   return (
     <div className="home__container">
@@ -223,7 +223,10 @@ function AboutPage() {
           </div>
           <div className="break__text">OR</div>
           <div className="image__group">
-            <div className="headline__btn_book" onClick={()=>navigateToPage("/order")}>
+            <div
+              className="headline__btn_book"
+              onClick={() => navigateToPage("/order")}
+            >
               <div className="btn__book_text">book now</div>
               <FaLongArrowAltRight className="btn__book_icon" />
             </div>

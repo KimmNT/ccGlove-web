@@ -18,7 +18,7 @@ import FooterPage from "./components/FooterPage";
 import ContactPage from "./components/ContactPage";
 import OrderPage from "./components/Order/OrderPage";
 import InforOrder from "./components/Order/InforOrder";
-import Testing from "./components/Testing";
+import SummaryOrder from "./components/Order/SummaryOrder";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -52,10 +52,9 @@ function App() {
           <Route path="/order/customOrder" element={<CustomOrder />} />
           <Route path="/orderDetail/:orderId" element={<OrderDetail />} />
           <Route path="/inforOrder" element={<InforOrder />} />
+          <Route path="/summaryOrder" element={<SummaryOrder />} />
           {/* Fallback route for 404 */}
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
-          {/* Testing */}
-          <Route path="/testing" element={<Testing />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
     </Router>

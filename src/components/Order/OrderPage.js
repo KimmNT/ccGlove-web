@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
@@ -14,12 +14,12 @@ import "react-calendar/dist/Calendar.css";
 export default function OrderPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-        top: 0,       // Scroll to the top
-        behavior: 'smooth'  // Smooth scrolling transition
-      });    
-  },[])
+      top: 0, // Scroll to the top
+      behavior: "smooth", // Smooth scrolling transition
+    });
+  }, []);
 
   return (
     <div className="home__container">

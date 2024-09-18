@@ -5,161 +5,195 @@ import "../../assets/sass/orderStyle.scss";
 import "../../assets/sass/inforOrderStyle.scss";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaArrowLeft } from "react-icons/fa";
-import "react-calendar/dist/Calendar.css";
 
 export default function HourOrder() {
-  const { navigateToPage,state } = usePageNavigation(); // Custom hook to navigate
+  const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
 
-  const [isOnTop,setIsOnTop] = useState(false)
-  const [firstName,setFirstName] = useState("")
+  const [isOnTop, setIsOnTop] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [prefecture, setPrefecture] = useState("");
+  const [city, setCity] = useState("");
+  const [district, setDistrict] = useState("");
+  const [postCode, setPostCode] = useState("");
+  const [addDetail, setAddDetail] = useState("");
   const [paymentCount, setPaymentCount] = useState(0);
 
-
-  useEffect(()=>{
-    setPaymentCount(state.paymentCount)
-
+  useEffect(() => {
     window.scrollTo({
-        top: 0,       // Scroll to the top
-        behavior: 'smooth'  // Smooth scrolling transition
-      });    
-       // Check when the component mounts
+      top: 0, // Scroll to the top
+      behavior: "smooth", // Smooth scrolling transition
+    });
+    // Check when the component mounts
     checkIfAtTop();
-    
+
     // Optionally, you can listen to scroll events and check in real-time
-    window.addEventListener('scroll', checkIfAtTop);
-    
+    window.addEventListener("scroll", checkIfAtTop);
+
     // Cleanup listener on component unmount
-    return () => window.removeEventListener('scroll', checkIfAtTop);
+    return () => window.removeEventListener("scroll", checkIfAtTop);
+  }, []);
 
-  },[])
-
+  useEffect(() => {
+    setPaymentCount(state.paymentCount);
+    if (state.userInfo != null) {
+      setFirstName(state.userInfo.firstName);
+      setLastName(state.userInfo.lastName);
+      setPhone(state.userInfo.phone);
+      setEmail(state.userInfo.email);
+      setPrefecture(state.userInfo.prefecture);
+      setCity(state.userInfo.city);
+      setDistrict(state.userInfo.district);
+      setPostCode(state.userInfo.postCode);
+      setAddDetail(state.userInfo.addDetail);
+    }
+  }, [state]);
 
   const checkIfAtTop = () => {
     if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
-      setIsOnTop(true)
+      setIsOnTop(true);
     } else {
-        setIsOnTop(false)
+      setIsOnTop(false);
     }
   };
 
-  const handleNavigateBack = () =>{
-    navigateToPage("/order/hourlyOrder",{workingTime:state})
-  }
+  const handleNavigateBack = () => {
+    navigateToPage("/order/hourlyOrder", { workingTime: state });
+  };
 
-  const handleNavigate = () =>{
-    navigateToPage("/inforOrder",{
-    //   workingTime:[
-    //     {
-    //       detail:"",
-    //       duration:duration,
-    //       selectedDate:moment(selectedDate).format("DD/MM/YYYY"),
-    //       startTime:startTime,
-    //       title:""
-    //     }
-    //   ]
-    })
-  }
+  const handleNavigate = () => {
+    navigateToPage("/summaryOrder", {
+      paymentCount: state.paymentCount,
+      workingTime: state.workingTime,
+      userInfo: {
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        email: email,
+        prefecture: prefecture,
+        city: city,
+        district: district,
+        postCode: postCode,
+        addDetail: addDetail,
+      },
+    });
+  };
 
   return (
     <div className="info__container">
-        <div className={`info__headline ${isOnTop && `onTop`}`}>
-            <div className="info__headline_icon_container" onClick={handleNavigateBack}><FaArrowLeft className="info__headline_icon"/></div>
-        <div className="info__headline_title">Information</div>
+      <div className={`page__headline ${isOnTop && `onTop`}`}>
+        <div
+          className="page__headline_icon_container"
+          onClick={handleNavigateBack}
+        >
+          <FaArrowLeft className="page__headline_icon" />
         </div>
-        <div className="info__list">
-           <div className="info__item double">
-                <div className="item__input">
-                    <div className="item__input_title">First name</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-                <div className="item__input">
-                    <div className="item__input_title">Last name</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-            </div>
-           <div className="info__item one">
-                <div className="item__input">
-                    <div className="item__input_title">Phone number</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-            </div>
-           <div className="info__item one">
-                <div className="item__input">
-                    <div className="item__input_title">Email address</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-            </div>
-            <div className="info__item double">
-                <div className="item__input">
-                    <div className="item__input_title">Prefecture</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-                <div className="item__input">
-                    <div className="item__input_title">City</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-            </div>
-            <div className="info__item double">
-                <div className="item__input">
-                    <div className="item__input_title">District/Area</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-                <div className="item__input">
-                    <div className="item__input_title">Post code</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-            </div>
-            <div className="info__item one">
-                <div className="item__input">
-                    <div className="item__input_title">Block/Street</div>
-                <input 
-                    placeholder="Type here" 
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)} 
-                />
-                </div>
-            </div>
-        </div>
-        <div className="order__payment" onClick={handleNavigate}>
-          <div className="order__payment_value">{paymentCount}¥</div>
-          <div className="order__payment_container">
-            <div className="order__payment_content">
-              <IoIosArrowForward className="order__payment_icon" />
-            </div>
+        <div className="page__headline_title">Information</div>
+      </div>
+      <div className="info__list">
+        <div className="info__item double">
+          <div className="item__input">
+            <div className="item__input_title">First name</div>
+            <input
+              placeholder="Type here"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+          <div className="item__input">
+            <div className="item__input_title">Last name</div>
+            <input
+              placeholder="Type here"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
           </div>
         </div>
+        <div className="info__item one">
+          <div className="item__input">
+            <div className="item__input_title">Phone number</div>
+            <input
+              placeholder="Type here"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="info__item one">
+          <div className="item__input">
+            <div className="item__input_title">Email address</div>
+            <input
+              placeholder="Type here"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="info__item double">
+          <div className="item__input">
+            <div className="item__input_title">Prefecture</div>
+            <input
+              placeholder="Type here"
+              value={prefecture}
+              onChange={(e) => setPrefecture(e.target.value)}
+            />
+          </div>
+          <div className="item__input">
+            <div className="item__input_title">City</div>
+            <input
+              placeholder="Type here"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="info__item double">
+          <div className="item__input">
+            <div className="item__input_title">District/Area</div>
+            <input
+              placeholder="Type here"
+              value={district}
+              onChange={(e) => setDistrict(e.target.value)}
+            />
+          </div>
+          <div className="item__input">
+            <div className="item__input_title">Post code</div>
+            <input
+              placeholder="Type here"
+              value={postCode}
+              onChange={(e) => setPostCode(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="info__item one">
+          <div className="item__input">
+            <div className="item__input_title">Block/Street</div>
+            <input
+              placeholder="Type here"
+              value={addDetail}
+              onChange={(e) => setAddDetail(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="info__saved">
+        <div
+          onClick={() => setIsSaved(!isSaved)}
+          className={`info__saved_checkbox ${isSaved && `saved`}`}
+        ></div>
+        <div className="info__saved_value">Save for next time</div>
+      </div>
+      <div className="order__payment" onClick={handleNavigate}>
+        <div className="order__payment_value">{paymentCount}¥</div>
+        <div className="order__payment_container">
+          <div className="order__payment_content">
+            <IoIosArrowForward className="order__payment_icon" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
