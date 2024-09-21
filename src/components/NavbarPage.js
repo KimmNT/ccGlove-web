@@ -15,7 +15,6 @@ export default function NavbarPage() {
 
   // Function to update the state with the new window width
   const handleResize = () => {
-    console.log(windowWidth);
     setWindowWidth(window.innerWidth);
   };
 

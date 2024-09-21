@@ -21,8 +21,22 @@ export default function HourOrder() {
   const [postCode, setPostCode] = useState("");
   const [addDetail, setAddDetail] = useState("");
   const [paymentCount, setPaymentCount] = useState(0);
+  const [isAlert, setIsAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState("");
 
   useEffect(() => {
+    const loadSavedInfo = JSON.parse(localStorage.getItem("czk6nazxt0"));
+    if (loadSavedInfo !== null) {
+      setFirstName(loadSavedInfo.firstName);
+      setLastName(loadSavedInfo.lastName);
+      setPhone(loadSavedInfo.phone);
+      setEmail(loadSavedInfo.email);
+      setPrefecture(loadSavedInfo.prefecture);
+      setCity(loadSavedInfo.city);
+      setDistrict(loadSavedInfo.district);
+      setPostCode(loadSavedInfo.postCode);
+      setAddDetail(loadSavedInfo.addDetail);
+    }
     window.scrollTo({
       top: 0, // Scroll to the top
       behavior: "smooth", // Smooth scrolling transition
@@ -65,21 +79,49 @@ export default function HourOrder() {
   };
 
   const handleNavigate = () => {
-    navigateToPage("/summaryOrder", {
-      paymentCount: state.paymentCount,
-      workingTime: state.workingTime,
-      userInfo: {
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-        email: email,
-        prefecture: prefecture,
-        city: city,
-        district: district,
-        postCode: postCode,
-        addDetail: addDetail,
-      },
-    });
+    if (
+      firstName !== "" &&
+      lastName !== "" &&
+      phone !== "" &&
+      email !== "" &&
+      prefecture !== "" &&
+      city !== "" &&
+      district !== "" &&
+      postCode !== ""
+    ) {
+      if (isSaved) {
+        const saveInfo = {
+          firstName: firstName,
+          lastName: lastName,
+          phone: phone,
+          email: email,
+          prefecture: prefecture,
+          city: city,
+          district: district,
+          postCode: postCode,
+        };
+        localStorage.setItem("czk6nazxt0", JSON.stringify(saveInfo));
+      }
+      navigateToPage("/summaryOrder", {
+        orderType: state.orderType,
+        paymentCount: state.paymentCount,
+        workingTime: state.workingTime,
+        userInfo: {
+          firstName: firstName,
+          lastName: lastName,
+          phone: phone,
+          email: email,
+          prefecture: prefecture,
+          city: city,
+          district: district,
+          postCode: postCode,
+          addDetail: addDetail,
+        },
+      });
+    } else {
+      setIsAlert(true);
+      setAlertContent("Please fill in all required fields!");
+    }
   };
 
   return (
@@ -96,7 +138,7 @@ export default function HourOrder() {
       <div className="info__list">
         <div className="info__item double">
           <div className="item__input">
-            <div className="item__input_title">First name</div>
+            <div className="item__input_title">First name*</div>
             <input
               placeholder="Type here"
               value={firstName}
@@ -104,7 +146,7 @@ export default function HourOrder() {
             />
           </div>
           <div className="item__input">
-            <div className="item__input_title">Last name</div>
+            <div className="item__input_title">Last name*</div>
             <input
               placeholder="Type here"
               value={lastName}
@@ -114,7 +156,7 @@ export default function HourOrder() {
         </div>
         <div className="info__item one">
           <div className="item__input">
-            <div className="item__input_title">Phone number</div>
+            <div className="item__input_title">Phone number*</div>
             <input
               placeholder="Type here"
               value={phone}
@@ -124,7 +166,7 @@ export default function HourOrder() {
         </div>
         <div className="info__item one">
           <div className="item__input">
-            <div className="item__input_title">Email address</div>
+            <div className="item__input_title">Email address*</div>
             <input
               placeholder="Type here"
               value={email}
@@ -134,7 +176,7 @@ export default function HourOrder() {
         </div>
         <div className="info__item double">
           <div className="item__input">
-            <div className="item__input_title">Prefecture</div>
+            <div className="item__input_title">Prefecture*</div>
             <input
               placeholder="Type here"
               value={prefecture}
@@ -142,7 +184,7 @@ export default function HourOrder() {
             />
           </div>
           <div className="item__input">
-            <div className="item__input_title">City</div>
+            <div className="item__input_title">City*</div>
             <input
               placeholder="Type here"
               value={city}
@@ -152,7 +194,7 @@ export default function HourOrder() {
         </div>
         <div className="info__item double">
           <div className="item__input">
-            <div className="item__input_title">District/Area</div>
+            <div className="item__input_title">District/Area*</div>
             <input
               placeholder="Type here"
               value={district}
@@ -160,7 +202,7 @@ export default function HourOrder() {
             />
           </div>
           <div className="item__input">
-            <div className="item__input_title">Post code</div>
+            <div className="item__input_title">Post code*</div>
             <input
               placeholder="Type here"
               value={postCode}
@@ -179,13 +221,22 @@ export default function HourOrder() {
           </div>
         </div>
       </div>
-      <div className="info__saved">
-        <div
-          onClick={() => setIsSaved(!isSaved)}
-          className={`info__saved_checkbox ${isSaved && `saved`}`}
-        ></div>
-        <div className="info__saved_value">Save for next time</div>
-      </div>
+      {firstName !== "" &&
+        lastName !== "" &&
+        phone !== "" &&
+        email !== "" &&
+        prefecture !== "" &&
+        city !== "" &&
+        district !== "" &&
+        postCode !== "" && (
+          <div className="info__saved">
+            <div
+              onClick={() => setIsSaved(!isSaved)}
+              className={`info__saved_checkbox ${isSaved && `saved`}`}
+            ></div>
+            <div className="info__saved_value">Save for future use</div>
+          </div>
+        )}
       <div className="order__payment" onClick={handleNavigate}>
         <div className="order__payment_value">{paymentCount}¥</div>
         <div className="order__payment_container">
@@ -194,6 +245,16 @@ export default function HourOrder() {
           </div>
         </div>
       </div>
+      {isAlert && (
+        <div className="pop__container">
+          <div className="pop__content">
+            <div className="pop__alert">{alertContent}</div>
+            <div className="pop__close" onClick={() => setIsAlert(false)}>
+              close
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

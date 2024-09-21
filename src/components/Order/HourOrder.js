@@ -3,8 +3,9 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
 import "../../assets/sass/orderStyle.scss";
-import { FaClock } from "react-icons/fa";
+import { FaClock, FaCoins } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
+import { FaArrowLeft } from "react-icons/fa";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
@@ -22,6 +23,7 @@ export default function HourOrder() {
   const [isClose, setIsClose] = useState(false);
   const [alertValue, setAlertValue] = useState("");
   const [isAlert, setIsAlert] = useState(false);
+  const [isOnTop, setIsOnTop] = useState(false);
 
   const durationTime = [
     { time: 3 },
@@ -42,7 +44,7 @@ export default function HourOrder() {
   const holidayArray = [
     {
       name: "Testing Day",
-      date: "14/09",
+      date: "10/09",
     },
     {
       name: "Christmas Day",
@@ -66,20 +68,34 @@ export default function HourOrder() {
     },
   ];
 
-  console.log(state);
-
   useEffect(() => {
     window.scrollTo({
       top: 0, // Scroll to the top
       behavior: "smooth", // Smooth scrolling transition
     });
+    // Check when the component mounts
+    checkIfAtTop();
+
+    // Optionally, you can listen to scroll events and check in real-time
+    window.addEventListener("scroll", checkIfAtTop);
+
+    // Cleanup listener on component unmount
+    return () => window.removeEventListener("scroll", checkIfAtTop);
   }, []);
 
   useEffect(() => {
-    if (getCurrentHour() > 7 && getCurrentHour() < 19) {
-      setStartTime(getCurrentHour() + 4);
-      if (state) {
-        state.workingTime.workingTime.map((working) => {
+    if (state) {
+      const currentTime = new Date();
+      const currentDay = moment().startOf("day"); // Get current day without time
+      state.workingTime.workingTime.map((working) => {
+        if (
+          moment(working.selectedDate).isSame(currentDay, "day") &&
+          currentTime.getHours() >= 19
+        ) {
+          setAlertValue("Sorry we closed!");
+          setStartTime(0);
+          setIsAlert(true);
+        } else {
           setSelectedDate(
             moment(working.selectedDate, "DD/MM/YYYY").toString()
           );
@@ -97,10 +113,11 @@ export default function HourOrder() {
           } else {
             setIsHolidaySelected(false);
           }
-        });
-      }
+        }
+      });
+    } else if (getCurrentHour() > 7 && getCurrentHour() < 19) {
+      setStartTime(getCurrentHour() + 4);
     } else {
-      setIsClose(true);
       setIsAlert(true);
       setStartTime(0);
       setAlertValue("Sorry we closed!");
@@ -114,6 +131,14 @@ export default function HourOrder() {
       setPaymentCount(duration * 3000);
     }
   }, [duration, isHolidaySelected]);
+
+  const checkIfAtTop = () => {
+    if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
+      setIsOnTop(true);
+    } else {
+      setIsOnTop(false);
+    }
+  };
 
   const isHoliday = (date) => {
     const formattedDate = moment(date).format("DD/MM");
@@ -131,13 +156,11 @@ export default function HourOrder() {
     const currentTime = new Date();
 
     if (selectedDay.isBefore(currentDay)) {
-      setIsAlert(true);
       setAlertValue("You cannot select a date from the past!");
       setIsClose(true);
       setStartTime(0);
     }
     if (selectedDay.isSame(currentDay, "day") && currentTime.getHours() >= 19) {
-      setIsClose(true);
       setAlertValue("Sorry we closed!");
       setStartTime(0);
       setIsAlert(true);
@@ -189,6 +212,7 @@ export default function HourOrder() {
 
   const handleNavigate = () => {
     navigateToPage("/inforOrder", {
+      orderType: 0,
       paymentCount: paymentCount,
       workingTime: [
         {
@@ -201,18 +225,29 @@ export default function HourOrder() {
       ],
     });
   };
+  const handleNavigateBack = () => {
+    navigateToPage("/order");
+  };
 
   return (
     <div className="order__container">
+      <div className={`page__headline ${isOnTop && `onTop`}`}>
+        <div
+          className="page__headline_icon_container"
+          onClick={handleNavigateBack}
+        >
+          <FaArrowLeft className="page__headline_icon" />
+        </div>
+        <div className="page__headline_title">Hourly Service</div>
+      </div>
       <div className="order__headline">
-        <FaClock className="order__headline_icon clock colored" />
-        <div className="order__headline_value">
-          <div className="order__value">Hourly cleaning service</div>
-          <div className="order__value">Working hours: 07:00 - 22:00</div>
-          <div className="order__value">3000¥/h (at least 3hrs)</div>
+        <div className="order__value">
+          <FaClock /> 07:00 - 22:00
+        </div>
+        <div className="order__value">
+          <FaCoins /> 3000¥/h (at least 3hrs)
         </div>
       </div>
-      {isClose && <div className="order__alert">{alertValue}</div>}
       <Calendar onChange={handleDateChange} value={selectedDate} />
       {isClose ? (
         <></>

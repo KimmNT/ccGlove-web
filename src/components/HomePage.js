@@ -24,12 +24,12 @@ function HomePage() {
   const [reviews, setReviews] = useState([]);
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-        top: 0,       // Scroll to the top
-        behavior: 'smooth'  // Smooth scrolling transition
-      });    
-  },[])
+      top: 0, // Scroll to the top
+      behavior: "smooth", // Smooth scrolling transition
+    });
+  }, []);
 
   useEffect(() => {
     getReviews();
@@ -138,7 +138,10 @@ function HomePage() {
                   cleaners by the hour to get the job done without any hassle.
                 </div>
               </div>
-              <div className="service__btn">
+              <div
+                className="service__btn"
+                onClick={() => navigateToPage("/order")}
+              >
                 Book by the Hour
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
@@ -160,7 +163,10 @@ function HomePage() {
                   several days to ensure your space remains spotless and fresh.
                 </div>
               </div>
-              <div className="service__btn">
+              <div
+                className="service__btn"
+                onClick={() => navigateToPage("/order")}
+              >
                 Book by the Days
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
@@ -183,7 +189,12 @@ function HomePage() {
                   convenient place.
                 </div>
               </div>
-              <div className="service__btn">
+              <div
+                className="service__btn"
+                onClick={() =>
+                  navigateToPage("/order/hourlyOrder", { nav: "home" })
+                }
+              >
                 <div>Customize Your Service</div>
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>

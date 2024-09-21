@@ -19,18 +19,20 @@ import ContactPage from "./components/ContactPage";
 import OrderPage from "./components/Order/OrderPage";
 import InforOrder from "./components/Order/InforOrder";
 import SummaryOrder from "./components/Order/SummaryOrder";
+import PaymentOrder from "./components/Order/PaymentOrder";
+import SuccessPage from "./components/SuccessPage";
 
 const Layout = ({ children }) => {
   const location = useLocation();
 
   // Conditionally render Navbar and Footer
-  const showLayout = location.pathname !== "/*"; // Update the condition based on your 404 path
+  const showLayout = location.pathname !== "/completed"; // Update the condition based on your 404 path
 
   return (
     <>
       {showLayout && <NavbarPage />}
-      <div className={showLayout && "container"}>
-        <div className={showLayout && "content"}>{children}</div>
+      <div className={showLayout ? "container" : ""}>
+        <div className={showLayout ? "content" : ""}>{children}</div>
       </div>
       {showLayout && <FooterPage />}
     </>
@@ -45,6 +47,7 @@ function App() {
           <Route path="/" index element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/completed" element={<SuccessPage />} />
           {/* ORDER */}
           <Route path="/order" element={<OrderPage />} />
           <Route path="/order/hourlyOrder" element={<HourOrder />} />
@@ -53,6 +56,7 @@ function App() {
           <Route path="/orderDetail/:orderId" element={<OrderDetail />} />
           <Route path="/inforOrder" element={<InforOrder />} />
           <Route path="/summaryOrder" element={<SummaryOrder />} />
+          <Route path="/paymentOrder" element={<PaymentOrder />} />
           {/* Fallback route for 404 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
