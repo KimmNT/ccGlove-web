@@ -115,12 +115,13 @@ export default function HourOrder() {
           }
         }
       });
-    } else if (getCurrentHour() > 7 && getCurrentHour() < 19) {
+    } else if (getCurrentHour() > 7 && getCurrentHour() < 16) {
       setStartTime(getCurrentHour() + 4);
     } else {
       setIsAlert(true);
       setStartTime(0);
       setAlertValue("Sorry we closed!");
+      setIsClose(true);
     }
   }, [state]);
 
@@ -157,14 +158,15 @@ export default function HourOrder() {
 
     if (selectedDay.isBefore(currentDay)) {
       setAlertValue("You cannot select a date from the past!");
-      setIsClose(true);
+      setIsAlert(true);
       setStartTime(0);
+      setIsClose(true);
     }
-    if (selectedDay.isSame(currentDay, "day") && currentTime.getHours() >= 19) {
+    if (selectedDay.isSame(currentDay, "day") && currentTime.getHours() >= 16) {
       setAlertValue("Sorry we closed!");
       setStartTime(0);
       setIsAlert(true);
-      return;
+      setIsClose(true);
     }
     const holiday = isHoliday(newDate);
     if (holiday) {

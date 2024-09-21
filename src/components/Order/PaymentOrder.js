@@ -191,45 +191,45 @@ export default function PaymentOrder() {
       const date = now.toLocaleDateString(); // e.g., '8/5/2024'
       const time = now.toLocaleTimeString(); // e.g., '3:45:30 PM'
 
-      // await addDoc(collection(db, "orderList"), {
-      //   id: state.orderID,
-      //   type: state.orderType,
-      //   user: {
-      //     userFirstName: state.userInfo.firstName,
-      //     userLastName: state.userInfo.lastName,
-      //     userEmail: state.userInfo.email,
-      //     userPhone: state.userInfo.phone,
-      //     userAddress: `${state.userInfo.addDetail}, ${state.userInfo.district}, ${state.userInfo.city}, ${state.userInfo.prefecture}`,
-      //   },
-      //   status: 0,
-      //   payment: {
-      //     // paymentState: 0,
-      //     paymentOption: 1,
-      //     paymentNumer: cardNumber,
-      //     paymentCVV: cardCVC,
-      //     paymentDate: `${cardExpMonth}/${cardExpYear}`,
-      //   },
-      //   workingTime: state.workingTime,
-      //   total: state.paymentCount,
-      //   created: {
-      //     date: date,
-      //     time: time,
-      //   },
-      //   working: {
-      //     date: "",
-      //     time: "",
-      //   },
-      //   completed: {
-      //     date: "",
-      //     time: "",
-      //   },
-      //   ratingState: 0,
-      //   belongTo: {
-      //     empId: "",
-      //     empName: "",
-      //   },
-      //   describe: "",
-      // });
+      await addDoc(collection(db, "orderList"), {
+        id: state.orderID,
+        type: state.orderType,
+        user: {
+          userFirstName: state.userInfo.firstName,
+          userLastName: state.userInfo.lastName,
+          userEmail: state.userInfo.email,
+          userPhone: state.userInfo.phone,
+          userAddress: `${state.userInfo.addDetail}, ${state.userInfo.district}, ${state.userInfo.city}, ${state.userInfo.prefecture}`,
+        },
+        status: 0,
+        payment: {
+          // paymentState: 0,
+          paymentOption: 1,
+          paymentNumer: cardNumber,
+          paymentCVV: cardCVC,
+          paymentDate: `${cardExpMonth}/${cardExpYear}`,
+        },
+        workingTime: state.workingTime,
+        total: state.paymentCount,
+        created: {
+          date: date,
+          time: time,
+        },
+        working: {
+          date: "",
+          time: "",
+        },
+        completed: {
+          date: "",
+          time: "",
+        },
+        ratingState: 0,
+        belongTo: {
+          empId: "",
+          empName: "",
+        },
+        describe: "",
+      });
       if (isSaved) {
         const saveInfo = {
           cardNumber: cardNumber,
