@@ -36,7 +36,10 @@ export default function NavbarPage() {
           <div onClick={() => navigateToPage("/")}>
             <LogoPage />
           </div>
-          <div className="navbar__side_controller">
+          <div
+            className="navbar__side_controller"
+            onClick={() => navigateToPage("/loginPage")}
+          >
             <FaUser className="navbar__icon" />
             <div
               className={`navbar__icon hamburger ${isNavBar ? `hide` : ``}`}

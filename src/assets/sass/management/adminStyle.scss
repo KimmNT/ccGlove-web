@@ -1,0 +1,28 @@
+//COLORES
+$primary : #141E46;
+$btnColor : #F0EEED;
+$bgColor : #EDEDED;
+$softRed : #F45050;
+$softYellow : #FFC861;
+$dark : #000;
+$light : #FFF;
+$softGrey:#d3d3d3;
+
+//VARIABLE
+$boxShadow:-10px 10px 5px rgb(217, 217, 217);
+$transition: all ease-in-out .2s;
+
+$breakpoint-small: 600px;
+$breakpoint-medium: 990px;
+$breakpoint-large: 1200px;
+
+@font-face {
+    font-family: FiraSan;
+    src: url(../../fonts/FiraSans-Regular.ttf);
+}
+
+.admin__container{
+    .admin__content{
+
+    }
+}

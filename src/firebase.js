@@ -14,6 +14,20 @@ const firebaseConfig = {
   appId: "1:528182716350:web:c6c79d51b5454c3135fbef",
 };
 
+const firebaseConfigTimeSheet = {
+  apiKey: "AIzaSyDhcbNGi6XciFUp-qZwdZCaMT6yYwviE2o",
+  authDomain: "cctimesheet-b3d1b.firebaseapp.com",
+  databaseURL: "https://cctimesheet-b3d1b-default-rtdb.firebaseio.com",
+  projectId: "cctimesheet-b3d1b",
+  storageBucket: "cctimesheet-b3d1b.appspot.com",
+  messagingSenderId: "704293857939",
+  appId: "1:704293857939:web:2974c6c6fe9b4f3efd7b66",
+  measurementId: "G-SJ8C9ZNNK3",
+};
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+const appTimeSheet = initializeApp(firebaseConfigTimeSheet, "ccTimesheet");
+// const appTimeSheet = initializeApp(firebaseConfigTimeSheet);
+export const dbTimeSheet = getFirestore(appTimeSheet);

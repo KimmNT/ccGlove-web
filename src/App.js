@@ -21,12 +21,20 @@ import InforOrder from "./components/Order/InforOrder";
 import SummaryOrder from "./components/Order/SummaryOrder";
 import PaymentOrder from "./components/Order/PaymentOrder";
 import SuccessPage from "./components/SuccessPage";
+import Testing from "./components/Testing";
+import AdminPage from "./components/Management/AdminPage";
+import StaffPage from "./components/Management/StaffPage";
+import LoginPage from "./components/Management/LoginPage";
 
 const Layout = ({ children }) => {
   const location = useLocation();
 
   // Conditionally render Navbar and Footer
-  const showLayout = location.pathname !== "/completed"; // Update the condition based on your 404 path
+  const showLayout =
+    location.pathname !== "/completed" &&
+    location.pathname !== "/loginPage" &&
+    location.pathname !== "/adminPage" &&
+    location.pathname !== "/staffPage"; // Update the condition based on your 404 path
 
   return (
     <>
@@ -57,8 +65,13 @@ function App() {
           <Route path="/inforOrder" element={<InforOrder />} />
           <Route path="/summaryOrder" element={<SummaryOrder />} />
           <Route path="/paymentOrder" element={<PaymentOrder />} />
+          {/* MANAGEMENT */}
+          <Route path="/loginPage" element={<LoginPage />} />
+          <Route path="/adminPage" element={<AdminPage />} />
+          <Route path="/staffPage" element={<StaffPage />} />
           {/* Fallback route for 404 */}
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/testing" element={<Testing />} />
         </Routes>
       </Layout>
     </Router>
