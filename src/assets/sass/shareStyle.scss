@@ -7,6 +7,11 @@ $softYellow : #FFC861;
 $dark : #000;
 $light : #FFF;
 $bgIcon:#BA5EBB;
+// Define colors
+$color-1: #fcd35e;
+$color-2: #e16c94;
+$color-3: #7e4eb0;
+$color-4: #2d3162;
 
 //VARIABLE
 $boxShadow:0px 5px 10px rgb(163, 163, 163);
@@ -59,7 +64,8 @@ a{
         }
     }
     .logo__container{
-        background-color: $bgIcon;
+        // background-color: $bgIcon;
+        background: radial-gradient(circle at bottom left, $color-1, $color-2 50%, $color-3 75%, $color-4);
         padding: .5rem;
         border-radius: 5rem;
         .logo__content{

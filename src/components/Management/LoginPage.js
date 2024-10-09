@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import "../../assets/sass/management/loginStyle.scss";
-import "../../assets/sass/management/manageShareStyle.scss";
 
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { dbTimeSheet } from "../../firebase";
@@ -124,11 +123,14 @@ export default function LoginPage() {
         >
           login now
         </div>
+        <div className="login__to_home" onClick={() => navigateToPage("/")}>
+          back to home
+        </div>
       </div>
       {isAlreadySaved && (
         <div className="manage__logout_alert">
           <div className="logout__alert">
-            <div className="logout__alert_title">Do you want to login with</div>
+            <div className="logout__alert_title">Do you want to login as</div>
             <div className="logout__alert_title">{email} ?</div>
             <div className="logout__alert_btn break">
               <div
