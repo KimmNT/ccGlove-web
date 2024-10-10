@@ -376,6 +376,12 @@ $breakpoint-large: 1200px;
                         font-size: 1.5rem;
                         font-weight: 600;
                         text-align: center;
+                        &.owner{
+                            background-color: $softYellow;
+                            color: $dark;
+                            padding: .5rem 2rem;
+                            border-radius: .5rem;
+                        }
                     }
                     .detail__item_atm{
                         background-color: $light;
@@ -539,6 +545,76 @@ $breakpoint-large: 1200px;
     gap: 1rem;
 }
 
+}
+.order__edit_container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .edit__content{
+        background-color: $light;
+        padding: 3rem 5rem;
+        border-radius: .5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 10rem;
+        .edit__list{
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            .edit__list_item{
+                border-radius: .5rem;
+                border: 1px solid $primary;
+                padding: 1rem 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: $transition;
+                &.edit__list_item_active{
+                    background-color: $primary;
+                    color: $light;
+                    transition: $transition;
+                }
+                .edit__list_item_title{
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                }
+            }
+        }
+        .edit__btn_container{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 1rem;
+            width: 100%;
+            .edit__btn{
+                font-size: 1.5rem;
+                text-transform: uppercase;
+                border-radius: .5rem;
+                padding: 1rem 2rem;
+                font-weight: 600;
+                border-width: 1px;
+                border-style: solid;
+                cursor: pointer;
+                &.close{
+                    border:none
+                }
+                &.selected{
+                    background-color: $primary;
+                    color: $light;
+                    border: none;
+                }
+            }
+        }
+    }
 }
 @keyframes menuMoving {
     0%{

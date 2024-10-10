@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/sass/management/manageItemStyle.scss";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import { FaArrowRightLong, FaMagnifyingGlass, FaStar } from "react-icons/fa6";
@@ -12,7 +12,10 @@ import {
   IoMdClose,
   IoMdDoneAll,
 } from "react-icons/io";
-import { FaEdit } from "react-icons/fa";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db, dbTimeSheet } from "../../firebase";
+import StaffSelection from "./Modals/StaffSelection";
+import WorkingTimeSelection from "./Modals/WorkingTimeSelection";
 
 export default function OrderManage({ data }) {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
@@ -25,7 +28,19 @@ export default function OrderManage({ data }) {
   const [inputValue, setInputValue] = useState("");
   const [isDetail, setIsDetail] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isATM, setIsATM] = useState(false);
+
+  const [orderStatus, setOrderStatus] = useState(0);
+
+  const [orderDescribe, setOrderDescribe] = useState("");
+
+  const [orderUser, setOrderUser] = useState(null);
+
+  const [orderWorkingTime, setOrderWorkingTime] = useState([]);
+  const [isWorkingTime, setIsWorkingTime] = useState(false);
+  const [selectedWorkingTime, setSelectedWorkingTime] = useState(null);
+
+  const [isStaff, setIsStaff] = useState(false);
+  const [selectedStaff, setSelectedStaff] = useState(null);
 
   // Function to handle the input change and filter data
   const handleSearch = (e) => {
@@ -87,7 +102,6 @@ export default function OrderManage({ data }) {
     setStateSelect(5);
     setFilteredOrders(data);
   };
-
   // Displays the current order status
   const getOrderStatus = (status) => {
     switch (status) {
@@ -138,7 +152,6 @@ export default function OrderManage({ data }) {
         return null;
     }
   };
-
   const renderStatusActions = (status) => {
     switch (status) {
       case 0: // Pending
@@ -175,12 +188,10 @@ export default function OrderManage({ data }) {
         return null; // No action buttons for Done or Cancelled
     }
   };
-
   // Handles the status update when an action is clicked
   const handleStatusUpdate = (newStatus) => {
     console.log(`Status updated to: ${newStatus}`);
   };
-
   const getServiceType = (type) => {
     switch (type) {
       case 0:
@@ -191,9 +202,21 @@ export default function OrderManage({ data }) {
         return "Custom Service";
     }
   };
-
+  const handleGetOrderDetail = (order) => {
+    setIsDetail(true);
+    setSelectedOrder(order);
+    setOrderWorkingTime(order.workingTime);
+    setOrderStatus(order.status);
+    setOrderDescribe(order.describe);
+    setOrderUser(order.user);
+    setSelectedStaff(order.belongTo.empName);
+    console.log(order);
+  };
   const handleCloseOrderDetail = () => {
     setIsDetail(false);
+  };
+  const handleSelectedStaff = (staff) => {
+    setSelectedStaff(staff.userName);
   };
 
   return (
@@ -358,10 +381,7 @@ export default function OrderManage({ data }) {
                     <div
                       key={index}
                       className="data__item"
-                      onClick={() => {
-                        setIsDetail(true);
-                        setSelectedOrder(item);
-                      }}
+                      onClick={() => handleGetOrderDetail(item)}
                     >
                       <div className="data__item_headline">#{item.id}</div>
                       <div className="data__item_group">
@@ -432,7 +452,7 @@ export default function OrderManage({ data }) {
             <div className="detail__item_break_vertical"></div>
             {/* Status Action Buttons */}
             <div className="detail__item">
-              {getOrderStatus(selectedOrder?.status)}
+              {getOrderStatus(orderStatus)}
               {renderStatusActions(selectedOrder?.status)}
             </div>
             <div className="detail__item_break_vertical"></div>
@@ -529,8 +549,15 @@ export default function OrderManage({ data }) {
           {/* Working time */}
           <div className="detail__box">
             <div className="detail__working_list">
-              {selectedOrder?.workingTime.map((working, index) => (
-                <div className="working__item" key={index}>
+              {orderWorkingTime.map((working, index) => (
+                <div
+                  className="working__item"
+                  key={index}
+                  onClick={() => {
+                    setIsWorkingTime(true);
+                    setSelectedWorkingTime(working);
+                  }}
+                >
                   <div className="working__item_box">
                     <div className="item__title">Start date</div>
                     <div className="item__value">{working.selectedDate}</div>
@@ -568,10 +595,8 @@ export default function OrderManage({ data }) {
             {/* describe */}
             <div className="detail__item_info border">
               <div className="detail__item_title">Describe</div>
-              {selectedOrder?.describe !== "" ? (
-                <div className="detail__item_value">
-                  {selectedOrder?.describe}
-                </div>
+              {orderDescribe !== "" ? (
+                <div className="detail__item_value">{orderDescribe}</div>
               ) : (
                 <div className="detail__item_value">...</div>
               )}
@@ -579,30 +604,23 @@ export default function OrderManage({ data }) {
             {/* User Name */}
             <div className="detail__item_info half__width border">
               <div className="detail__item_value">
-                {selectedOrder?.user.userFirstName}{" "}
-                {selectedOrder?.user.userLastName}
+                {orderUser?.userFirstName} {orderUser?.userLastName}
               </div>
-              <div className="detail__item_value">
-                {selectedOrder?.user.userEmail}
-              </div>
-              <div className="detail__item_value">
-                {selectedOrder?.user.userPhone}
-              </div>
-              <div className="detail__item_value">
-                {selectedOrder?.user.userAddress}
-              </div>
+              <div className="detail__item_value">{orderUser?.userEmail}</div>
+              <div className="detail__item_value">{orderUser?.userPhone}</div>
+              <div className="detail__item_value">{orderUser?.userAddress}</div>
             </div>
           </div>
           {/* Belong to */}
           <div className="detail__box more__on_top">
-            <div className="detail__item half__width">
-              {selectedOrder?.belongTo.empId !== "" ? (
+            <div
+              className="detail__item half__width"
+              onClick={() => setIsStaff(true)}
+            >
+              {selectedStaff !== "" ? (
                 <>
-                  <div className="detail__item_value">
-                    {selectedOrder?.belongTo.empId}
-                  </div>
-                  <div className="detail__item_value">
-                    {selectedOrder?.belongTo.empName}
+                  <div className="detail__item_value owner">
+                    Responsible: {selectedStaff}
                   </div>
                 </>
               ) : (
@@ -620,6 +638,19 @@ export default function OrderManage({ data }) {
           </div>
         </div>
       </div>
+      {isStaff && (
+        <StaffSelection
+          closeModal={() => setIsStaff(false)}
+          selectedItem={handleSelectedStaff}
+        />
+      )}
+      {isWorkingTime && (
+        <WorkingTimeSelection
+          closeModal={() => setIsWorkingTime(false)}
+          selectedItem={handleSelectedStaff}
+          workingTimeData={selectedWorkingTime}
+        />
+      )}
     </div>
   );
 }

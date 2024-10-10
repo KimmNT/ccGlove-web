@@ -24,7 +24,7 @@ export default function AdminPage() {
   const [orderList, setOrderList] = useState([]);
 
   useEffect(() => {
-    getOrderList();
+    // getOrderList();
   }, []);
 
   const getOrderList = async () => {
