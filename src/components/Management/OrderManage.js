@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../assets/sass/management/manageItemStyle.scss";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import { FaArrowRightLong, FaMagnifyingGlass, FaStar } from "react-icons/fa6";
@@ -12,12 +12,22 @@ import {
   IoMdClose,
   IoMdDoneAll,
 } from "react-icons/io";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db, dbTimeSheet } from "../../firebase";
 import StaffSelection from "./Modals/StaffSelection";
-import WorkingTimeSelection from "./Modals/WorkingTimeSelection";
+import DescribeChange from "./Modals/DescribeChange";
+import UserInfoChange from "./Modals/UserInfoChange";
+import emailjs from "@emailjs/browser";
 
-export default function OrderManage({ data }) {
+export default function OrderManage({ data, refresh }) {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
 
   const [filteredOrders, setFilteredOrders] = useState(data);
@@ -32,15 +42,23 @@ export default function OrderManage({ data }) {
   const [orderStatus, setOrderStatus] = useState(0);
 
   const [orderDescribe, setOrderDescribe] = useState("");
+  const [isDescribe, setIsDescribe] = useState(false);
 
   const [orderUser, setOrderUser] = useState(null);
+  const [isUser, setIsUser] = useState(false);
 
   const [orderWorkingTime, setOrderWorkingTime] = useState([]);
-  const [isWorkingTime, setIsWorkingTime] = useState(false);
-  const [selectedWorkingTime, setSelectedWorkingTime] = useState(null);
 
   const [isStaff, setIsStaff] = useState(false);
-  const [selectedStaff, setSelectedStaff] = useState(null);
+  const [selectedStaff, setSelectedStaff] = useState("");
+  const [selectedStaffID, setSelectedStaffID] = useState("");
+
+  const [isSave, setIsSave] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+
+  useEffect(() => {
+    handleFilter();
+  }, [data]);
 
   // Function to handle the input change and filter data
   const handleSearch = (e) => {
@@ -52,6 +70,7 @@ export default function OrderManage({ data }) {
       (item) =>
         item.user.userFirstName.toLowerCase().includes(input.toLowerCase()) ||
         item.user.userLastName.toLowerCase().includes(input.toLowerCase()) ||
+        item.belongTo.empName.toLowerCase().includes(input.toLowerCase()) ||
         item.id.toLowerCase().includes(input.toLowerCase())
     );
   };
@@ -152,8 +171,8 @@ export default function OrderManage({ data }) {
         return null;
     }
   };
-  const renderStatusActions = (status) => {
-    switch (status) {
+  const renderStatusActions = () => {
+    switch (orderStatus) {
       case 0: // Pending
         return (
           <>
@@ -190,7 +209,7 @@ export default function OrderManage({ data }) {
   };
   // Handles the status update when an action is clicked
   const handleStatusUpdate = (newStatus) => {
-    console.log(`Status updated to: ${newStatus}`);
+    setOrderStatus(newStatus);
   };
   const getServiceType = (type) => {
     switch (type) {
@@ -210,13 +229,121 @@ export default function OrderManage({ data }) {
     setOrderDescribe(order.describe);
     setOrderUser(order.user);
     setSelectedStaff(order.belongTo.empName);
-    console.log(order);
-  };
-  const handleCloseOrderDetail = () => {
-    setIsDetail(false);
+    setSelectedStaffID(order.belongTo.empID);
   };
   const handleSelectedStaff = (staff) => {
     setSelectedStaff(staff.userName);
+    setSelectedStaffID(staff.id);
+  };
+  const handleChangeDescribe = (describe) => {
+    setOrderDescribe(describe);
+  };
+  const handleChangeUserInfo = (userInfo) => {
+    setOrderUser(userInfo);
+  };
+  const handleIsSave = () => {
+    setIsSave(true);
+  };
+  const handleNotSave = () => {
+    setIsSave(false);
+    setIsDetail(false);
+  };
+  const handleSave = async () => {
+    setIsDetail(false);
+    setIsSave(false);
+    if (orderStatus === 1) {
+      await sendEmail();
+    }
+    const orderRef = doc(db, "orderList", selectedOrder?.idFireBase);
+    await updateDoc(orderRef, {
+      belongTo: {
+        empID:
+          selectedStaffID !== null && selectedStaffID !== undefined
+            ? selectedStaffID
+            : "",
+        empName:
+          selectedStaff !== null && selectedStaff !== undefined
+            ? selectedStaff
+            : "",
+      },
+      completed: {
+        date: selectedOrder?.completed.date,
+        time: selectedOrder?.completed.time,
+      },
+      created: {
+        date: selectedOrder?.created.date,
+        time: selectedOrder?.created.time,
+      },
+      describe: orderDescribe,
+      id: selectedOrder?.id,
+      payment: {
+        paymentCVV: selectedOrder?.payment.paymentCVV,
+        paymentDate: selectedOrder?.payment.paymentDate,
+        paymentNumer: selectedOrder?.payment.paymentNumer,
+        paymentOption: selectedOrder?.payment.paymentOption,
+      },
+      ratingState: selectedOrder?.ratingState,
+      status: orderStatus,
+      total: selectedOrder?.total,
+      type: selectedOrder?.type,
+      user: {
+        userAddress: orderUser?.userAddress,
+        userEmail: orderUser?.userEmail,
+        userFirstName: orderUser?.userFirstName,
+        userLastName: orderUser?.userLastName,
+        userPhone: orderUser?.userPhone,
+        userPostCode: orderUser?.userPostCode,
+      },
+      working: {
+        date: selectedOrder?.working.date,
+        time: selectedOrder?.working.time,
+      },
+      workingTime: orderWorkingTime,
+    });
+    refresh();
+  };
+  // Function to send email
+  const sendEmail = () => {
+    // Template parameters to be sent via EmailJS
+    const templateParams = {
+      user_name: `${selectedOrder?.user.userFirstName} ${selectedOrder?.user.userLastName}`,
+      user_email: selectedOrder?.user.userEmail,
+      order_id: selectedOrder?.id,
+      order__created: selectedOrder?.created.date,
+      order__type:
+        selectedOrder?.type === 0
+          ? "Hourly"
+          : selectedOrder?.type === 1
+          ? "Daily"
+          : "Custom Service",
+      order__total: selectedOrder?.total,
+      user__address: selectedOrder?.user.userAddress,
+    };
+    emailjs
+      .send(
+        "service_0ow7j3l",
+        "template_62uq3kh",
+        templateParams,
+        "UCOII6_f0u6pockwH"
+      )
+      .then(
+        () => {
+          console.log("SUCCESS!");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
+  };
+  const handleDeleteOrder = async () => {
+    try {
+      await deleteDoc(doc(db, "orderList", selectedOrder?.idFireBase));
+      refresh();
+      setIsDelete(false);
+      setIsDetail(false);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   return (
@@ -225,7 +352,7 @@ export default function OrderManage({ data }) {
         <div className="ordermanage__navbar">
           <div className="ordermanage__search">
             <div className="ordermanage__search_item">
-              <div className="search__title">ID, name,...</div>
+              <div className="search__title">ID, name, owner...</div>
               <div className="search__content input">
                 <input
                   type="text"
@@ -453,21 +580,18 @@ export default function OrderManage({ data }) {
             {/* Status Action Buttons */}
             <div className="detail__item">
               {getOrderStatus(orderStatus)}
-              {renderStatusActions(selectedOrder?.status)}
+              {renderStatusActions()}
             </div>
-            <div className="detail__item_break_vertical"></div>
-            <>
-              <div className="detail__item email">
-                Send Email <MdEmail />
-              </div>
-              {selectedOrder?.ratingState === 0 ? (
-                <></>
-              ) : (
+            {selectedOrder?.ratingState === 0 ? (
+              <></>
+            ) : (
+              <>
+                <div className="detail__item_break_vertical"></div>
                 <div className="detail__item rating">
                   <FaStar />
                 </div>
-              )}
-            </>
+              </>
+            )}
           </div>
           <div className="detail__item_break"></div>
           {/* Time line */}
@@ -550,42 +674,44 @@ export default function OrderManage({ data }) {
           <div className="detail__box">
             <div className="detail__working_list">
               {orderWorkingTime.map((working, index) => (
-                <div
-                  className="working__item"
-                  key={index}
-                  onClick={() => {
-                    setIsWorkingTime(true);
-                    setSelectedWorkingTime(working);
-                  }}
-                >
-                  <div className="working__item_box">
-                    <div className="item__title">Start date</div>
-                    <div className="item__value">{working.selectedDate}</div>
-                  </div>
-                  <div className="working__item_box">
-                    <div className="item__title">Working time</div>
-                    <div className="item__value">
-                      {working.startTime}:00 -{" "}
-                      {working.startTime + working.duration}:00 (
-                      {working.duration}hrs)
-                    </div>
-                  </div>
-                  <div className="working__item_box">
-                    <div className="item__title">Title</div>
-                    {working.title !== "" ? (
-                      <div className="item__value">{working.title}</div>
-                    ) : (
-                      <div className="item__value">...</div>
-                    )}
-                  </div>
-                  <div className="working__item_box">
-                    <div className="item__title">Detail</div>
-                    {working.detail !== "" ? (
-                      <div className="item__value">{working.detail}</div>
-                    ) : (
-                      <div className="item__value">...</div>
-                    )}
-                  </div>
+                <div className="working__item border" key={index}>
+                  {working.title === "" ? (
+                    <>
+                      <div className="working__item_box">
+                        <div className="item__title">Start date</div>
+                        <div className="item__value">
+                          {working.selectedDate}
+                        </div>
+                      </div>
+                      <div className="working__item_box">
+                        <div className="item__title">Working time</div>
+                        <div className="item__value">
+                          {working.startTime}:00 -{" "}
+                          {working.startTime + working.duration}:00 (
+                          {working.duration}hrs)
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="working__item_box">
+                        <div className="item__title">Title</div>
+                        {working.title !== "" ? (
+                          <div className="item__value">{working.title}</div>
+                        ) : (
+                          <div className="item__value">...</div>
+                        )}
+                      </div>
+                      <div className="working__item_box">
+                        <div className="item__title">Detail</div>
+                        {working.detail !== "" ? (
+                          <div className="item__value">{working.detail}</div>
+                        ) : (
+                          <div className="item__value">...</div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -593,7 +719,10 @@ export default function OrderManage({ data }) {
           <div className="detail__item_break"></div>
           <div className="detail__box">
             {/* describe */}
-            <div className="detail__item_info border">
+            <div
+              className="detail__item_info border"
+              onClick={() => setIsDescribe(true)}
+            >
               <div className="detail__item_title">Describe</div>
               {orderDescribe !== "" ? (
                 <div className="detail__item_value">{orderDescribe}</div>
@@ -602,13 +731,22 @@ export default function OrderManage({ data }) {
               )}
             </div>
             {/* User Name */}
-            <div className="detail__item_info half__width border">
+            <div
+              className="detail__item_info half__width border"
+              onClick={() => setIsUser(true)}
+            >
               <div className="detail__item_value">
-                {orderUser?.userFirstName} {orderUser?.userLastName}
+                Name: {orderUser?.userFirstName} {orderUser?.userLastName}
               </div>
-              <div className="detail__item_value">{orderUser?.userEmail}</div>
-              <div className="detail__item_value">{orderUser?.userPhone}</div>
-              <div className="detail__item_value">{orderUser?.userAddress}</div>
+              <div className="detail__item_value">
+                Email: {orderUser?.userEmail}
+              </div>
+              <div className="detail__item_value">
+                Phone number: {orderUser?.userPhone}
+              </div>
+              <div className="detail__item_value">
+                Address: {orderUser?.userAddress} - {orderUser?.userPostCode}
+              </div>
             </div>
           </div>
           {/* Belong to */}
@@ -630,9 +768,11 @@ export default function OrderManage({ data }) {
               )}
             </div>
             <div className="detail__btn_container">
-              <div className="btn delete">Delete this order</div>
-              <div className="btn close" onClick={handleCloseOrderDetail}>
-                Close
+              <div className="btn delete" onClick={() => setIsDelete(true)}>
+                Delete this order
+              </div>
+              <div className="btn close" onClick={handleIsSave}>
+                done
               </div>
             </div>
           </div>
@@ -644,12 +784,56 @@ export default function OrderManage({ data }) {
           selectedItem={handleSelectedStaff}
         />
       )}
-      {isWorkingTime && (
-        <WorkingTimeSelection
-          closeModal={() => setIsWorkingTime(false)}
-          selectedItem={handleSelectedStaff}
-          workingTimeData={selectedWorkingTime}
+      {isDescribe && (
+        <DescribeChange
+          closeModal={() => setIsDescribe(false)}
+          changeContent={handleChangeDescribe}
+          currentContent={orderDescribe}
         />
+      )}
+      {isUser && (
+        <UserInfoChange
+          closeModal={() => setIsUser(false)}
+          changeContent={handleChangeUserInfo}
+          currentContent={orderUser}
+        />
+      )}
+      {isSave && (
+        <div className="order__edit_container">
+          <div className="save__content">
+            <div className="save__title">
+              Would you like to save the changes?
+            </div>
+            <div className="save__btn_container">
+              <div className="save__btn close" onClick={handleNotSave}>
+                no
+              </div>
+              <div className="save__btn save" onClick={handleSave}>
+                yes
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {isDelete && (
+        <div className="order__edit_container">
+          <div className="save__content">
+            <div className="save__title">
+              Are you sure you want to delete this order?
+            </div>
+            <div className="save__btn_container">
+              <div
+                className="save__btn close"
+                onClick={() => setIsDelete(false)}
+              >
+                cancel
+              </div>
+              <div className="save__btn save" onClick={handleDeleteOrder}>
+                delete
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

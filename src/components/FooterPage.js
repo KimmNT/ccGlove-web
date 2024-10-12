@@ -30,12 +30,17 @@ export default function FooterPage() {
   return (
     <div className="footer__container">
       <div className="footer__content">
-        <div className="footer__headline">ccGloves</div>
+        <div className="footer__headline">ccgloves</div>
         <div className="footer__info">
-          <a href="https://facebook.com" target="_blank">
+          <a
+            href="https://www.facebook.com/profile.php?id=61564462511708"
+            target="_blank"
+          >
             <FaFacebook className="social__icon facebook" />
           </a>
-          <FaInstagram className="social__icon instagram" />
+          <a href="https://www.instagram.com/ccgloves.cc/" target="_blank">
+            <FaInstagram className="social__icon instagram" />
+          </a>
           <FaAndroid className="social__icon android" />
           <FaApple className="social__icon ios" />
         </div>

@@ -24,7 +24,7 @@ export default function AdminPage() {
   const [orderList, setOrderList] = useState([]);
 
   useEffect(() => {
-    // getOrderList();
+    getOrderList();
   }, []);
 
   const getOrderList = async () => {
@@ -33,7 +33,7 @@ export default function AdminPage() {
       const ordersData = data.docs.map((doc) => {
         const orderData = doc.data();
         return {
-          id: doc.id,
+          idFireBase: doc.id,
           ...orderData,
         };
       });
@@ -99,7 +99,7 @@ export default function AdminPage() {
           <div className="for__navbar"></div>
           <div className="manage__content">
             {sideBarState === 0 ? (
-              <OrderManage data={sampleData} />
+              <OrderManage data={orderList} refresh={getOrderList} />
             ) : sideBarState === 1 ? (
               <DiscountManage />
             ) : sideBarState === 2 ? (

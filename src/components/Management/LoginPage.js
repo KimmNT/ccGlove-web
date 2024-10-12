@@ -73,7 +73,7 @@ export default function LoginPage() {
 
   return (
     <div className="login__container">
-      <div className="login__headline">ccGloves</div>
+      <div className="login__headline">ccgloves</div>
       <div className="login__content">
         <div className="login__input">
           <div className="input__title">Username/Email</div>

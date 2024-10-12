@@ -200,6 +200,7 @@ export default function PaymentOrder() {
           userEmail: state.userInfo.email,
           userPhone: state.userInfo.phone,
           userAddress: `${state.userInfo.addDetail}, ${state.userInfo.district}, ${state.userInfo.city}, ${state.userInfo.prefecture}`,
+          userPostCode: state.userInfo.postCode,
         },
         status: 0,
         payment: {
