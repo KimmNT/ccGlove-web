@@ -1,22 +1,10 @@
-import { useEffect, useState } from "react";
 import usePageNavigation from "../uesPageNavigation"; // Corrected import path
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/resultStyle.scss";
 import Completed from "../assets/images/completed.png";
-import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SuccessPage() {
   const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  //   useEffect(() => {
-  //     // Check if the user came from CheckOut page
-  //     if (location.state?.from !== "paymentOrder") {
-  //       // Redirect to Home if they didn't come from CheckOut
-  //       navigate("/", { replace: true });
-  //     }
-  //   }, [location, navigate]);
 
   const handleNavigate = () => {
     navigateToPage("/");

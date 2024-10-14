@@ -117,14 +117,16 @@ export default function LoginPage() {
           ></div>
           <div className="login__save_value">Save your login</div>
         </div>
-        <div
-          className="login__btn"
-          onClick={() => handleLogin(email, password)}
-        >
-          login now
-        </div>
-        <div className="login__to_home" onClick={() => navigateToPage("/")}>
-          back to home
+        <div className="login__btn_container">
+          <div className="btn cancel" onClick={() => navigateToPage("/")}>
+            back to home
+          </div>
+          <div
+            className="btn login"
+            onClick={() => handleLogin(email, password)}
+          >
+            login now
+          </div>
         </div>
       </div>
       {isAlreadySaved && (
@@ -134,12 +136,6 @@ export default function LoginPage() {
             <div className="logout__alert_title">{email} ?</div>
             <div className="logout__alert_btn break">
               <div
-                className="btn logout"
-                onClick={() => handleLogin(email, password)}
-              >
-                ok
-              </div>
-              <div
                 className="btn cancel"
                 onClick={() => {
                   setIsAlreadySaved(false);
@@ -148,6 +144,12 @@ export default function LoginPage() {
                 }}
               >
                 Log in with other account
+              </div>
+              <div
+                className="btn login"
+                onClick={() => handleLogin(email, password)}
+              >
+                ok
               </div>
             </div>
           </div>

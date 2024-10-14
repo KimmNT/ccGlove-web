@@ -83,12 +83,15 @@ export default function UserInfoChange({
           </div>
         </div>
         <div className="edit__btn_container">
-          <button className="edit__btn close" onClick={closeModal}>
+          <div className="edit__btn btn close" onClick={closeModal}>
             Close
-          </button>
-          <button className="edit__btn selected" onClick={handleChangeUserInfo}>
+          </div>
+          <div
+            className="edit__btn btn selected"
+            onClick={handleChangeUserInfo}
+          >
             Save
-          </button>
+          </div>
         </div>
       </div>
     </div>

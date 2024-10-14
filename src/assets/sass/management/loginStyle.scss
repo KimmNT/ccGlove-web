@@ -42,10 +42,12 @@ $breakpoint-large: 1200px;
         color: $light;
     }
     .login__content{
-        width: 60%;
-        // background: rgba(255, 255, 255, 0.2); // Transparent white
+        @media (max-width:$breakpoint-large) {
+            width: 70%;
+        }
+        width: 40%;
         background: $light;
-        border-radius: 2rem;
+        border-radius: 1rem;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
         backdrop-filter: blur(30px); // Frosted glass effect
         padding: 4rem 3rem;
@@ -131,23 +133,25 @@ $breakpoint-large: 1200px;
                 font-weight: 600;
             }
         }
-        .login__btn{
-            border: 2px solid $primary;
-            color: $light;
-            background-color: $primary;
-            padding: 1rem 3rem;
-            font-size: 2rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            border-radius: 1rem;
-            cursor: pointer;
-        }
-        .login__to_home{
-            color: $primary;
-            font-size: 1.3rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            cursor: pointer;
+        .login__btn_container{
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            .btn{
+                @media (max-width:$breakpoint-large) {
+                    font-size: 1.1rem;
+                }
+                font-size: 1.5rem;
+                &.cancel{
+                    color: $dark;
+                    border-width: 1px;
+                }
+                &.login{
+                    background-color: $softYellow;
+                    color: $dark;
+                    border-color: $softYellow;
+                }
+            }
         }
     }
 }

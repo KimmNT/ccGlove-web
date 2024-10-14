@@ -184,7 +184,10 @@ $breakpoint-large: 1200px;
     }
 }
 .order__checking{
-    width: 100%;
+    @media (max-width:$breakpoint-medium) {
+        width: 100%;
+    }
+    width: 40%;
     height: 5rem;
     display: flex;
     align-items: center;

@@ -43,15 +43,15 @@ export default function DescribeChange({
           />
         </div>
         <div className="edit__btn_container">
-          <button className="edit__btn close" onClick={closeModal}>
+          <div className="edit__btn btn close" onClick={closeModal}>
             Close
-          </button>
-          <button
-            className="edit__btn selected"
+          </div>
+          <div
+            className="edit__btn btn selected"
             onClick={handleChangeNewDescribe}
           >
             Save
-          </button>
+          </div>
         </div>
       </div>
     </div>

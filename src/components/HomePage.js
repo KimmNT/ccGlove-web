@@ -54,13 +54,13 @@ function HomePage() {
   return (
     <div className="home__container">
       <div className="home__headline">
-        <div className="slogan ">
-          We are here for your{" "}
-          <span className="slogan__hightlight">cleaning</span> time!
+        <div className="slogan">
+          We are here for your
+          <span className="slogan__hightlight"> cleaning time!</span>
         </div>
         <div className="sub__slogan small__text">
-          Let us handle the cleaning while you enjoy more time for what matters
-          most.
+          Let us handle the cleaning while you enjoy more time <br /> for what
+          matters most.
           <img src={Shining} alt="shining" className="shining rolling" />
         </div>
         <div

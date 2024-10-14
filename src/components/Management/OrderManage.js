@@ -1,35 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/sass/management/manageItemStyle.scss";
-import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import { FaArrowRightLong, FaMagnifyingGlass, FaStar } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { LuPackage2 } from "react-icons/lu";
-import { MdDone, MdEmail, MdOutlineCleaningServices } from "react-icons/md";
-import {
-  IoIosClose,
-  IoIosDoneAll,
-  IoMdClose,
-  IoMdDoneAll,
-} from "react-icons/io";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { db, dbTimeSheet } from "../../firebase";
+import { MdDone, MdOutlineCleaningServices } from "react-icons/md";
+import { IoMdClose, IoMdDoneAll } from "react-icons/io";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 import StaffSelection from "./Modals/StaffSelection";
 import DescribeChange from "./Modals/DescribeChange";
 import UserInfoChange from "./Modals/UserInfoChange";
 import emailjs from "@emailjs/browser";
 
 export default function OrderManage({ data, refresh }) {
-  const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
-
   const [filteredOrders, setFilteredOrders] = useState(data);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -249,6 +233,9 @@ export default function OrderManage({ data, refresh }) {
     setIsDetail(false);
   };
   const handleSave = async () => {
+    const now = new Date();
+    const date = now.toLocaleDateString(); // e.g., '8/5/2024'
+    const time = now.toLocaleTimeString(); // e.g., '3:45:30 PM'
     setIsDetail(false);
     setIsSave(false);
     if (orderStatus === 1) {
@@ -267,8 +254,14 @@ export default function OrderManage({ data, refresh }) {
             : "",
       },
       completed: {
-        date: selectedOrder?.completed.date,
-        time: selectedOrder?.completed.time,
+        date:
+          orderStatus === 3 || orderStatus === 4
+            ? date
+            : selectedOrder?.completed.date,
+        time:
+          orderStatus === 3 || orderStatus === 4
+            ? time
+            : selectedOrder?.completed.time,
       },
       created: {
         date: selectedOrder?.created.date,
@@ -295,8 +288,8 @@ export default function OrderManage({ data, refresh }) {
         userPostCode: orderUser?.userPostCode,
       },
       working: {
-        date: selectedOrder?.working.date,
-        time: selectedOrder?.working.time,
+        date: orderStatus === 2 ? date : selectedOrder?.working.date,
+        time: orderStatus === 2 ? time : selectedOrder?.working.time,
       },
       workingTime: orderWorkingTime,
     });
@@ -483,13 +476,13 @@ export default function OrderManage({ data, refresh }) {
             <div className="ordermanage__search_item">
               <div className="search__content">
                 <div
-                  className="search__content_btn clear"
+                  className="search__content_btn btn clear"
                   onClick={handleReset}
                 >
                   Clear
                 </div>
                 <div
-                  className="search__content_btn search"
+                  className="search__content_btn btn search"
                   onClick={handleFilter}
                 >
                   Search
@@ -622,7 +615,7 @@ export default function OrderManage({ data, refresh }) {
                   <div className="detail__item_title">Completed at</div>
                   <div className="detail__item_value border">
                     {selectedOrder?.completed.date} <br />
-                    {selectedOrder?.comepleted.time}
+                    {selectedOrder?.completed.time}
                   </div>
                 </div>
               </>
@@ -805,10 +798,10 @@ export default function OrderManage({ data, refresh }) {
               Would you like to save the changes?
             </div>
             <div className="save__btn_container">
-              <div className="save__btn close" onClick={handleNotSave}>
+              <div className="save__btn btn close" onClick={handleNotSave}>
                 no
               </div>
-              <div className="save__btn save" onClick={handleSave}>
+              <div className="save__btn btn save" onClick={handleSave}>
                 yes
               </div>
             </div>
@@ -823,12 +816,12 @@ export default function OrderManage({ data, refresh }) {
             </div>
             <div className="save__btn_container">
               <div
-                className="save__btn close"
+                className="save__btn btn close"
                 onClick={() => setIsDelete(false)}
               >
                 cancel
               </div>
-              <div className="save__btn save" onClick={handleDeleteOrder}>
+              <div className="save__btn btn save" onClick={handleDeleteOrder}>
                 delete
               </div>
             </div>
