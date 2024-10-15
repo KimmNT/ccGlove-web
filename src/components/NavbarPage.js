@@ -29,11 +29,21 @@ export default function NavbarPage() {
     };
   }, []);
 
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="container">
       <div className="navbar__container">
         <div className="navbar__header">
-          <div onClick={() => navigateToPage("/")}>
+          <div
+            style={{ cursor: "pointer" }}
+            onClick={() => navigateToPage("/")}
+          >
             <LogoPage />
           </div>
           <div className="navbar__side_controller">
@@ -99,7 +109,8 @@ export default function NavbarPage() {
                 className="menu__login"
                 onClick={() => {
                   setIsNavBar(false);
-                  navigateToPage("/order");
+                  // navigateToPage("/order");
+                  scrollToSection("services");
                 }}
               >
                 <div className="menu__login_value">book now</div>
