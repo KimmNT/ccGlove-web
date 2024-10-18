@@ -25,6 +25,7 @@ import Testing from "./components/Testing";
 import AdminPage from "./components/Management/AdminPage";
 import StaffPage from "./components/Management/StaffPage";
 import LoginPage from "./components/Management/LoginPage";
+import HistoryPage from "./components/HistoryPage";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -54,6 +55,7 @@ function App() {
         <Routes>
           <Route path="/" index element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/history" element={<HistoryPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/completed" element={<SuccessPage />} />
           {/* ORDER */}

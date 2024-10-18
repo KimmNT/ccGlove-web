@@ -3,6 +3,7 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
 import Spray from "../../assets/images/spray.png";
+import Bloom from "../../assets/images/broom.png";
 import {
   FaCalendarCheck,
   FaClock,
@@ -23,23 +24,26 @@ export default function OrderPage() {
 
   return (
     <div className="home__container">
-      <div className="home__headline">
+      <div className="home__headline_title home__headline_full">
         <div className="slogan ">
           We’ll
           <span className="slogan__hightlight"> serve</span> you with our best
         </div>
       </div>
-      <div className="home__box">
-        <div className="box__content">
-          <div className="box__value colored">
-            <div className="value__item small__text">
+      <div className="home__box" id="services">
+        <div className="box__content colored">
+          <div className="box__title">
+            What we offer{" "}
+            <img src={Bloom} alt="bloom" className="small__image" />
+          </div>
+          <div className="box__value">
+            <div className="value__item">
               We offer a variety of services, including hourly rentals, daily
               rentals, or a customizable option to best suit your needs.
-              <img src={Spray} alt="bloom" className="small__image" />
             </div>
           </div>
         </div>
-        <div className="box__images">
+        <div className="box__images box__images_row">
           <div className="image__group">
             <div className="service">
               <div className="service_headline">
@@ -82,7 +86,10 @@ export default function OrderPage() {
                   several days to ensure your space remains spotless and fresh.
                 </div>
               </div>
-              <div className="service__btn">
+              <div
+                className="service__btn"
+                onClick={() => navigateToPage("/order")}
+              >
                 Book by the Days
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
@@ -105,7 +112,12 @@ export default function OrderPage() {
                   convenient place.
                 </div>
               </div>
-              <div className="service__btn">
+              <div
+                className="service__btn"
+                onClick={() =>
+                  navigateToPage("/order/hourlyOrder", { nav: "home" })
+                }
+              >
                 <div>Customize Your Service</div>
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>

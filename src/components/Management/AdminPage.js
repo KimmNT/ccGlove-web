@@ -8,11 +8,12 @@ import { IoMdLogOut } from "react-icons/io";
 import sampleData from "../../sampleData.json";
 import { LuPackageSearch } from "react-icons/lu";
 import { MdOutlineDashboardCustomize, MdOutlineDiscount } from "react-icons/md";
-import { FaRegStar } from "react-icons/fa";
+import { FaRegImage, FaRegStar } from "react-icons/fa";
 import OrderManage from "./OrderManage";
 import DiscountManage from "./DiscountManage";
 import CustomServiceManage from "./CustomServiceManage";
 import ReviewManage from "./ReviewManage";
+import UploadImage from "../UploadImage";
 
 export default function AdminPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
@@ -88,6 +89,15 @@ export default function AdminPage() {
                 <FaRegStar className="navbar__item_icon" />
                 <div className="navbar__item_title">Reviews</div>
               </div>
+              <div
+                onClick={() => setSideBarState(4)}
+                className={`navbar__item ${
+                  sideBarState === 4 ? "navbar__item_active" : ""
+                }`}
+              >
+                <FaRegImage className="navbar__item_icon" />
+                <div className="navbar__item_title">Images</div>
+              </div>
             </div>
           </div>
           <div className="side__logout" onClick={() => setIsLogout(true)}>
@@ -104,8 +114,10 @@ export default function AdminPage() {
               <DiscountManage />
             ) : sideBarState === 2 ? (
               <CustomServiceManage />
-            ) : (
+            ) : sideBarState === 3 ? (
               <ReviewManage />
+            ) : (
+              <UploadImage />
             )}
           </div>
         </div>

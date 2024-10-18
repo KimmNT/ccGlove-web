@@ -299,8 +299,12 @@ export default function OrderManage({ data, refresh }) {
   const sendEmail = () => {
     // Template parameters to be sent via EmailJS
     const templateParams = {
+      email__subject_content: `Your order #${selectedOrder?.id} has beed confirmed!`,
       user_name: `${selectedOrder?.user.userFirstName} ${selectedOrder?.user.userLastName}`,
       user_email: selectedOrder?.user.userEmail,
+      email__content_welcome: "Thank you for your order!",
+      email__content_headline:
+        "We are excited to let you know that your order has been successfully placed and is now being processed. Here are the details of your order:",
       order_id: selectedOrder?.id,
       order__created: selectedOrder?.created.date,
       order__type:

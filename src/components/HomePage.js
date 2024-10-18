@@ -34,6 +34,15 @@ function HomePage() {
     });
   }, []);
 
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigateToPage("/order");
+    }
+  };
+
   useEffect(() => {
     getReviews();
   }, []);
@@ -58,6 +67,10 @@ function HomePage() {
     // Template parameters to be sent via EmailJS
     const templateParams = {
       user_email: value,
+      user_name: value,
+      user_phone: value,
+      message:
+        "I am interested in your services. Please contact me to discuss further details.",
     };
     emailjs
       .send(
@@ -120,7 +133,7 @@ function HomePage() {
           </div>
           <div
             className="headline__btn_book"
-            onClick={() => navigateToPage("/order")}
+            onClick={() => scrollToSection("services")}
           >
             <div className="btn__book_text">book now</div>
             <FaLongArrowAltRight className="btn__book_icon" />

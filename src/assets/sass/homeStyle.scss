@@ -12,7 +12,7 @@ $softGrey: #d3d3d3;
 $boxShadow: -10px 10px 5px rgb(217, 217, 217);
 $transition: all ease-in-out 0.2s;
 
-$breakpoint-small: 600px;
+$breakpoint-small: 768px;
 $breakpoint-medium: 990px;
 $breakpoint-large: 1200px;
 
@@ -56,6 +56,10 @@ $breakpoint-large: 1200px;
       width: 50%;
       padding: 10rem 0;
       text-align: left;
+      &.home__headline_full{
+        width: 100%;
+        text-align: center;
+      }
     }
     .slogan {
       font-size: 6rem;
@@ -119,6 +123,17 @@ $breakpoint-large: 1200px;
     @media (min-width: $breakpoint-small) {
       &.home__box_row {
         flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+    .contact__input{
+      width:100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      @media (min-width:$breakpoint-small) {
+        width: 50%;
       }
     }
     .box__content {
@@ -139,6 +154,10 @@ $breakpoint-large: 1200px;
         font-size: 1.8rem;
         .value__item {
           line-height: 3rem;
+          text-align: center;
+          &.text_on_left{
+            text-align: left;
+          }
         }
       }
     }
@@ -271,7 +290,7 @@ $breakpoint-large: 1200px;
             width: 80%;
             height: 40rem;
             object-fit: cover;
-            border-radius: 2rem;
+            border-radius: 1rem;
           }
           .reason__content {
             position: absolute;
@@ -315,8 +334,18 @@ $breakpoint-large: 1200px;
             flex-direction: column;
             gap: 2rem;
             width: 100%;
+            align-items: center;
             input {
               width: 90%;
+              padding: 2rem;
+            }
+            .contact__textarea{
+              width: 90%;
+              border-radius: 1rem;
+              outline: none;
+              border: none;
+              font-weight: 600;
+              font-family: FiraSan;
               padding: 2rem;
             }
             .btn__form {
@@ -354,6 +383,29 @@ $breakpoint-large: 1200px;
               color: $dark;
               transition: $transition;
               font-size: 2rem;
+            }
+          }
+          .buy__btn {
+            @media (min-width: $breakpoint-small) {
+              width: 70%;
+            }
+            padding: 1rem;
+            border-radius: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: $transition;
+            border: 2px solid $light;
+            text-transform: uppercase;
+            gap: 3rem;
+            font-size: 2rem;
+            font-weight: 600;
+            &:hover {
+              transition: $transition;
+              background-color: $softYellow;
+              color: $dark;
+              border-color: $softYellow;
             }
           }
         }
@@ -465,6 +517,103 @@ $breakpoint-large: 1200px;
           }
         }
       }
+      .contact__container{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .contact {
+          width: 90%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          @media (min-width: $breakpoint-small) {
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3rem;
+          }
+          input {
+            width: 100%;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            outline: none;
+            border: none;
+            font-weight: 600;
+            font-family: FiraSan;
+          }
+          .contact__btn {
+            @media (min-width: $breakpoint-small) {
+              width: 100%;
+            }
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: $softYellow;
+            cursor: pointer;
+            transition: $transition;
+            &:hover {
+              .contact__btn_icon {
+                transition: $transition;
+                transform: translateX(10px);
+              }
+            }
+            .contact__btn_icon {
+              color: $dark;
+              transition: $transition;
+              font-size: 2rem;
+            }
+          }
+        }
+        .contact__or{
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          font-size: 2rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          margin: 3rem 0;
+          &::before{
+            content: "";
+            display: block;
+            width: 5rem;
+            height: .2rem;
+            background-color: $light;
+          }
+          &::after{
+            content: "";
+            display: block;
+            width: 5rem;
+            height: .2rem;
+            background-color: $light;
+          }
+        }
+        .buy__btn {
+          @media (min-width: $breakpoint-small) {
+            width: 50%;
+          }
+          padding: 1rem;
+          border-radius: 1rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          transition: $transition;
+          border: 2px solid $light;
+          text-transform: uppercase;
+          gap: 3rem;
+          font-size: 2rem;
+          font-weight: 600;
+          &:hover {
+            transition: $transition;
+            background-color: $softYellow;
+            color: $dark;
+            border-color: $softYellow;
+          }
+        }
+      }
       .break__text {
         font-size: 2rem;
         font-weight: 600;
@@ -485,6 +634,14 @@ $breakpoint-large: 1200px;
           height: 1px;
           background-color: $light;
         }
+      }
+    }
+    .contact__image{
+      display: none;
+      @media (min-width:$breakpoint-small) {
+        display: block;
+        width: 45%;
+        border-radius: 1rem;
       }
     }
   }

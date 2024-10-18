@@ -33,6 +33,8 @@ export default function NavbarPage() {
     const section = document.getElementById(id);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigateToPage("/order");
     }
   };
 
@@ -46,7 +48,52 @@ export default function NavbarPage() {
           >
             <LogoPage />
           </div>
+          <div className="navbar__content">
+            <div
+              className="menu__item"
+              onClick={() => {
+                navigateToPage("/");
+                setIsNavBar(false);
+              }}
+            >
+              <div className="menu__item_value">home</div>
+            </div>
+            <div
+              className="menu__item"
+              onClick={() => {
+                navigateToPage("/about");
+                setIsNavBar(false);
+              }}
+            >
+              <div className="menu__item_value">about</div>
+            </div>
+            <div
+              className="menu__item"
+              onClick={() => {
+                navigateToPage("/history");
+                setIsNavBar(false);
+              }}
+            >
+              <div className="menu__item_value">history</div>
+            </div>
+            <div
+              className="menu__item"
+              onClick={() => {
+                navigateToPage("/contact");
+                setIsNavBar(false);
+              }}
+            >
+              <div className="menu__item_value">contact</div>
+            </div>
+          </div>
           <div className="navbar__side_controller">
+            <div
+              className={`navbar__icon booknow ${isNavBar ? `hide` : ``}`}
+              onClick={() => scrollToSection("services")}
+            >
+              Book now
+              <FaLongArrowAltRight className="menu__item_icon" />
+            </div>
             <div
               className={`navbar__icon ${isNavBar ? `hide` : ``}`}
               onClick={() => navigateToPage("/loginPage")}
@@ -89,7 +136,13 @@ export default function NavbarPage() {
                 <div className="menu__item_value">about</div>
                 <FaLongArrowAltRight className="menu__item_icon" />
               </div>
-              <div className="menu__item">
+              <div
+                className="menu__item"
+                onClick={() => {
+                  navigateToPage("/history");
+                  setIsNavBar(false);
+                }}
+              >
                 <div className="menu__item_value">history</div>
                 <FaLongArrowAltRight className="menu__item_icon" />
               </div>

@@ -17,7 +17,7 @@ $color-4: #2d3162;
 $boxShadow:0px 5px 10px rgb(163, 163, 163);
 $transition: all ease-in-out .2s;
 
-$breakpoint-small: 600px;
+$breakpoint-small: 768px;
 $breakpoint-medium: 990px;
 $breakpoint-large: 1200px;
 
@@ -100,6 +100,40 @@ a{
             padding: 1rem 1rem;
             border-radius: 3rem;
             border-bottom: 1px solid $dark;
+            .navbar__content{
+                display: none;
+            }
+            @media (min-width:$breakpoint-small) {
+                .navbar__content{
+                    display: flex;
+                    align-items: center;
+                    gap: 5rem;
+                    .menu__item{
+                        font-size: 1.5rem;
+                        text-transform: uppercase;
+                        color: $light;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: $transition;
+                        &::after{
+                            content: "";
+                            display: block;
+                            width: 0%;
+                            height: .2rem;
+                            background-color: $light;
+                            transition: $transition;
+                        }
+                        &:hover{
+                            transition: $transition;
+                            &::after{
+                                width: 100%;
+                                height: .2rem;
+                                transition: $transition;
+                            }
+                        }
+                    }   
+                }
+            }
             .navbar__side_controller{
                 display: flex;
                 gap: 2rem;
@@ -117,6 +151,23 @@ a{
                     }
                     &.hamburger{
                         transform: rotate(90deg);
+                        @media (min-width:$breakpoint-small) {
+                            display: none;
+                        }
+                    }
+                    &.booknow{
+                        display: none;
+                        @media (min-width:$breakpoint-small) {
+                            background-color: $softYellow;
+                            padding: 1rem 1.5rem;
+                            border-radius: .5rem;
+                            color: $dark;
+                            display: flex;
+                            gap: 1rem;
+                            font-size: 1.5rem;
+                            text-transform: uppercase;
+                            font-weight: 600;
+                        }
                     }
                 }
             }
@@ -132,6 +183,9 @@ a{
         justify-content: space-between;
         width: 100%;
         transition: $transition;
+        @media (min-width:$breakpoint-small) {
+            display: none;
+        }
         &.menu__show{
             transition: $transition;
             transform: translateY(0);
@@ -396,6 +450,10 @@ a{
     height: 3rem;
     object-fit: fill;
     transition: $transition;
+    &.increase{
+        width: 5rem;
+    height: 5rem;
+    }
 }
 .rolling{
     transition: $transition;

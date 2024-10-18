@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import usePageNavigation from "../uesPageNavigation"; // Corrected import path
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
@@ -16,9 +16,12 @@ import {
   FaLongArrowAltRight,
   FaToolbox,
 } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
 
 function AboutPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
+  const [userEmail, setuserEmail] = useState("");
+  const [isSent, setIsSent] = useState(false);
 
   useEffect(() => {
     window.scrollTo({
@@ -27,24 +30,78 @@ function AboutPage() {
     });
   }, []);
 
+  const sendEmail = (value) => {
+    // Template parameters to be sent via EmailJS
+    const templateParams = {
+      user_email: value,
+      user_name: value,
+      user_phone: value,
+      message:
+        "I am interested in your services. Please contact me to discuss further details.",
+    };
+    emailjs
+      .send(
+        "service_0ow7j3l",
+        "template_7szuo82",
+        templateParams,
+        "UCOII6_f0u6pockwH"
+      )
+      .then(
+        () => {
+          setIsSent(true);
+          setuserEmail("");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
+  };
+
+  const fixEmailDomain = (email) => {
+    const targetDomain = "@gmail.com";
+
+    // Check if the email already contains a domain
+    const atIndex = email.indexOf("@");
+
+    if (atIndex !== -1) {
+      // Get everything after the @ symbol
+      const currentDomain = email.slice(atIndex);
+
+      // If the domain is not correct, replace it
+      if (currentDomain !== targetDomain) {
+        return email.slice(0, atIndex) + targetDomain;
+      }
+    }
+
+    return email + targetDomain;
+  };
+
+  const handleSendEmail = () => {
+    if (userEmail.includes("@gmail.com")) {
+      sendEmail(userEmail);
+    } else {
+      sendEmail(fixEmailDomain(userEmail));
+    }
+  };
+
   return (
     <div className="home__container">
-      <div className="home__headline">
+      <div className="home__headline_title home__headline_full">
         <div className="slogan ">
           Allow us to introduce
           <span className="slogan__hightlight"> ourselves!</span>
         </div>
-        <img src={Shining} alt="shining" className="shining rolling" />
+        <img src={Shining} alt="shining" className="shining increase rolling" />
       </div>
       <div className="home__box">
         <div className="box__content">
           {/* <div className="box__title">Who we are</div> */}
           <div className="box__value">
-            <div className="value__item small__text">
+            <div className="value__item">
               We specialize in thorough, detailed cleaning that goes beyond the
               surface, giving you peace of mind and a fresh, hygienic space
             </div>
-            <div className="value__item small__text">
+            <div className="value__item">
               Our dedicated team uses eco-friendly products and modern
               techniques to deliver a clean you can trust.
             </div>
@@ -65,20 +122,20 @@ function AboutPage() {
           </div>
         </div>
       </div>
-      <div className="home__box">
+      <div className="home__box" id="services">
         <div className="box__content">
           <div className="box__title">
             What we offer{" "}
             <img src={Bloom} alt="bloom" className="small__image" />
           </div>
           <div className="box__value">
-            <div className="value__item small__text">
+            <div className="value__item">
               We offer a variety of services, including hourly rentals, daily
               rentals, or a customizable option to best suit your needs.
             </div>
           </div>
         </div>
-        <div className="box__images">
+        <div className="box__images box__images_row">
           <div className="image__group">
             <div className="service">
               <div className="service_headline">
@@ -96,7 +153,10 @@ function AboutPage() {
                   cleaners by the hour to get the job done without any hassle.
                 </div>
               </div>
-              <div className="service__btn">
+              <div
+                className="service__btn"
+                onClick={() => navigateToPage("/order/hourlyOrder")}
+              >
                 Book by the Hour
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
@@ -118,7 +178,10 @@ function AboutPage() {
                   several days to ensure your space remains spotless and fresh.
                 </div>
               </div>
-              <div className="service__btn">
+              <div
+                className="service__btn"
+                onClick={() => navigateToPage("/order")}
+              >
                 Book by the Days
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
@@ -141,7 +204,12 @@ function AboutPage() {
                   convenient place.
                 </div>
               </div>
-              <div className="service__btn">
+              <div
+                className="service__btn"
+                onClick={() =>
+                  navigateToPage("/order/hourlyOrder", { nav: "home" })
+                }
+              >
                 <div>Customize Your Service</div>
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
@@ -159,7 +227,7 @@ function AboutPage() {
             </div>
           </div>
         </div>
-        <div className="box__images">
+        <div className="box__images box__images_row">
           <div className="image__group">
             <div className="reason">
               <img src={Cleaning1} alt="cleaning" className="reason__image" />
@@ -200,35 +268,41 @@ function AboutPage() {
           </div>
         </div>
       </div>
-      <div className="home__box colored">
+      <div className="home__box colored home__box_row">
         <div className="box__content">
           <div className="box__title">
             Ready for a Cleaner Space ?
             <img src={Spray} alt="spray" className="small__image" />
           </div>
           <div className="box__value">
-            <div className="value__item small__text">
+            <div className="value__item text_on_left">
               Please provide your email, and we will get back to you shortly!
             </div>
           </div>
         </div>
-        <div className="box__images">
-          <div className="image__group">
+        <div className="box__images ">
+          <div className="contact__container">
             <div className="contact">
-              <input placeholder="Enter your email" />
-              <div className="contact__btn">
-                <FaLongArrowAltRight className="contact__btn_icon" />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={userEmail}
+                onChange={(e) => setuserEmail(e.target.value)}
+              />
+              <div className="contact__btn" onClick={handleSendEmail}>
+                {isSent ? (
+                  <div className="contact__btn_icon">
+                    Email sent successfully
+                  </div>
+                ) : (
+                  <FaLongArrowAltRight className="contact__btn_icon" />
+                )}
               </div>
             </div>
-          </div>
-          <div className="break__text">OR</div>
-          <div className="image__group">
-            <div
-              className="headline__btn_book"
-              onClick={() => navigateToPage("/order")}
-            >
-              <div className="btn__book_text">book now</div>
-              <FaLongArrowAltRight className="btn__book_icon" />
+            <div className="contact__or">OR</div>
+            <div className="buy__btn" onClick={() => navigateToPage("/order")}>
+              buy now
+              <FaLongArrowAltRight className="contact__btn_icon" />
             </div>
           </div>
         </div>

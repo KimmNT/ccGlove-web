@@ -228,7 +228,7 @@ export default function HourOrder() {
     });
   };
   const handleNavigateBack = () => {
-    navigateToPage("/order");
+    navigateToPage("/");
   };
 
   return (
