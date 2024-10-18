@@ -231,6 +231,10 @@ export default function HourOrder() {
     navigateToPage("/");
   };
 
+  const formatNumber = (number) => {
+    return number.toLocaleString();
+  };
+
   return (
     <div className="order__container">
       <div className={`page__headline ${isOnTop && `onTop`}`}>
@@ -242,56 +246,61 @@ export default function HourOrder() {
         </div>
         <div className="page__headline_title">Hourly Service</div>
       </div>
-      <div className="order__headline">
-        <div className="order__value">
-          <FaClock /> 07:00 - 22:00
+      <div className="order__content">
+        <div className="order__headline_content">
+          {" "}
+          <div className="order__headline">
+            <div className="order__value">
+              <FaClock /> 07:00 - 22:00
+            </div>
+            <div className="order__value">
+              <FaCoins /> 3000¥/h (at least 3hrs)
+            </div>
+          </div>
+          <Calendar onChange={handleDateChange} value={selectedDate} />
         </div>
-        <div className="order__value">
-          <FaCoins /> 3000¥/h (at least 3hrs)
-        </div>
+        {isClose ? (
+          <></>
+        ) : (
+          <div className="order__hours">
+            <div className="order__hours_headline">Choose working hours</div>
+            <div className="order__hours_content">
+              <div
+                className="order__hours_item"
+                onClick={() => {
+                  setIsPopUp(true);
+                  setIsDuration(true);
+                }}
+              >
+                <div className="item__title">Duration</div>
+                <div className="item__break"></div>
+                <div className="item__value">{duration} hrs</div>
+              </div>
+              <div
+                className="order__hours_item"
+                onClick={() => {
+                  setIsPopUp(true);
+                  setIsDuration(false);
+                }}
+              >
+                <div className="item__title">Start time</div>
+                <div className="item__break"></div>
+                <div className="item__value">{startTime}:00</div>
+              </div>
+            </div>
+            {startTime > 0 && (
+              <div className="order__payment" onClick={handleNavigate}>
+                <div className="order__payment_value">
+                  {formatNumber(paymentCount)}¥
+                </div>
+                <div className="order__payment_container">
+                  <IoIosArrowForward className="order__payment_icon" />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
-      <Calendar onChange={handleDateChange} value={selectedDate} />
-      {isClose ? (
-        <></>
-      ) : (
-        <div className="order__hours">
-          <div className="order__hours_headline">Choose working hours</div>
-          <div className="order__hours_content">
-            <div
-              className="order__hours_item"
-              onClick={() => {
-                setIsPopUp(true);
-                setIsDuration(true);
-              }}
-            >
-              <div className="item__title">Duration</div>
-              <div className="item__break"></div>
-              <div className="item__value">{duration} hrs</div>
-            </div>
-            <div
-              className="order__hours_item"
-              onClick={() => {
-                setIsPopUp(true);
-                setIsDuration(false);
-              }}
-            >
-              <div className="item__title">Start time</div>
-              <div className="item__break"></div>
-              <div className="item__value">{startTime}:00</div>
-            </div>
-          </div>
-        </div>
-      )}
-      {startTime > 0 && (
-        <div className="order__payment" onClick={handleNavigate}>
-          <div className="order__payment_value">{paymentCount}¥</div>
-          <div className="order__payment_container">
-            <div className="order__payment_content">
-              <IoIosArrowForward className="order__payment_icon" />
-            </div>
-          </div>
-        </div>
-      )}
       {isPopUp && (
         <div className="pop__container">
           <div className="pop__content">

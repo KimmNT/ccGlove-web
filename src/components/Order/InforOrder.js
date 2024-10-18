@@ -220,23 +220,23 @@ export default function HourOrder() {
             />
           </div>
         </div>
+        {firstName !== "" &&
+          lastName !== "" &&
+          phone !== "" &&
+          email !== "" &&
+          prefecture !== "" &&
+          city !== "" &&
+          district !== "" &&
+          postCode !== "" && (
+            <div className="info__saved">
+              <div
+                onClick={() => setIsSaved(!isSaved)}
+                className={`info__saved_checkbox ${isSaved && `saved`}`}
+              ></div>
+              <div className="info__saved_value">Save for future use</div>
+            </div>
+          )}
       </div>
-      {firstName !== "" &&
-        lastName !== "" &&
-        phone !== "" &&
-        email !== "" &&
-        prefecture !== "" &&
-        city !== "" &&
-        district !== "" &&
-        postCode !== "" && (
-          <div className="info__saved">
-            <div
-              onClick={() => setIsSaved(!isSaved)}
-              className={`info__saved_checkbox ${isSaved && `saved`}`}
-            ></div>
-            <div className="info__saved_value">Save for future use</div>
-          </div>
-        )}
       <div className="order__payment" onClick={handleNavigate}>
         <div className="order__payment_value">{paymentCount}¥</div>
         <div className="order__payment_container">

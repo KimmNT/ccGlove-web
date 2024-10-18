@@ -21,7 +21,7 @@ export default function SummaryOrder() {
   const [orderId, setOrderId] = useState("");
   const [discountList, setDiscountList] = useState([]);
   const [discountInput, setDiscountInput] = useState("");
-  const [discountResult, setDiscountResult] = useState([]);
+  const [discountResult, setDiscountResult] = useState(0);
   const [discountString, setDiscountString] = useState("");
   const [discountValue, setDiscountValue] = useState(0);
 
@@ -130,7 +130,10 @@ export default function SummaryOrder() {
       (discount) => discount.discountCode === discountInput
     );
     if (matchingDiscountValue.length > 0) {
-      setDiscountResult(matchingDiscountValue);
+      matchingDiscountValue.map((discount) =>
+        setDiscountResult(discount.discountValue)
+      );
+      // setDiscountResult(matchingDiscountValue);
       setDiscountString("");
     } else {
       setDiscountString(
@@ -159,6 +162,8 @@ export default function SummaryOrder() {
     });
   };
 
+  console.log(discountList);
+
   return (
     <div className="summary__container">
       <div className={`page__headline ${isOnTop && `onTop`}`}>
@@ -171,89 +176,98 @@ export default function SummaryOrder() {
         <div className="page__headline_title">Order Sumarry</div>
       </div>
       <div className="summary__content">
-        <div className="summary__id">Order ID: #{orderId}</div>
-        <div className="summary__price">
-          <div className="price__item">
-            <div className="price__item_title">Sub total:</div>
-            <div className="price__item_value">{paymentCount}¥</div>
-          </div>
-          <div className="price__item">
-            <div className="price__item_title">Taxes:</div>
-            <div className="price__item_value">10%</div>
-          </div>
-          {discountResult.length > 0 ? (
+        <div className="summary__content_item background">
+          <div className="summary__id">Order ID: #{orderId}</div>
+          <div className="summary__price">
             <div className="price__item">
-              <div className="price__item_title">Discount:</div>
-              <div className="price__item_value">-{discountValue}%</div>
+              <div className="price__item_title">Sub total:</div>
+              <div className="price__item_value">{paymentCount}¥</div>
             </div>
-          ) : (
-            <></>
-          )}
-          <div className="price__item">
-            <div className="price__item_title total">Total:</div>
-            {discountResult.length > 0 ? (
-              <div className="price__item_value total">
-                {paymentCount +
-                  paymentCount * 0.1 -
-                  (paymentCount * discountValue) / 100}
-                ¥
+            <div className="price__item">
+              <div className="price__item_title">Taxes:</div>
+              <div className="price__item_value">10%</div>
+            </div>
+            {discountResult > 0 ? (
+              <div className="price__item">
+                <div className="price__item_title">Discount:</div>
+                <div className="price__item_value">-{discountResult}%</div>
               </div>
             ) : (
-              <div className="price__item_value total">
-                {paymentCount + paymentCount * 0.1}¥
-              </div>
+              <></>
             )}
-          </div>
-        </div>
-        <div className="summary__discount">
-          <input
-            placeholder="Enter your discount code"
-            value={discountInput}
-            onChange={(e) => setDiscountInput(e.target.value)}
-          />
-          <div className="discount__btn" onClick={handleCheckDiscountCode}>
-            Apply
-          </div>
-        </div>
-        <div className="summary__item">
-          <div className="item__content">
-            <div className="content__value">
-              {`${state.userInfo.firstName} ${state.userInfo.lastName}`}
-            </div>
-            <div className="content__value">{`${state.userInfo.phone}`}</div>
-            <div className="content__value">{`${state.userInfo.email}`}</div>
-            <div className="content__value">{`${state.userInfo.postCode}`}</div>
-          </div>
-          <FaArrowRight className="item__btn_display" />
-        </div>
-        <div className="summary__item">
-          <div className="item__content">
-            {state.orderType === 0 ? (
-              <div className="content__value">Service: Hourly</div>
-            ) : state.orderType === 1 ? (
-              <div className="content__value">Service: Daily</div>
-            ) : (
-              <div className="content__value">Service: Custom</div>
-            )}
-            {state.workingTime.map((item, index) => (
-              <div className="content__value_detail" key={index}>
-                <div className="content__value">Date: {item.selectedDate}</div>
-                <div className="content__value">
-                  Work time: {item.startTime}:00-
-                  {item.startTime + item.duration}
-                  :00 ({item.duration}hrs)
+            <div className="price__item">
+              <div className="price__item_title total">Total:</div>
+              {discountResult > 0 ? (
+                <div className="price__item_value total">
+                  {paymentCount +
+                    paymentCount * 0.1 -
+                    (paymentCount + paymentCount * 0.1) *
+                      (discountResult / 100)}
+                  ¥
                 </div>
-              </div>
-            ))}
+              ) : (
+                <div className="price__item_value total">
+                  {paymentCount + paymentCount * 0.1}¥
+                </div>
+              )}
+            </div>
           </div>
-          {state.workingTime.length > 1 ? (
-            <FaArrowRight className="item__btn_display" />
-          ) : (
-            <></>
-          )}
+          <div className="summary__discount">
+            <input
+              placeholder="Enter your discount code"
+              value={discountInput}
+              onChange={(e) => setDiscountInput(e.target.value)}
+            />
+            <div className="discount__btn" onClick={handleCheckDiscountCode}>
+              Apply
+            </div>
+          </div>
         </div>
-        <div className="order__checking" onClick={handleNavigate}>
-          <div className="order__checking_value">checkout now</div>
+        <div className="summary__content_item">
+          <div className="summary__item">
+            <div className="item__content">
+              <div className="content__value">
+                {`${state.userInfo.firstName} ${state.userInfo.lastName}`}
+              </div>
+              <div className="content__value">{`${state.userInfo.phone}`}</div>
+              <div className="content__value">{`${state.userInfo.email}`}</div>
+            </div>
+            <FaArrowRight className="item__btn_display" />
+          </div>
+          <div className="summary__item">
+            <div className="item__content">
+              {state.orderType === 0 ? (
+                <div className="content__value">Service: Hourly</div>
+              ) : state.orderType === 1 ? (
+                <div className="content__value">Service: Daily</div>
+              ) : (
+                <div className="content__value">Service: Custom</div>
+              )}
+              {state.workingTime.map((item, index) => (
+                <div className="content__value_detail" key={index}>
+                  <div className="content__value">
+                    Date: {item.selectedDate}
+                  </div>
+                  <div className="content__value">
+                    Work time: {item.startTime}:00-
+                    {item.startTime + item.duration}
+                    :00 ({item.duration}hrs)
+                  </div>
+                </div>
+              ))}
+            </div>
+            {state.workingTime.length > 1 ? (
+              <FaArrowRight className="item__btn_display" />
+            ) : (
+              <></>
+            )}
+          </div>
+          <div
+            className="order__payment one__item_row"
+            onClick={handleNavigate}
+          >
+            <div className="order__payment_value">checkout now</div>
+          </div>
         </div>
       </div>
     </div>

@@ -290,14 +290,17 @@ a{
     top: 8rem;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    width: 100%;
+    justify-content: space-between;
+    width: 90%;
     background-color: $light;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
     gap: 13rem;
     transition: $transition;
     border-radius: 2rem;
     box-shadow: $boxShadow;
+    z-index: 99;
+    @media (min-width:$breakpoint-small) {
+    }
     &.onTop{
         transition: $transition;
     box-shadow: $boxShadow;

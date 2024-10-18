@@ -30,157 +30,167 @@ $breakpoint-large: 1200px;
     align-items: center;
     justify-content: center;
     gap: 3rem;
-    .order__headline{
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        width: 100%;
-        background-color: $light;
-        box-shadow: $boxShadow;
-        border-radius: 2rem;
-        padding: 2rem 0;
-            .order__value{
-                font-size: 1rem;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-            }
-    }
-    .order__alert{
-        font-size: 2rem;
-        font-weight: 600;
-        color: $softRed;
-        text-align: center;
-    }
-    .react-calendar{
-        width: 100%;
-        border-radius: 2rem;
-        padding: 1rem;
-        border: 2px solid $primary;
-        .react-calendar__navigation__label{
-            font-weight: 600;
-        }
-        .react-calendar__navigation__arrow{
-            font-size: 2rem;
-            padding: 0 2rem;
-            transition: $transition;
-            &:hover{
-                background-color: $primary;
-                border-radius: .5rem;
-                color: $light;
-                transition: $transition;
-            }
-        }
-        .react-calendar__month-view__weekdays__weekday{
-            font-weight: 600;
-            background-color: $primary;
-            color: $light;
-            text-decoration: none;
-        }
-        .react-calendar__tile--now{
-            background-color: $btnColor;
-            color: $dark;
-        }
-        .react-calendar__tile{
-            border-radius: 1rem;
-            margin:.5rem 0;
-            &:hover{
-                background-color: $softRed;
-                color: $light;
-            }
-        }
-        .react-calendar__tile--active{
-            background-color: $softRed;
-            color: $light;
-        }
-    }
-    .order__hours{
-        width: 100%;
+    .order__content{
         display: flex;
         flex-direction: column;
-        gap: 2rem;
-        .order__hours_headline{
-            font-size: 2rem;
-            font-weight: 600;
-        }
-        .order__hours_content{
-            display: flex;
-            width: 100%;
-            align-items: center;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+        width: 90%;
+        @media (min-width:$breakpoint-small) {
+            flex-direction: row;
             justify-content: space-between;
-            .order__hours_item{
-                width: 40%;
+        }
+        .order__headline_content{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            width: 90%;
+            .order__headline{
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                background-color: $primary;
-                padding: 1.5rem 0;
+                justify-content: space-around;
+                width: 100%;
+                background-color: $light;
+                box-shadow: $boxShadow;
                 border-radius: 2rem;
-                color: $light;
-                gap: 1rem;
-                cursor: pointer;
-                .item__title{
-                    font-size: 1.5rem;
-                }
-                .item__break{
-                    width: 50%;
-                    height: .2rem;
-                    background-color: $light;
-                }
-                .item__value{
-                    font-size: 3rem;
+                padding: 2rem 0;
+                    .order__value{
+                        font-size: 1rem;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        @media (min-width:$breakpoint-small) {
+                            font-size: 1.5rem;
+                        }
+                    }
+            }
+            .order__alert{
+                font-size: 2rem;
+                font-weight: 600;
+                color: $softRed;
+                text-align: center;
+            }
+            .react-calendar{
+                width: 100%;
+                border-radius: 2rem;
+                padding: 1rem;
+                border: 2px solid $primary;
+                .react-calendar__navigation__label{
                     font-weight: 600;
+                }
+                .react-calendar__navigation__arrow{
+                    font-size: 2rem;
+                    padding: 0 2rem;
+                    transition: $transition;
+                    &:hover{
+                        background-color: $primary;
+                        border-radius: .5rem;
+                        color: $light;
+                        transition: $transition;
+                    }
+                }
+                .react-calendar__month-view__weekdays__weekday{
+                    font-weight: 600;
+                    background-color: $primary;
+                    color: $light;
+                    text-decoration: none;
+                }
+                .react-calendar__tile--now{
+                    background-color: $btnColor;
+                    color: $dark;
+                }
+                .react-calendar__tile{
+                    border-radius: .5rem;
+                    margin:.5rem 0;
+                    font-size: 1.3rem;
+                    &:hover{
+                        background-color: $softRed;
+                        color: $light;
+                    }
+                }
+                .react-calendar__tile--active{
+                    background-color: $softRed;
+                    color: $light;
+                }
+            }
+        }
+        .order__hours{
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            .order__hours_headline{
+                font-size: 2rem;
+                font-weight: 600;
+            }
+            .order__hours_content{
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: space-between;
+                .order__hours_item{
+                    width: 40%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    background-color: $primary;
+                    padding: 1.5rem 0;
+                    border-radius: 2rem;
+                    color: $light;
+                    gap: 1rem;
+                    cursor: pointer;
+                    .item__title{
+                        font-size: 1.5rem;
+                    }
+                    .item__break{
+                        width: 50%;
+                        height: .2rem;
+                        background-color: $light;
+                    }
+                    .item__value{
+                        font-size: 3rem;
+                        font-weight: 600;
+                    }
                 }
             }
         }
     }
 }
 .order__payment{
-    position: relative;
-    width: 100%;
-    height: 5rem;
+    width: 90%;
     display: flex;
     align-items: center;
-    // justify-content: cente;
-    cursor: pointer;
-    margin-top: 2rem;
+    justify-content: space-between;
     background-color: $softYellow;
-    border-radius: 4rem;
+    padding: 1rem 1.5rem;
+    border-radius: 2rem;
+    margin-top: 5rem;
+    cursor: pointer;
+    &.one__item_row{
+        justify-content: center;
+        text-transform: uppercase;
+    }
     .order__payment_value{
         font-size: 2.5rem;
         font-weight: 600;
-        display: flex;
-        align-items: center;
-        padding-left: 2rem ;
     }
     .order__payment_container{
-        position: absolute;
-        top: -5;
-        right: 0;
-        width: 5rem;
-        height: 5rem;
-        background-color: $softYelloToWhite;
+        background-color: $light;
         border-radius: 50%;
+        width: 4rem;
+        height: 4rem;
         display: flex;
-        justify-content: center;
         align-items: center;
-        transition: $transition;
-        .order__payment_content{
-            width: 3rem;
-                height: 3rem;
-                background-color: $light;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            .order__payment_icon{
-                font-size: 2rem;
-                font-weight: 600;
-                color: $dark;
-            }
-        }
+        justify-content: center;
+        .order__payment_icon{
+            font-size: 2.5rem;
+            font-weight: 600;
+        }   
     }
 }
 .order__checking{
