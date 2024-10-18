@@ -5,15 +5,16 @@ import "../../assets/sass/management/adminStyle.scss";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db, dbTimeSheet } from "../../firebase";
 import { IoMdLogOut } from "react-icons/io";
-import sampleData from "../../sampleData.json";
 import { LuPackageSearch } from "react-icons/lu";
 import { MdOutlineDashboardCustomize, MdOutlineDiscount } from "react-icons/md";
+import { LuCalendarHeart } from "react-icons/lu";
 import { FaRegImage, FaRegStar } from "react-icons/fa";
 import OrderManage from "./OrderManage";
 import DiscountManage from "./DiscountManage";
 import CustomServiceManage from "./CustomServiceManage";
 import ReviewManage from "./ReviewManage";
-import UploadImage from "../UploadImage";
+import UploadImage from "./UploadImage";
+import HolidayManage from "./HolidayManage";
 
 export default function AdminPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
@@ -98,6 +99,15 @@ export default function AdminPage() {
                 <FaRegImage className="navbar__item_icon" />
                 <div className="navbar__item_title">Images</div>
               </div>
+              <div
+                onClick={() => setSideBarState(5)}
+                className={`navbar__item ${
+                  sideBarState === 5 ? "navbar__item_active" : ""
+                }`}
+              >
+                <LuCalendarHeart className="navbar__item_icon" />
+                <div className="navbar__item_title">Holidays</div>
+              </div>
             </div>
           </div>
           <div className="side__logout" onClick={() => setIsLogout(true)}>
@@ -116,8 +126,10 @@ export default function AdminPage() {
               <CustomServiceManage />
             ) : sideBarState === 3 ? (
               <ReviewManage />
-            ) : (
+            ) : sideBarState === 4 ? (
               <UploadImage />
+            ) : (
+              <HolidayManage />
             )}
           </div>
         </div>

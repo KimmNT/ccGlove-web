@@ -59,10 +59,10 @@ export default function StaffSelection({ closeModal, selectedItem }) {
           )}
         </div>
         <div className="edit__btn_container">
-          <div className="edit__btn close" onClick={closeModal}>
+          <div className="edit__btn btn close" onClick={closeModal}>
             close
           </div>
-          <div className="edit__btn selected" onClick={handleSelectedStaff}>
+          <div className="edit__btn btn selected" onClick={handleSelectedStaff}>
             assign this staff
           </div>
         </div>
