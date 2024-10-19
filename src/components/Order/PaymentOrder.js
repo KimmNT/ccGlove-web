@@ -5,7 +5,7 @@ import "../../assets/sass/paymentStyle.scss";
 import "../../assets/sass/orderStyle.scss";
 import { FaArrowLeft } from "react-icons/fa";
 import "react-calendar/dist/Calendar.css";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function PaymentOrder() {
@@ -15,7 +15,6 @@ export default function PaymentOrder() {
   const [isAlert, setIsAlert] = useState(false);
   const [alertValue, setAlertValue] = useState("");
   const [isSaved, setIsSaved] = useState(false);
-  const [isAlreadySaved, setIsAlreadySaved] = useState(false);
   const [paymentCount, setPaymentCount] = useState(0);
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpYear, setCardExpYear] = useState(0);
@@ -131,7 +130,10 @@ export default function PaymentOrder() {
   const handleNavigateBack = () => {
     navigateToPage("/summaryOrder", {
       orderType: state.orderType,
-      paymentCount: state.paymentCount,
+      paymentCount:
+        (state.paymentCount * 100) /
+        (1.1 * (100 - state.discountInfo.discountResult)),
+      discountInfo: state.discountInfo,
       workingTime: state.workingTime,
       userInfo: {
         firstName: state.userInfo.firstName,
@@ -231,6 +233,8 @@ export default function PaymentOrder() {
         },
         describe: "",
       });
+      //Remove discount code
+      await deleteDoc(doc(db, "discountList", state.discountInfo.discountID));
       if (isSaved) {
         const saveInfo = {
           cardNumber: cardNumber,
@@ -247,6 +251,10 @@ export default function PaymentOrder() {
     }
   };
 
+  const formatNumber = (number) => {
+    return number.toLocaleString();
+  };
+
   return (
     <div className="payment__container">
       <div className={`page__headline ${isOnTop && `onTop`}`}>
@@ -259,7 +267,6 @@ export default function PaymentOrder() {
         <div className="page__headline_title">Check Out</div>
       </div>
       <div className="payment__content">
-        <div className="payment__total">Total: {paymentCount}¥</div>
         <div className="payment__atm">
           <div className="atm__item full">
             <div className="atm__item_title">Card number</div>
@@ -296,16 +303,23 @@ export default function PaymentOrder() {
               />
             </div>
           </div>
+          <div className="payment__saved">
+            <div
+              onClick={() => setIsSaved(!isSaved)}
+              className={`payment__saved_checkbox ${isSaved && `saved`}`}
+            ></div>
+            <div className="payment__saved_value">Save for future use</div>
+          </div>
         </div>
-        <div className="payment__saved">
-          <div
-            onClick={() => setIsSaved(!isSaved)}
-            className={`payment__saved_checkbox ${isSaved && `saved`}`}
-          ></div>
-          <div className="payment__saved_value">Save for future use</div>
-        </div>
-        <div className="order__checking" onClick={handleNavigate}>
-          <div className="order__checking_value">finish your order</div>
+        <div className="payment__info">
+          <div className="payment__total">
+            Total: {formatNumber(paymentCount)}¥
+          </div>
+          <div className="order__payment one__item_row">
+            <div onClick={handleNavigate} className="order__payment_value">
+              finish your order
+            </div>
+          </div>
         </div>
       </div>
       {isAlert && (

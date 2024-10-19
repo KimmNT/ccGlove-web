@@ -197,7 +197,7 @@ export default function HistoryPage() {
     //add into reviews collection
     await addDoc(collection(db, "reviewsList"), {
       orderId: selectedOrder?.id,
-      userName: `${selectedOrder?.userFirstName} ${selectedOrder?.userLastName}`,
+      userName: `${selectedOrder?.user.userFirstName} ${selectedOrder?.user.userLastName}`,
       orderService: selectedOrder?.type,
       rateService: rateService,
       rateBooking: rateBooking,

@@ -115,13 +115,17 @@ export default function HourOrder() {
           city: city,
           district: district,
           postCode: postCode,
-          addDetail: addDetail,
+          addDetail: addDetail === undefined ? "" : addDetail,
         },
       });
     } else {
       setIsAlert(true);
       setAlertContent("Please fill in all required fields!");
     }
+  };
+
+  const formatNumber = (number) => {
+    return number.toLocaleString();
   };
 
   return (
@@ -238,7 +242,9 @@ export default function HourOrder() {
           )}
       </div>
       <div className="order__payment" onClick={handleNavigate}>
-        <div className="order__payment_value">{paymentCount}¥</div>
+        <div className="order__payment_value">
+          {formatNumber(paymentCount)}¥
+        </div>
         <div className="order__payment_container">
           <div className="order__payment_content">
             <IoIosArrowForward className="order__payment_icon" />

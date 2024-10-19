@@ -16,14 +16,12 @@ import {
   FaLongArrowAltRight,
   FaToolbox,
 } from "react-icons/fa";
-import { FaFaceGrinBeam } from "react-icons/fa6";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import emailjs from "@emailjs/browser";
 
 function HomePage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
-  const [reviews, setReviews] = useState([]);
   const [userEmail, setuserEmail] = useState("");
   const [isSent, setIsSent] = useState(false);
 
@@ -40,26 +38,6 @@ function HomePage() {
       section.scrollIntoView({ behavior: "smooth" });
     } else {
       navigateToPage("/order");
-    }
-  };
-
-  useEffect(() => {
-    getReviews();
-  }, []);
-
-  const getReviews = async () => {
-    try {
-      const data = await getDocs(collection(db, "reviewsList")); // Fetch all documents from the "orderList" collection
-
-      const reviewData = data.docs.map((doc) => ({
-        firestoreId: doc.id, // Firestore-generated document ID
-        ...doc.data(), // All other data fields in the document, including your custom 'id'
-      }));
-
-      setReviews(reviewData); // Update state or do whatever you need with the retrieved data
-    } catch (error) {
-      console.error("Error fetching services:", error);
-      alert("Failed to fetch services. Please try again later."); // Basic error handling
     }
   };
 
@@ -308,40 +286,6 @@ function HomePage() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="home__box">
-        <div className="box__content">
-          <div className="box__title">What people say</div>
-        </div>
-        <div className="box__images right">
-          {reviews.map((review, index) => (
-            <div className="image__group" key={index}>
-              <div className="review">
-                <div className="review__info">
-                  <div className="info__item review__name">
-                    {review.userName}
-                  </div>
-                  <div className="review__rate">
-                    {review.orderService === 0 ? (
-                      // <FaClock className="info__item review__service" />
-                      <div className="info__item review__service">Hourly</div>
-                    ) : review.orderService === 1 ? (
-                      <FaCalendarCheck className="info__item review__service" />
-                    ) : (
-                      <FaToolbox className="info__item review__service" />
-                    )}
-
-                    <div className="info__item review__value">
-                      {Math.round(review.rateOverall + 1)}/5
-                      <FaFaceGrinBeam />
-                    </div>
-                  </div>
-                </div>
-                <div className="review__feedback">"{review.rateFeedback}"</div>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
       <div className="home__box colored home__box_row">

@@ -17,17 +17,25 @@ import {
   FaToolbox,
 } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { FaFaceGrinBeam } from "react-icons/fa6";
 
 function AboutPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
   const [userEmail, setuserEmail] = useState("");
   const [isSent, setIsSent] = useState(false);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     window.scrollTo({
       top: 0, // Scroll to the top
       behavior: "smooth", // Smooth scrolling transition
     });
+  }, []);
+
+  useEffect(() => {
+    getReviews();
   }, []);
 
   const sendEmail = (value) => {
@@ -81,6 +89,24 @@ function AboutPage() {
       sendEmail(userEmail);
     } else {
       sendEmail(fixEmailDomain(userEmail));
+    }
+  };
+
+  const getReviews = async () => {
+    try {
+      const data = await getDocs(collection(db, "reviewsList")); // Fetch all documents from the "reviewsList" collection
+
+      const reviewData = data.docs
+        .map((doc) => ({
+          firestoreId: doc.id, // Firestore-generated document ID
+          ...doc.data(), // All other data fields in the document, including your custom 'state'
+        }))
+        .filter((review) => review.state === 1); // Filter the reviews where state is 1
+
+      setReviews(reviewData); // Update state with filtered data
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      alert("Failed to fetch reviews. Please try again later."); // Basic error handling
     }
   };
 
@@ -266,6 +292,40 @@ function AboutPage() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="home__box">
+        <div className="box__content">
+          <div className="box__title">What people say</div>
+        </div>
+        <div className="review__list">
+          {reviews.map((review, index) => (
+            <div className="review__item" key={index}>
+              <div className="review__info">
+                <div className="info__item review__name">{review.userName}</div>
+                <div className="review__rate">
+                  {review.orderService === 0 ? (
+                    // <FaClock className="info__item review__service" />
+                    <div className="review__service">Hourly</div>
+                  ) : review.orderService === 1 ? (
+                    <FaCalendarCheck className="review__service" />
+                  ) : (
+                    <FaToolbox className="review__service" />
+                  )}
+
+                  <div className="review__value">
+                    {Math.round(review.rateOverall + 1)}/5
+                    <FaFaceGrinBeam className="review__value_icon" />
+                  </div>
+                </div>
+              </div>
+              {review.rateFeedback === "" ? (
+                <div className="review__feedback">"GOOD!!"</div>
+              ) : (
+                <div className="review__feedback">"{review.rateFeedback}"</div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
       <div className="home__box colored home__box_row">
