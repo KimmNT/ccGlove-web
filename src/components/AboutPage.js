@@ -134,15 +134,13 @@ function AboutPage() {
           </div>
         </div>
         <div className="box__images">
-          <div className="image__group">
+          <div className="gallery">
             <img src={Cleaning1} alt="cleaning" className="image__item " />
             <img src={Cleaning4} alt="cleaning" className="image__item " />
-          </div>
-          <div className="image__group">
             <img src={Cleaning3} alt="cleaning" className="image__item " />
             <img src={Cleaning2} alt="cleaning" className="image__item " />
-          </div>
-          <div className="image__group">
+            <img src={Cleaning5} alt="cleaning" className="image__item " />
+            <img src={Cleaning1} alt="cleaning" className="image__item " />
             <img src={Cleaning5} alt="cleaning" className="image__item " />
             <img src={Cleaning1} alt="cleaning" className="image__item " />
           </div>

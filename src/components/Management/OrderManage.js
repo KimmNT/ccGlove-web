@@ -825,7 +825,7 @@ export default function OrderManage({ data, refresh }) {
               >
                 cancel
               </div>
-              <div className="save__btn btn save" onClick={handleDeleteOrder}>
+              <div className="save__btn btn delete" onClick={handleDeleteOrder}>
                 delete
               </div>
             </div>

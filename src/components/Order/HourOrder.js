@@ -44,7 +44,7 @@ export default function HourOrder() {
   const holidayArray = [
     {
       name: "Testing Day",
-      date: "10/09",
+      date: "22/10",
     },
     {
       name: "Christmas Day",
@@ -92,7 +92,7 @@ export default function HourOrder() {
           moment(working.selectedDate).isSame(currentDay, "day") &&
           currentTime.getHours() >= 19
         ) {
-          setAlertValue("Sorry we closed!");
+          setAlertValue("Sorry we closed! Please choose another day.");
           setStartTime(0);
           setIsAlert(true);
         } else {
@@ -120,7 +120,7 @@ export default function HourOrder() {
     } else {
       setIsAlert(true);
       setStartTime(0);
-      setAlertValue("Sorry we closed!");
+      setAlertValue("Sorry we closed! Please choose another day.");
       setIsClose(true);
     }
   }, [state]);
@@ -157,13 +157,13 @@ export default function HourOrder() {
     const currentTime = new Date();
 
     if (selectedDay.isBefore(currentDay)) {
-      setAlertValue("You cannot select a date from the past!");
+      setAlertValue("You cannot select a day from the past!");
       setIsAlert(true);
       setStartTime(0);
       setIsClose(true);
     }
     if (selectedDay.isSame(currentDay, "day") && currentTime.getHours() >= 16) {
-      setAlertValue("Sorry we closed!");
+      setAlertValue("Sorry we closed! Please choose another day.");
       setStartTime(0);
       setIsAlert(true);
       setIsClose(true);
@@ -214,6 +214,7 @@ export default function HourOrder() {
 
   const handleNavigate = () => {
     navigateToPage("/inforOrder", {
+      moveFrom: "hourly",
       orderType: 0,
       paymentCount: paymentCount,
       workingTime: [
@@ -227,6 +228,7 @@ export default function HourOrder() {
       ],
     });
   };
+
   const handleNavigateBack = () => {
     navigateToPage("/");
   };
@@ -303,7 +305,7 @@ export default function HourOrder() {
       </div>
       {isPopUp && (
         <div className="pop__container">
-          <div className="pop__content">
+          <div className="pop__content pop__container_larger">
             <div className="pop__headline">Choose duration</div>
             {isDuration ? (
               <div className="pop__value">
@@ -345,18 +347,24 @@ export default function HourOrder() {
                 )}
               </div>
             )}
-            <div className="pop__close" onClick={() => setIsPopUp(false)}>
-              close
+            <div className="pop__btn_container">
+              <div></div>
+              <div className="btn close" onClick={() => setIsPopUp(false)}>
+                close
+              </div>
             </div>
           </div>
         </div>
       )}
       {isAlert && (
         <div className="pop__container">
-          <div className="pop__content">
+          <div className="pop__content pop__container_larger">
             <div className="pop__alert">{alertValue}</div>
-            <div className="pop__close" onClick={() => setIsAlert(false)}>
-              close
+            <div className="pop__btn_container">
+              <div></div>
+              <div className="btn close" onClick={() => setIsAlert(false)}>
+                close
+              </div>
             </div>
           </div>
         </div>

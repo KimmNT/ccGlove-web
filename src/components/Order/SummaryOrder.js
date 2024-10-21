@@ -31,6 +31,7 @@ export default function SummaryOrder() {
   const [discountResult, setDiscountResult] = useState(0);
   const [discountString, setDiscountString] = useState("");
   const [discountID, setDiscountID] = useState("");
+  const [discountReuse, setDiscountReuse] = useState(0);
 
   useEffect(() => {
     setPaymentCount(state.paymentCount);
@@ -38,6 +39,7 @@ export default function SummaryOrder() {
       setDiscountResult(state.discountInfo.discountResult);
       setDiscountID(state.discountInfo.discountID);
       setDiscountInput(state.discountInfo.discountCode);
+      setDiscountReuse(state.discountInfo.discountReuse);
     }
     setOrderId(generateOrderID());
     getDiscountList();
@@ -66,6 +68,7 @@ export default function SummaryOrder() {
 
   const handleNavigateBack = () => {
     navigateToPage("/inforOrder", {
+      moveFrom: state.moveFrom,
       orderType: state.orderType,
       paymentCount: state.paymentCount,
       workingTime: state.workingTime,
@@ -164,15 +167,14 @@ export default function SummaryOrder() {
 
   const handleCheckDiscountCode = () => {
     const matchingDiscountValue = discountList.filter(
-      (discount) => discount.discountCode === discountInput
+      (discount) => discount.discountCode === discountInput.toUpperCase()
     );
     if (matchingDiscountValue.length > 0) {
       matchingDiscountValue.map((discount) => {
         setDiscountResult(discount.discountValue);
         setDiscountID(discount.idFireBase);
+        setDiscountReuse(discount.discountReuse);
       });
-
-      // setDiscountResult(matchingDiscountValue);
       setDiscountString("");
     } else {
       setDiscountResult(0);
@@ -190,6 +192,7 @@ export default function SummaryOrder() {
 
   const handleNavigate = async () => {
     navigateToPage("/paymentOrder", {
+      moveFrom: state.moveFrom,
       orderType: state.orderType,
       paymentCount:
         paymentCount +
@@ -199,6 +202,7 @@ export default function SummaryOrder() {
         discountID: discountID,
         discountResult: discountResult,
         discountCode: discountResult > 0 ? discountInput : "",
+        discountReuse: discountReuse,
       },
       userInfo: state.userInfo,
       workingTime: state.workingTime,

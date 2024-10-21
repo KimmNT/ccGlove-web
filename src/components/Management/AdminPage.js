@@ -24,9 +24,13 @@ export default function AdminPage() {
   const [isLogout, setIsLogout] = useState(false);
   const [sideBarState, setSideBarState] = useState(0);
   const [orderList, setOrderList] = useState([]);
+  const [discountList, setDiscountList] = useState([]);
+  const [reviewList, setReviewList] = useState([]);
 
   useEffect(() => {
     getOrderList();
+    getDiscountList();
+    getReviewsList();
   }, []);
 
   const getOrderList = async () => {
@@ -41,6 +45,40 @@ export default function AdminPage() {
       });
 
       setOrderList(ordersData);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      // Handle error as needed
+    }
+  };
+  const getDiscountList = async () => {
+    try {
+      const data = await getDocs(collection(db, "discountList"));
+      const listData = data.docs.map((doc) => {
+        const itemData = doc.data();
+        return {
+          idFireBase: doc.id,
+          ...itemData,
+        };
+      });
+
+      setDiscountList(listData);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      // Handle error as needed
+    }
+  };
+  const getReviewsList = async () => {
+    try {
+      const data = await getDocs(collection(db, "reviewsList"));
+      const listData = data.docs.map((doc) => {
+        const itemData = doc.data();
+        return {
+          idFireBase: doc.id,
+          ...itemData,
+        };
+      });
+
+      setReviewList(listData);
     } catch (error) {
       console.error("Error fetching users:", error);
       // Handle error as needed
@@ -121,11 +159,11 @@ export default function AdminPage() {
             {sideBarState === 0 ? (
               <OrderManage data={orderList} refresh={getOrderList} />
             ) : sideBarState === 1 ? (
-              <DiscountManage />
+              <DiscountManage data={discountList} refresh={getDiscountList} />
             ) : sideBarState === 2 ? (
               <CustomServiceManage />
             ) : sideBarState === 3 ? (
-              <ReviewManage />
+              <ReviewManage data={reviewList} refresh={getReviewsList} />
             ) : sideBarState === 4 ? (
               <UploadImage />
             ) : (

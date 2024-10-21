@@ -200,7 +200,7 @@ function HomePage() {
               </div>
               <div
                 className="service__btn"
-                onClick={() => navigateToPage("/order")}
+                onClick={() => navigateToPage("/order/dailyOrder")}
               >
                 Book by the Days
                 <FaLongArrowAltRight className="service__btn_icon" />
@@ -226,9 +226,7 @@ function HomePage() {
               </div>
               <div
                 className="service__btn"
-                onClick={() =>
-                  navigateToPage("/order/hourlyOrder", { nav: "home" })
-                }
+                onClick={() => navigateToPage("/order/customOrder")}
               >
                 <div>Customize Your Service</div>
                 <FaLongArrowAltRight className="service__btn_icon" />

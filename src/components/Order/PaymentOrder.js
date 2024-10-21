@@ -129,6 +129,7 @@ export default function PaymentOrder() {
 
   const handleNavigateBack = () => {
     navigateToPage("/summaryOrder", {
+      moveFrom: state.moveFrom,
       orderType: state.orderType,
       paymentCount:
         (state.paymentCount * 100) /
@@ -233,8 +234,13 @@ export default function PaymentOrder() {
         },
         describe: "",
       });
-      //Remove discount code
-      await deleteDoc(doc(db, "discountList", state.discountInfo.discountID));
+      if (
+        state.discountInfo.discountID !== "" &&
+        state.discountInfo.discountReuse === 0
+      ) {
+        //Remove discount code
+        await deleteDoc(doc(db, "discountList", state.discountInfo.discountID));
+      }
       if (isSaved) {
         const saveInfo = {
           cardNumber: cardNumber,

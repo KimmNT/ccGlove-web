@@ -165,14 +165,14 @@ $breakpoint-large: 1200px;
       width: 100%;
       display: flex;
       align-items: flex-start;
-      justify-content: space-between;
+      // justify-content: space-between;
       gap: 3rem;
       flex-wrap: wrap;
       margin-top: 5rem;
       .review__item {
         width: 100%;
         border-radius: 1rem;
-        padding: 1rem 2rem;
+        padding:2rem;
         border: 2px solid $primary;
         display: flex;
         flex-direction: column;
@@ -233,6 +233,25 @@ $breakpoint-large: 1200px;
       @media (min-width: $breakpoint-small) {
         &.box__images_row {
           flex-direction: row;
+        }
+      }
+      .gallery{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+        .image__item{
+          width: 45%;
+          height: 20rem;
+          object-fit: fill;
+          border-radius: .5rem;
+          @media (min-width:$breakpoint-small) {
+            width: 23%;
+          height: 30rem;
+          object-fit: fill;
+          border-radius: .5rem;
+          }
         }
       }
       .image__group {

@@ -45,7 +45,12 @@ export default function FooterPage() {
           <FaApple className="social__icon ios" />
         </div>
       </div>
-      <div className="footer__rights">@jk 2024 All rights reserved</div>
+      <div className="footer__rights_container">
+        <div className="footer__rights">@jk</div>
+        <div className="footer__rights">ccgloves@ccgniseko.com</div>
+        <div className="footer__rights">Policy</div>
+        <div className="footer__rights">All rights reserved</div>
+      </div>
     </div>
   );
 }

@@ -11,9 +11,8 @@ import {
   where,
 } from "firebase/firestore";
 import { db, dbTimeSheet } from "../../firebase";
-import sampleData from "../../sampleData.json";
 
-export default function CustomServiceManage() {
+export default function CustomServiceManage({ data, refresh }) {
   const textareaRef = useRef(null);
 
   const [customeServiceList, setCustomServiceList] = useState([]);
@@ -271,7 +270,7 @@ export default function CustomServiceManage() {
       )}
       {isDelete && (
         <div className="serivce__create_container">
-          <div className="service__content">
+          <div className="service__content remove__width">
             <div className="service__headline delete__title">
               Do you want to delete service <br />
               <span className="service__headline">{serviceNewName}</span>

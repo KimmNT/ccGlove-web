@@ -1,39 +1,72 @@
 import React, { useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import moment from "moment";
 
 export default function Testing() {
-  const [filteredDates, setFilteredDates] = useState([]);
+  const [selectedDates, setSelectedDates] = useState([]); // Store multiple selected dates
+  const [calendarKey, setCalendarKey] = useState(0); // Track calendar key for force re-render
 
-  const datesArray = ["06/15/2024", "04/18/2024", "10/18/2024"];
+  const toggleDateSelection = (date) => {
+    const formattedDate = moment(date).format("DD/MM/YYYY");
 
-  const now = new Date();
-  const day = now.getDate();
-  const month = now.getMonth() + 1;
-  const year = now.getFullYear();
+    if (isDateSelected(date)) {
+      // Remove the date if it's already selected
+      setSelectedDates((prevDates) =>
+        prevDates.filter((dateObj) => dateObj.selectedDate !== formattedDate)
+      );
+    } else {
+      // Add the date if it's not selected
+      setSelectedDates((prevDates) => [
+        ...prevDates,
+        {
+          selectedDate: formattedDate,
+          startTime: 7, // Default value
+          duration: 3, // Default value
+          title: "",
+          detail: "",
+        },
+      ]);
+    }
 
-  const currentDate = new Date(`${month}/${day}/${year}`);
+    // Force re-render by updating the key
+    setCalendarKey(calendarKey + 1);
+  };
 
-  const handleReturnValidItem = (discountArray, date, expiredInMonth) => {
-    const sixMonthsEarlier = new Date(date);
-    sixMonthsEarlier.setMonth(sixMonthsEarlier.getMonth() - expiredInMonth);
-
-    const filteredDates = discountArray
-      .map((date) => new Date(date)) // Convert each string date to a Date object
-      .filter((date) => date >= sixMonthsEarlier) // Keep only dates strictly earlier than sixMonthsEarlier
-      .sort((a, b) => a - b) // Sort the dates in ascending order
-      .map((date) => date.toLocaleDateString("en-US")); // Convert Date objects back to MM/DD/YYYY format
-
-    setFilteredDates(filteredDates);
+  const isDateSelected = (date) => {
+    const formattedDate = moment(date).format("DD/MM/YYYY");
+    return selectedDates.some(
+      (dateObj) => dateObj.selectedDate === formattedDate
+    );
   };
 
   return (
     <div>
-      <div>current date: {currentDate.toDateString()}</div>
-      <button onClick={() => handleReturnValidItem(datesArray, currentDate, 5)}>
-        filter valid dates
-      </button>
-      {filteredDates.map((date, index) => (
-        <div key={index}>{date}</div>
-      ))}
+      <Calendar
+        key={calendarKey} // Add a key prop that changes on every date toggle
+        onClickDay={toggleDateSelection}
+        tileClassName={({ date, view }) =>
+          view === "month" && isDateSelected(date)
+            ? "selected-date"
+            : "not-selected-date"
+        }
+      />
+      <div>
+        <h3>Selected Dates:</h3>
+        <ul>
+          {selectedDates.map((date, index) => (
+            <li key={index}>{date.selectedDate}</li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Add your custom CSS for selected dates */}
+      <style jsx>{`
+        .selected-date {
+          background-color: #ffc107;
+          color: white;
+        }
+      `}</style>
     </div>
   );
 }

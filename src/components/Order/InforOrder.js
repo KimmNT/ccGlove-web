@@ -75,7 +75,13 @@ export default function HourOrder() {
   };
 
   const handleNavigateBack = () => {
-    navigateToPage("/order/hourlyOrder", { workingTime: state });
+    if (state.moveFrom === "hourly") {
+      navigateToPage("/order/hourlyOrder", { workingTime: state });
+    } else if (state.moveFrom === "daily") {
+      navigateToPage("/order/dailyOrder", { workingTime: state });
+    } else {
+      navigateToPage("/order/customOrder", { workingTime: state });
+    }
   };
 
   const handleNavigate = () => {
@@ -103,6 +109,7 @@ export default function HourOrder() {
         localStorage.setItem("czk6nazxt0", JSON.stringify(saveInfo));
       }
       navigateToPage("/summaryOrder", {
+        moveFrom: state.moveFrom,
         orderType: state.orderType,
         paymentCount: state.paymentCount,
         workingTime: state.workingTime,

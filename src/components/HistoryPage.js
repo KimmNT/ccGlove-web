@@ -38,6 +38,7 @@ export default function HistoryPage() {
   const [rateBooking, setRateBooking] = useState(4);
   const [rateFeedback, setRateFeedback] = useState("");
   const [discountCodeValue, setDiscountCodeValue] = useState("");
+  const [isSent, setIsSent] = useState(false);
 
   const rating = [
     {
@@ -211,6 +212,7 @@ export default function HistoryPage() {
       discountCode: discountCodeValue,
       discountValue: 5,
       discountCreatedDate: date,
+      discountReuse: 0,
     });
     //update ratingState to 1
     await updateOrderByCustomId(selectedOrder?.id, {
@@ -218,8 +220,6 @@ export default function HistoryPage() {
     });
     //send discountCode to user
     sendEmail();
-    setIsRating(false);
-    setIsDetail(false);
     handleSearchOrder();
   };
   // Function to send email
@@ -252,12 +252,13 @@ export default function HistoryPage() {
       )
       .then(
         () => {
-          console.log("SUCCESS!");
+          setIsSent(true);
         },
         (error) => {
           console.log("FAILED...", error.text);
         }
       );
+    setIsSent(true);
   };
   const generateDiscount = () => {
     const date = new Date();
@@ -290,6 +291,11 @@ export default function HistoryPage() {
     const generatedCode = `${currentDate}${currentTime}`;
 
     return generatedCode;
+  };
+
+  const handleCloseModal = () => {
+    setIsDetail(false);
+    setIsRating(false);
   };
   return (
     <div className="home__container">
@@ -616,17 +622,30 @@ export default function HistoryPage() {
               <div className="result__item_btn">
                 <div></div>
                 <div className="result__btn_group">
-                  <div
-                    onClick={() => {
-                      setIsRating(false);
-                    }}
-                    className="btn close"
-                  >
-                    cancel
-                  </div>
-                  <div onClick={handleSendReview} className="btn success">
-                    submit
-                  </div>
+                  {isSent ? (
+                    <div className="discount__sent_text">
+                      A discount code was sent to your email. Check your inbox
+                      and spam folder.
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        setIsRating(false);
+                      }}
+                      className="btn close"
+                    >
+                      cancel
+                    </div>
+                  )}
+                  {isSent ? (
+                    <div onClick={handleCloseModal} className="btn success">
+                      done
+                    </div>
+                  ) : (
+                    <div onClick={handleSendReview} className="btn success">
+                      submit
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

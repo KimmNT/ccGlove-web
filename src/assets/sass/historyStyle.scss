@@ -372,6 +372,9 @@ a {
           display: flex;
           align-items: center;
           gap: 2rem;
+          .discount__sent_text{
+            font-size: 1.3rem;
+          }
           .close {
             border: none;
           }
