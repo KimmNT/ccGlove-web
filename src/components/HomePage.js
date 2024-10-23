@@ -52,7 +52,7 @@ function HomePage() {
     };
     emailjs
       .send(
-        "service_0ow7j3l",
+        "service_w0kfb1d",
         "template_7szuo82",
         templateParams,
         "UCOII6_f0u6pockwH"
@@ -167,10 +167,9 @@ function HomePage() {
                   Quick and efficient cleaning
                 </div>
                 <div className="content__value">
-                  Perfect for those who need a quick and efficient clean! Our
-                  ‘Hire in Hours’ service is ideal for small apartments,
-                  specific areas, or quick touch-ups. Book our professional
-                  cleaners by the hour to get the job done without any hassle.
+                  Perfect for a quick, efficient clean! Our 'Hire in Hours'
+                  service is ideal for small spaces or quick touch-ups. Book our
+                  cleaners by the hour for a hassle-free experience
                 </div>
               </div>
               <div
@@ -190,12 +189,12 @@ function HomePage() {
               </div>
               <div className="service_content">
                 <div className="content__slogan">
-                  Choose from specialized services
+                  Extensive cleaning over multiple days
                 </div>
                 <div className="content__value">
-                  Whether it’s a deep clean, regular maintenance, or office
-                  cleaning, our team is available to work multiple hours across
-                  several days to ensure your space remains spotless and fresh.
+                  Whether it's a deep clean, regular upkeep, or office cleaning,
+                  we are available for multiple hours over several days to keep
+                  your space spotless and fresh.
                 </div>
               </div>
               <div
@@ -215,20 +214,19 @@ function HomePage() {
               </div>
               <div className="service_content">
                 <div className="content__slogan">
-                  Extensive cleaning over multiple days
+                  Choose from specialized services
                 </div>
                 <div className="content__value">
-                  Our team is here to make your life easier by handling all
-                  these tasks with efficiency and care. Tailor your service
-                  package to include exactly what you need, all in one
-                  convenient place.
+                  Our goal is to simplify your life by offering you the most
+                  relevant and helpful information for everything you could ever
+                  need.
                 </div>
               </div>
               <div
                 className="service__btn"
                 onClick={() => navigateToPage("/order/customOrder")}
               >
-                <div>Customize Your Service</div>
+                <div>Explor more</div>
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
             </div>

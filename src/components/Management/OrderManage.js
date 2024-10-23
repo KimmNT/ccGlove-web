@@ -318,7 +318,7 @@ export default function OrderManage({ data, refresh }) {
     };
     emailjs
       .send(
-        "service_0ow7j3l",
+        "service_w0kfb1d",
         "template_62uq3kh",
         templateParams,
         "UCOII6_f0u6pockwH"

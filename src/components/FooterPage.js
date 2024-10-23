@@ -11,20 +11,9 @@ import Cleaning2 from "../assets/images/cleaning2.jpg";
 import Cleaning3 from "../assets/images/cleaning3.jpg";
 import Cleaning4 from "../assets/images/cleaning4.jpg";
 import Cleaning5 from "../assets/images/sheduling.jpg";
-import {
-  FaAndroid,
-  FaApple,
-  FaCalendarCheck,
-  FaClock,
-  FaFacebook,
-  FaInstagram,
-  FaLongArrowAltRight,
-  FaMailBulk,
-  FaPhone,
-  FaPhoneAlt,
-  FaToolbox,
-} from "react-icons/fa";
-import { MdOutlineMail } from "react-icons/md";
+import { FaAndroid, FaApple, FaInstagram } from "react-icons/fa";
+import { IoLogoWhatsapp } from "react-icons/io5";
+import { FaLine } from "react-icons/fa";
 
 export default function FooterPage() {
   return (
@@ -32,14 +21,14 @@ export default function FooterPage() {
       <div className="footer__content">
         <div className="footer__headline">ccgloves</div>
         <div className="footer__info">
-          <a
-            href="https://www.facebook.com/profile.php?id=61564462511708"
-            target="_blank"
-          >
-            <FaFacebook className="social__icon facebook" />
-          </a>
           <a href="https://www.instagram.com/ccgloves.cc/" target="_blank">
             <FaInstagram className="social__icon instagram" />
+          </a>
+          <a href="https://wa.me/qr/FTONB2SAVSF3O1/" target="_blank">
+            <IoLogoWhatsapp className="social__icon instagram" />
+          </a>
+          <a href="https://line.me/ti/p/UrMJR91o61" target="_blank">
+            <FaLine className="social__icon instagram" />
           </a>
           <FaAndroid className="social__icon android" />
           <FaApple className="social__icon ios" />

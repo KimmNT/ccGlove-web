@@ -229,7 +229,7 @@ export default function HistoryPage() {
       email__subject_content: `Thank you for your rating!`,
       user_name: `${selectedOrder?.user.userFirstName} ${selectedOrder?.user.userLastName}`,
       user_email: selectedOrder?.user.userEmail,
-      email__content_welcome: `This is your 5% discount code: ${discountCodeValue}`,
+      email__content_welcome: `This is your 5% discount code: #${discountCodeValue}`,
       email__content_headline:
         "We look forward to serving you again in the future!",
       order_id: selectedOrder?.id,
@@ -245,7 +245,7 @@ export default function HistoryPage() {
     };
     emailjs
       .send(
-        "service_0ow7j3l",
+        "service_w0kfb1d",
         "template_62uq3kh",
         templateParams,
         "UCOII6_f0u6pockwH"

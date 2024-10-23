@@ -11,6 +11,8 @@ import {
   where,
 } from "firebase/firestore";
 import { db, dbTimeSheet } from "../../firebase";
+import { FaPlus } from "react-icons/fa";
+import { MdArrowOutward } from "react-icons/md";
 
 export default function CustomServiceManage({ data, refresh }) {
   const textareaRef = useRef(null);
@@ -24,13 +26,18 @@ export default function CustomServiceManage({ data, refresh }) {
   const [serviceNewName, setServiceNewName] = useState("");
   const [serviceNewDetail, setServiceNewDetail] = useState("");
   const [serviceNewType, setServiceNewType] = useState("");
+  const [serviceNewLink, setServiceNewLink] = useState("");
+
+  const [typeInput, setTypeInput] = useState("");
 
   const [isCreate, setIsCreate] = useState(false);
+  const [isCreateType, setIsCreateType] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
     getServicesList();
+    getTypeList();
   }, []);
 
   const handleResize = () => {
@@ -53,10 +60,25 @@ export default function CustomServiceManage({ data, refresh }) {
       });
       setFilterService(dataList);
       setCustomServiceList(dataList);
-      setServiceType([...new Set(dataList.map((data) => data.type))]);
+      // setServiceType([...new Set(dataList.map((data) => data.type))]);
     } catch (error) {
       console.error("Error fetching users:", error);
       // Handle error as needed
+    }
+  };
+  const getTypeList = async () => {
+    try {
+      const data = await getDocs(collection(db, "servicesTypeList"));
+      const dataList = data.docs.map((doc) => {
+        const eachData = doc.data();
+        return {
+          idFireBase: doc.id,
+          ...eachData,
+        };
+      });
+      setServiceType([...new Set(dataList.map((data) => data.typeName))]);
+    } catch (error) {
+      console.error("Error fetching users:", error);
     }
   };
 
@@ -122,6 +144,20 @@ export default function CustomServiceManage({ data, refresh }) {
     }
   };
 
+  const handleCreateNewType = async () => {
+    if (typeInput === "") {
+      setIsCreateType(false);
+      setTypeInput("");
+    } else {
+      await addDoc(collection(db, "servicesTypeList"), {
+        typeName: typeInput,
+      });
+      setIsCreateType(false);
+      setTypeInput("");
+      getTypeList();
+    }
+  };
+
   return (
     <div className="ordermanage__container">
       <div className="ordermanage__content">
@@ -149,6 +185,28 @@ export default function CustomServiceManage({ data, refresh }) {
                     {service}
                   </div>
                 ))}
+                {isCreateType ? (
+                  <div className="create__new_type">
+                    <input
+                      placeholder="Enter new type"
+                      value={typeInput}
+                      onChange={(e) => setTypeInput(e.target.value)}
+                    />
+                    <div
+                      onClick={handleCreateNewType}
+                      className="create__new_type_btn"
+                    >
+                      submit
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => setIsCreateType(true)}
+                    className="search__content_btn fullwidth btn create"
+                  >
+                    <FaPlus />
+                  </div>
+                )}
               </div>
               <div className="ordermanage__search_break"></div>
               <div className="search__title">Create new serivce</div>
@@ -190,7 +248,7 @@ export default function CustomServiceManage({ data, refresh }) {
         <div className="serivce__create_container">
           <div className="service__content">
             <div className="service__headline">
-              {isEdit ? `Update service` : `Create new service`}
+              {isEdit ? `Update service blog` : `Create new service blog`}
             </div>
             <div className="service__input_list">
               <div className="input__item">
@@ -212,6 +270,22 @@ export default function CustomServiceManage({ data, refresh }) {
                   }}
                   className="input__textarea"
                 ></textarea>
+              </div>
+              <div className="input__item">
+                <div className="input__title">Service link</div>
+                <div className="input__link">
+                  <input
+                    value={serviceNewLink}
+                    onChange={(e) => setServiceNewLink(e.target.value)}
+                  />
+                  {serviceNewLink !== "" ? (
+                    <a href={serviceNewLink} target="_blank">
+                      <MdArrowOutward />
+                    </a>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
               <div className="input__item">
                 <div className="input__title">Service type</div>

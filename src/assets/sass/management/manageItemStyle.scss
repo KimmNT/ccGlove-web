@@ -84,6 +84,32 @@ $breakpoint-large: 1200px;
                 font-size: 1.5rem;
               }
             }
+            .create__new_type {
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+              width: 100%;
+              padding: 3rem 0;
+              input {
+                width: 100%;
+                border: none;
+                outline: none;
+                font-family: "FiraSan";
+                border-bottom: 1px solid $primary;
+              }
+              .create__new_type_btn {
+                width: 100%;
+                background-color: $softYellow;
+                text-align: center;
+                padding: 1rem 0;
+                border-radius: 0.5rem;
+                color: $dark;
+                text-transform: uppercase;
+                font-size: 1.3rem;
+                cursor: pointer;
+                font-weight: 600;
+              }
+            }
             .search__content_state {
               width: 45%;
               font-size: 1.2rem;
@@ -740,7 +766,7 @@ $breakpoint-large: 1200px;
     // gap: 10rem;
     width: 50%;
     gap: 5rem;
-    &.remove__width{
+    &.remove__width {
       width: unset;
     }
     @media (max-width: $breakpoint-large) {
@@ -755,13 +781,13 @@ $breakpoint-large: 1200px;
         font-weight: normal;
       }
     }
-    .service__item{
+    .service__item {
       width: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      .service__item_box{
+      .service__item_box {
         width: 100%;
         display: flex;
         align-items: center;
@@ -769,10 +795,10 @@ $breakpoint-large: 1200px;
         background-color: $primary;
         padding: 2rem;
         color: $light;
-        .service__item_title{
+        .service__item_title {
           font-size: 1.5rem;
         }
-        .service__item_value{
+        .service__item_value {
           font-size: 1.5rem;
           font-weight: 600;
         }
@@ -792,19 +818,45 @@ $breakpoint-large: 1200px;
           font-size: 1.5rem;
           display: flex;
           align-items: center;
-          gap: .5rem;
-          &.highlight{
+          gap: 0.5rem;
+          &.highlight {
             font-weight: 600;
           }
-          .review__state{
-            padding: .5rem;
-            border-radius: .5rem;
+          .review__state {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
             cursor: pointer;
             font-weight: 600;
-            &.active{
+            &.active {
               background-color: $primary;
               color: $light;
             }
+          }
+        }
+        .input__link {
+          display: flex;
+          width: 70%;
+          align-items: center;
+          gap: 4rem;
+          input {
+            width: 100%;
+            border: none;
+            outline: none;
+            border-bottom: 2px solid $primary;
+            padding: 0 0.5rem;
+            font-family: "Firasan";
+            font-weight: 600;
+            font-size: 1.5rem;
+          }
+          a {
+            font-size: 2rem;
+            font-weight: 600;
+            background-color: $primary;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: $light;
+            cursor: pointer;
           }
         }
         input {
@@ -847,12 +899,12 @@ $breakpoint-large: 1200px;
           }
         }
       }
-      .input__item_break{
+      .input__item_break {
         width: 100%;
-        height: .1rem;
+        height: 0.1rem;
         background-color: $primary;
       }
-      .input__item_alert{
+      .input__item_alert {
         width: 100%;
         text-align: center;
         font-size: 2rem;
