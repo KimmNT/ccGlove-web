@@ -442,14 +442,14 @@ export default function OrderManage({ data, refresh }) {
                 >
                   Daily
                 </div>
-                <div
+                {/* <div
                   onClick={() => setTypeSelect(2)}
                   className={`search__content_option ${
                     typeSelect === 2 ? `search__content_option_active` : ``
                   }`}
                 >
                   Custom Service
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="ordermanage__search_break"></div>

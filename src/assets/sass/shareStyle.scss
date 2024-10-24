@@ -494,8 +494,13 @@ a {
   .footer__content {
     width: 90%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    gap: 5rem;
+    @media (min-width:$breakpoint-small) {
+      justify-content: space-between;
+      flex-direction: row;
+    }
     .footer__headline {
       font-size: 4rem;
       font-weight: 600;
@@ -517,13 +522,6 @@ a {
     justify-content: center;
     gap: 5rem;
     flex-wrap: wrap;
-    @media screen {
-      width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5rem;
-    }
     .footer__rights {
       font-size: 1.5rem;
       font-weight: 600;

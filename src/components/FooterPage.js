@@ -21,7 +21,7 @@ export default function FooterPage() {
       <div className="footer__content">
         <div className="footer__headline">ccgloves</div>
         <div className="footer__info">
-          <a href="https://www.instagram.com/ccgloves.cc/" target="_blank">
+          <a href="https://www.instagram.com/ccgniseko/" target="_blank">
             <FaInstagram className="social__icon instagram" />
           </a>
           <a href="https://wa.me/qr/FTONB2SAVSF3O1/" target="_blank">

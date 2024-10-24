@@ -101,6 +101,7 @@ export default function CustomServiceManage({ data, refresh }) {
     setServiceNewDetail("");
     setServiceNewName("");
     setServiceNewType("");
+    setServiceNewLink("");
   };
 
   const handleCreateService = async () => {
@@ -108,10 +109,15 @@ export default function CustomServiceManage({ data, refresh }) {
       detail: serviceNewDetail,
       name: serviceNewName,
       type: serviceNewType,
+      link: serviceNewLink,
     });
     getServicesList();
     setIsCreate(false);
     setSelectedType("all");
+    setServiceNewDetail("");
+    setServiceNewName("");
+    setServiceNewType("");
+    setServiceNewLink("");
   };
 
   const handlePassInServiceInfo = (service) => {
@@ -121,6 +127,7 @@ export default function CustomServiceManage({ data, refresh }) {
     setServiceNewDetail(service.detail);
     setServiceNewName(service.name);
     setServiceNewType(service.type);
+    setServiceNewLink(service.link);
   };
 
   const handleUpdateService = async () => {
@@ -129,9 +136,14 @@ export default function CustomServiceManage({ data, refresh }) {
       detail: serviceNewDetail,
       name: serviceNewName,
       type: serviceNewType,
+      link: serviceNewLink,
     });
     getServicesList();
     setIsCreate(false);
+    setServiceNewDetail("");
+    setServiceNewName("");
+    setServiceNewType("");
+    setServiceNewLink("");
   };
 
   const handleDeleteService = async () => {
