@@ -1,0 +1,36 @@
+//COLORES
+$primary: #141e46;
+$btnColor: #f0eeed;
+$bgColor: #ededed;
+$softRed: #f45050;
+$softYellow: #ffc861;
+$dark: #000;
+$light: #fff;
+$softGrey: #d3d3d3;
+
+//VARIABLE
+$boxShadow: -10px 10px 5px rgb(217, 217, 217);
+$transition: all ease-in-out 0.2s;
+
+$breakpoint-small: 600px;
+$breakpoint-medium: 990px;
+$breakpoint-large: 1200px;
+
+@font-face {
+  font-family: FiraSan;
+  src: url(../../fonts/FiraSans-Regular.ttf);
+}
+
+.staff__container {
+  width: 100%;
+  background-color: $bgColor;
+  position: relative;
+  .staff__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 0;
+    max-width: 990px !important;
+    margin: 0 auto;
+  }
+}

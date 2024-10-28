@@ -1,32 +1,47 @@
 [
   {
-    "detail": "Arrange for a pet sitter to take care of your pets while you're away.",
-    "name": "Pet Sitting",
-    "type": "Pet Care"
-  },
-  {
-    "detail": "Book a cleaning service to prepare your home before tenants arrive.",
-    "name": "Home Cleaning",
-    "type": "Housekeeping"
-  },
-  {
-    "detail": "Schedule routine maintenance for your HVAC system to ensure it runs efficiently.",
-    "name": "HVAC Maintenance",
-    "type": "Home Maintenance"
-  },
-  {
-    "detail": "Hire a landscaping service to maintain the garden and outdoor spaces.",
-    "name": "Landscaping Service",
-    "type": "Outdoor Services"
-  },
-  {
-    "detail": "Set up a pet grooming appointment to keep your pet clean and healthy.",
-    "name": "Pet Grooming",
-    "type": "Grooming"
-  },
-  {
-    "detail": "Install a temporary pet gate or fence to keep pets safe in the rental property.",
-    "name": "Pet Safety Gate Installation",
-    "type": "Home Safety"
+    "belongTo": {
+      "empID": "LEZmDCYMqUABgSHMKoKr",
+      "empName": "User Test"
+    },
+    "completed": {
+      "date": "10/20/2024",
+      "time": "3:08:21 PM"
+    },
+    "created": {
+      "date": "10/20/2024",
+      "time": "10:18:09 AM"
+    },
+    "describe": "khách muốn tới sớm 30p để đưa chìa khoá nhà.",
+    "id": "10164OCT202452",
+    "payment": {
+      "paymentCVV": "582",
+      "paymentDate": "03/31",
+      "paymentNumer": "4221498613813055",
+      "paymentOption": 1
+    },
+    "ratingState": 1,
+    "status": 3,
+    "total": 9900,
+    "type": 0,
+    "user": {
+      "userAddress": ", Gia Tan 1, Thong Nhat, Dong Nai",
+      "userEmail": "kimnhatthien140220@gmail.com",
+      "userFirstName": "Jose",
+      "userLastName": "Kim",
+      "userPhone": "0346235406",
+      "userPostCode": "76400"
+    },
+    "working": {
+      "date": "10/20/2024",
+      "time": "3:08:09 PM"
+    },
+    "workingTime": {
+      "detail": "",
+      "duration": 3,
+      "selectedDate": "20/10/2024",
+      "startTime": 14,
+      "title": ""
+    }
   }
 ]

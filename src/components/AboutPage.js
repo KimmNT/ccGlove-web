@@ -151,7 +151,7 @@ function AboutPage() {
               className="image__item "
             />
             <img
-              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/a0535ca7567a19902184971d863d378e/detailed"
+              src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108175/z8as2hhvlj2mhy0ijsdl.jpg"
               alt="cleaning"
               className="image__item "
             />
@@ -283,7 +283,7 @@ function AboutPage() {
           <div className="image__group">
             <div className="reason">
               <img
-                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/8fb606d4fba5b7669c469043c2aa530e/detailed"
+                src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108204/ods4vml5lkbnnvlkrivl.jpg"
                 alt="cleaning"
                 className="reason__image"
               />
@@ -301,7 +301,7 @@ function AboutPage() {
           <div className="image__group">
             <div className="reason">
               <img
-                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/10fd73e9651eadbe596c5a3d96010c70/detailed"
+                src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108181/ulh0yhbtfzqemzs5n5ut.jpg"
                 alt="cleaning"
                 className="reason__image"
               />
@@ -317,7 +317,7 @@ function AboutPage() {
           <div className="image__group">
             <div className="reason">
               <img
-                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/b5e2080f324564fa33c2988c2e3d4a4f/detailed"
+                src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108778/egtgtlt6glajasxjbxxj.jpg"
                 alt="cleaning"
                 className="reason__image"
               />

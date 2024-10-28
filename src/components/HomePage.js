@@ -100,7 +100,7 @@ function HomePage() {
       <div className="home__headline">
         <img
           className="home__headline_image"
-          src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/10fd73e9651eadbe596c5a3d96010c70/detailed"
+          src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108189/geaeaj3jr7jfxjsrniyp.jpg"
           alt="cleaing"
         />
         <div className="home__headline_title">
@@ -139,19 +139,19 @@ function HomePage() {
         <div className="box__images">
           <div className="image__group">
             <img
-              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/702db15cfbde74986b1549cbe7a723e0/detailed"
+              src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108198/wjuvvb5kcu69khxfukna.jpg"
               alt="cleaning"
               className="image__item up "
             />
             <img
-              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/d88613b8aa8f9340ef522ca71f1fb190/detailed"
+              src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108197/kukxl63h8jqeiosuqb0z.jpg"
               alt="cleaning"
               className="image__item down"
             />
           </div>
           <div className="image__group">
             <img
-              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/ad1d3c379752654c071cfdb3593358b4/detailed"
+              src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108206/gartvwalacmbbxxrszu1.jpg"
               alt="cleaning"
               className="image__item "
             />
@@ -263,7 +263,7 @@ function HomePage() {
           <div className="image__group">
             <div className="reason">
               <img
-                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/8fb606d4fba5b7669c469043c2aa530e/detailed"
+                src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108204/ods4vml5lkbnnvlkrivl.jpg"
                 alt="cleaning"
                 className="reason__image"
               />
@@ -281,7 +281,7 @@ function HomePage() {
           <div className="image__group">
             <div className="reason">
               <img
-                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/10fd73e9651eadbe596c5a3d96010c70/detailed"
+                src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108181/ulh0yhbtfzqemzs5n5ut.jpg"
                 alt="cleaning"
                 className="reason__image"
               />
@@ -297,7 +297,7 @@ function HomePage() {
           <div className="image__group">
             <div className="reason">
               <img
-                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/b5e2080f324564fa33c2988c2e3d4a4f/detailed"
+                src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108778/egtgtlt6glajasxjbxxj.jpg"
                 alt="cleaning"
                 className="reason__image"
               />
