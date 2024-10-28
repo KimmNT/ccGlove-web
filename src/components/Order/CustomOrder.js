@@ -3,12 +3,13 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
 import "../../assets/sass/orderStyle.scss";
-import { FaClock, FaCoins } from "react-icons/fa";
+import { FaClock, FaCoins, FaGitter } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { MdArrowOutward } from "react-icons/md";
 import { FaArrowLeft } from "react-icons/fa";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
+import { FaBarsStaggered } from "react-icons/fa6";
 
 export default function CustomOrder() {
   const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
@@ -18,7 +19,7 @@ export default function CustomOrder() {
 
   const [serviceType, setServiceType] = useState([]);
   const [isType, setIsType] = useState(false);
-  const [selectedType, setSelectedType] = useState("all");
+  const [selectedType, setSelectedType] = useState("All");
 
   const [selectedService, setSelectedService] = useState(null);
   const [isSerivce, setIsService] = useState(false);
@@ -45,9 +46,9 @@ export default function CustomOrder() {
   }, []);
 
   //for random show service type
-  // useEffect(() => {
-  //   setRandomNumber(getRandomNumber(0, serviceType.length));
-  // }, [serviceType]);
+  useEffect(() => {
+    setRandomNumber(getRandomNumber(0, serviceType.length));
+  }, [serviceType]);
 
   const checkIfAtTop = () => {
     if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
@@ -82,8 +83,9 @@ export default function CustomOrder() {
 
   const handleSortService = (type) => {
     setSelectedType(type);
-    if (type === "all") {
+    if (type === "All") {
       setFilterService(customeServiceList);
+      setIsType(false);
     } else {
       const sorted = customeServiceList.filter(
         (service) => service.type === type
@@ -115,29 +117,38 @@ export default function CustomOrder() {
       </div>
       <div className="order__content">
         <div className="order__custom">
-          <div className="order__custom_item">
-            <div className="custom__type_list">
+          <div className="custom__service_filter">
+            <FaBarsStaggered
+              className="order__custom_title_btn"
+              onClick={() => setIsType(true)}
+            />
+            <div className="order__custom_title_value">{selectedType}</div>
+          </div>
+          <div className="custom__service_filter_deskop">
+            <div className="custom__filter_list">
               <div
-                className={`type__item ${
-                  selectedType === "all" ? `type__item_active` : ``
+                className={`custom__filter_list_item ${
+                  selectedType === "All"
+                    ? `custom__filter_list_item_active`
+                    : ``
                 }`}
-                onClick={() => handleSortService("all")}
+                onClick={() => handleSortService("All")}
               >
                 All
               </div>
-              {serviceType
-                // .slice(randomNumber, randomNumber + 3)
-                .map((type, index) => (
-                  <div
-                    className={`type__item ${
-                      selectedType === type ? `type__item_active` : ``
-                    }`}
-                    key={index}
-                    onClick={() => handleSortService(type)}
-                  >
-                    {type}
-                  </div>
-                ))}
+              {serviceType.map((type, index) => (
+                <div
+                  className={`custom__filter_list_item ${
+                    selectedType === type
+                      ? `custom__filter_list_item_active`
+                      : ``
+                  }`}
+                  key={index}
+                  onClick={() => handleSortService(type)}
+                >
+                  {type}
+                </div>
+              ))}
             </div>
           </div>
           <div className="custom__service_list">
@@ -147,7 +158,51 @@ export default function CustomOrder() {
                 key={index}
                 onClick={() => handleSelectedItem(service)}
               >
-                {service.name}
+                <div className="service__item_title">{service.name}</div>
+                <div className="service__item_content">
+                  {service.detail.substring(0, 100)}...
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="custom__service_list_desktop">
+            {selectedType === "All" && (
+              <div className="custom__service_list_desktop_headline">
+                {customeServiceList
+                  .slice(randomNumber, randomNumber + 1)
+                  .map((service, index) => (
+                    <div
+                      className="custom__service_list_desktop_headline_item"
+                      key={index}
+                    >
+                      <div className="custom__service_list_desktop_headline_item_title">
+                        {service.name}
+                      </div>
+                      <div className="custom__service_list_desktop_headline_item_content">
+                        {service.detail}
+                      </div>
+                      <a
+                        href={service.link}
+                        target="_blank"
+                        className="custom__service_list_desktop_headline_item_link"
+                      >
+                        Click here for more information
+                        <MdArrowOutward className="link__icon" />
+                      </a>
+                    </div>
+                  ))}
+              </div>
+            )}
+            {filterService.map((service, index) => (
+              <div
+                className="service__item"
+                key={index}
+                onClick={() => handleSelectedItem(service)}
+              >
+                <div className="service__item_title">{service.name}</div>
+                <div className="service__item_content">
+                  {service.detail.substring(0, 100)}...
+                </div>
               </div>
             ))}
           </div>
@@ -180,10 +235,16 @@ export default function CustomOrder() {
         </div>
       )}
       {/* FOR HIDE/SHOW SERVICE TYPE */}
-      {/* {isType && (
+      {isType && (
         <div className="order__pop_container">
           <div className="order__pop_content">
             <div className="order__pop_list">
+              <div
+                className="pop__list_item"
+                onClick={() => handleSortService("All")}
+              >
+                All
+              </div>
               {serviceType.map((type, index) => (
                 <div
                   className="pop__list_item"
@@ -202,7 +263,7 @@ export default function CustomOrder() {
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }

@@ -36,7 +36,7 @@ $breakpoint-large: 1200px;
       display: none;
       @media (min-width: $breakpoint-small) {
         width: 40%;
-        border-radius: 1rem;
+        border-radius: .5rem;
         overflow: hidden;
         display: block;
       }
@@ -244,12 +244,12 @@ $breakpoint-large: 1200px;
         .image__item{
           width: 45%;
           height: 20rem;
-          object-fit: fill;
+          object-fit:cover;
           border-radius: .5rem;
           @media (min-width:$breakpoint-small) {
             width: 23%;
           height: 30rem;
-          object-fit: fill;
+          object-fit: cover;
           border-radius: .5rem;
           }
         }

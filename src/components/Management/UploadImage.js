@@ -1,83 +1,72 @@
-// import React, { useEffect, useRef, useState } from "react";
-
-// export default function UploadImage() {
-//   const cloudinaryRef = useRef();
-//   const widgetRef = useRef();
-
-//   const [uploadImages, setUploadImages] = useState([]);
-
-//   useEffect(() => {
-//     // Ensure Cloudinary library is available in the window object
-//     cloudinaryRef.current = window.cloudinary;
-
-//     // Create upload widget with correct parameters
-//     widgetRef.current = cloudinaryRef.current.createUploadWidget(
-//       {
-//         cloudName: "dovp2f63c", // Your Cloudinary cloud name
-//         uploadPreset: "do5bjhe9", // Corrected: uploadPreset (your preset)
-//       },
-//       function (error, result) {
-//         if (result.event === "success") {
-//           const newImage = {
-//             imageURL: result.info.secure_url, // Store the image URL
-//             isHomeHeadline: 0,
-//             isContact: 0,
-//             isHome: 0,
-//             isAbout: 0,
-//             isGallery: 0,
-//           };
-//           setUploadImages((prevUrls) => [...prevUrls, newImage]);
-//         }
-//         if (error) {
-//           console.error("Upload Error:", error);
-//         }
-//       }
-//     );
-//   }, []);
-
-//   return (
-//     <div>
-//       {uploadImages.map((image, index) => (
-//         <div key={index}>
-//           <img
-//             src={image.imageURL}
-//             alt="upload image"
-//             width={200}
-//             height={200}
-//           />
-//         </div>
-//       ))}
-//       <button onClick={() => widgetRef.current.open()}>Upload Image</button>
-//     </div>
-//   );
-// }
 import React, { useRef, useState } from "react";
 import axios from "axios";
 
 export default function UploadImage() {
-  const cloudinaryRef = useRef();
-  const widgetRef = useRef();
   const [selectedImages, setSelectedImages] = useState([]); // State to store local image previews
   const [imageFiles, setImageFiles] = useState([]); // State to store file objects for later upload
 
-  // Handle image selection and preview
+  // Handle image selection and preview with resizing
   const handleImageSelection = (e) => {
     const files = Array.from(e.target.files); // Convert FileList to array
-    setImageFiles(files); // Store files for later upload
 
-    const imagePreviews = files.map((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file); // Read the image as a data URL
+    const resizeAndCompressImages = files.map((file) => {
       return new Promise((resolve) => {
-        reader.onloadend = () => {
-          resolve(reader.result); // Set the preview data
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          const img = new Image();
+          img.src = reader.result;
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const maxFileSize = 10 * 1024 * 1024; // 10MB in bytes
+
+            // Scale down dimensions
+            let width = img.width;
+            let height = img.height;
+            const maxDimension = 1920; // Adjust this based on desired max resolution
+
+            if (width > height && width > maxDimension) {
+              height *= maxDimension / width;
+              width = maxDimension;
+            } else if (height > width && height > maxDimension) {
+              width *= maxDimension / height;
+              height = maxDimension;
+            }
+
+            // Set canvas dimensions and draw the image on it
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Adjust quality to fit within 10MB limit
+            let quality = 0.9;
+            let imageDataUrl = canvas.toDataURL("image/jpeg", quality);
+
+            while (imageDataUrl.length > maxFileSize && quality > 0.1) {
+              quality -= 0.1;
+              imageDataUrl = canvas.toDataURL("image/jpeg", quality);
+            }
+
+            // Convert data URL back to File object for upload
+            fetch(imageDataUrl)
+              .then((res) => res.blob())
+              .then((blob) => {
+                const resizedFile = new File([blob], file.name, {
+                  type: "image/jpeg",
+                  lastModified: Date.now(),
+                });
+                resolve({ preview: imageDataUrl, file: resizedFile });
+              });
+          };
         };
       });
     });
 
-    // Once all previews are loaded, set them to the state
-    Promise.all(imagePreviews).then((previews) => {
-      setSelectedImages(previews);
+    Promise.all(resizeAndCompressImages).then((images) => {
+      setSelectedImages(images.map((img) => img.preview));
+      setImageFiles(images.map((img) => img.file));
     });
   };
 

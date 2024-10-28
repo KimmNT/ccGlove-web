@@ -135,14 +135,46 @@ function AboutPage() {
         </div>
         <div className="box__images">
           <div className="gallery">
-            <img src={Cleaning1} alt="cleaning" className="image__item " />
-            <img src={Cleaning4} alt="cleaning" className="image__item " />
-            <img src={Cleaning3} alt="cleaning" className="image__item " />
-            <img src={Cleaning2} alt="cleaning" className="image__item " />
-            <img src={Cleaning5} alt="cleaning" className="image__item " />
-            <img src={Cleaning1} alt="cleaning" className="image__item " />
-            <img src={Cleaning5} alt="cleaning" className="image__item " />
-            <img src={Cleaning1} alt="cleaning" className="image__item " />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/88010b1a58ea0ad433b217bd33f63ec2/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/297cbc08addd01360a6c0cb46799ed6e/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/ad1d3c379752654c071cfdb3593358b4/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/a0535ca7567a19902184971d863d378e/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/8e0b5b4c3a8c84802144ad953305696b/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/573476cbaaecc0097ec8538ed9fb8537/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/8fb606d4fba5b7669c469043c2aa530e/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/c9a6ebf3ff6fda1ddcaab630e7bc6d92/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
           </div>
         </div>
       </div>
@@ -250,7 +282,11 @@ function AboutPage() {
         <div className="box__images box__images_row">
           <div className="image__group">
             <div className="reason">
-              <img src={Cleaning1} alt="cleaning" className="reason__image" />
+              <img
+                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/8fb606d4fba5b7669c469043c2aa530e/detailed"
+                alt="cleaning"
+                className="reason__image"
+              />
               <div className="reason__content">
                 <div className="reason__headline">
                   Experienced Professionals
@@ -264,7 +300,11 @@ function AboutPage() {
           </div>
           <div className="image__group">
             <div className="reason">
-              <img src={Cleaning3} alt="cleaning" className="reason__image" />
+              <img
+                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/10fd73e9651eadbe596c5a3d96010c70/detailed"
+                alt="cleaning"
+                className="reason__image"
+              />
               <div className="reason__content">
                 <div className="reason__headline">Eco-Friendly Products</div>
                 <div className="reason__value">
@@ -276,7 +316,11 @@ function AboutPage() {
           </div>
           <div className="image__group">
             <div className="reason">
-              <img src={Cleaning5} alt="cleaning" className="reason__image" />
+              <img
+                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/b5e2080f324564fa33c2988c2e3d4a4f/detailed"
+                alt="cleaning"
+                className="reason__image"
+              />
               <div className="reason__content">
                 <div className="reason__headline">Flexible Scheduling</div>
                 <div className="reason__value">

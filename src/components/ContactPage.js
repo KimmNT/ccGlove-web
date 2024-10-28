@@ -9,7 +9,7 @@ export default function ContactPage() {
   const textareaRef = useRef(null);
 
   const [userEmail, setuserEmail] = useState("");
-  const [userPhone, setUserPhone] = useState(0);
+  const [userPhone, setUserPhone] = useState("");
   const [userName, setUserName] = useState("");
   const [userMessag, setUserMessage] = useState("");
   const [isSent, setIsSent] = useState(false);
@@ -93,7 +93,11 @@ export default function ContactPage() {
         <img src={Shining} alt="shining" className="shining rolling" />
       </div>
       <div className="home__box colored home__box_row">
-        <img src={Cleaning1} alt="cleaning" className="contact__image" />
+        <img
+          src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/702db15cfbde74986b1549cbe7a723e0/detailed"
+          alt="cleaning"
+          className="contact__image"
+        />
         <div className="contact__input">
           <div className="box__content">
             <div className="box__value">
@@ -144,12 +148,12 @@ export default function ContactPage() {
               <div className="contact__info">
                 <div className="contact__info_item">
                   <div className="contact__info_title">Hotline</div>
-                  <div className="contact__info_value">031 293 123</div>
+                  <div className="contact__info_value">07 039 650 906</div>
                 </div>
                 <div className="contact__info_item">
                   <div className="contact__info_title">Email</div>
                   <div className="contact__info_value">
-                    ccgloves.cc@gmail.com
+                    ccsupport@ccgniseko.com
                   </div>
                 </div>
               </div>

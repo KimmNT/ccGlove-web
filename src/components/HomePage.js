@@ -98,7 +98,11 @@ function HomePage() {
   return (
     <div className="home__container">
       <div className="home__headline">
-        <img className="home__headline_image" src={Cleaning1} alt="cleaing" />
+        <img
+          className="home__headline_image"
+          src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/10fd73e9651eadbe596c5a3d96010c70/detailed"
+          alt="cleaing"
+        />
         <div className="home__headline_title">
           <div className="slogan">
             We are here for your
@@ -134,11 +138,23 @@ function HomePage() {
         </div>
         <div className="box__images">
           <div className="image__group">
-            <img src={Cleaning1} alt="cleaning" className="image__item up " />
-            <img src={Cleaning4} alt="cleaning" className="image__item down" />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/702db15cfbde74986b1549cbe7a723e0/detailed"
+              alt="cleaning"
+              className="image__item up "
+            />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/d88613b8aa8f9340ef522ca71f1fb190/detailed"
+              alt="cleaning"
+              className="image__item down"
+            />
           </div>
           <div className="image__group">
-            <img src={Cleaning3} alt="cleaning" className="image__item " />
+            <img
+              src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/ad1d3c379752654c071cfdb3593358b4/detailed"
+              alt="cleaning"
+              className="image__item "
+            />
           </div>
         </div>
       </div>
@@ -246,7 +262,11 @@ function HomePage() {
         <div className="box__images box__images_row">
           <div className="image__group">
             <div className="reason">
-              <img src={Cleaning1} alt="cleaning" className="reason__image" />
+              <img
+                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/8fb606d4fba5b7669c469043c2aa530e/detailed"
+                alt="cleaning"
+                className="reason__image"
+              />
               <div className="reason__content">
                 <div className="reason__headline">
                   Experienced Professionals
@@ -260,7 +280,11 @@ function HomePage() {
           </div>
           <div className="image__group">
             <div className="reason">
-              <img src={Cleaning3} alt="cleaning" className="reason__image" />
+              <img
+                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/10fd73e9651eadbe596c5a3d96010c70/detailed"
+                alt="cleaning"
+                className="reason__image"
+              />
               <div className="reason__content">
                 <div className="reason__headline">Eco-Friendly Products</div>
                 <div className="reason__value">
@@ -272,7 +296,11 @@ function HomePage() {
           </div>
           <div className="image__group">
             <div className="reason">
-              <img src={Cleaning5} alt="cleaning" className="reason__image" />
+              <img
+                src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/b5e2080f324564fa33c2988c2e3d4a4f/detailed"
+                alt="cleaning"
+                className="reason__image"
+              />
               <div className="reason__content">
                 <div className="reason__headline">Flexible Scheduling</div>
                 <div className="reason__value">
