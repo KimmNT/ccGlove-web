@@ -94,7 +94,7 @@ export default function ContactPage() {
       </div>
       <div className="home__box colored home__box_row">
         <img
-          src="https://res-console.cloudinary.com/dovp2f63c/media_explorer_thumbnails/702db15cfbde74986b1549cbe7a723e0/detailed"
+          src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108189/geaeaj3jr7jfxjsrniyp.jpg"
           alt="cleaning"
           className="contact__image"
         />
