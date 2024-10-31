@@ -33,8 +33,14 @@ $breakpoint-large: 1200px;
     gap: 3rem;
     .order__content{
         gap: 3rem;
-        width: 90%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         @media (min-width:$breakpoint-small) {
+            width: 90%;
+            display: flex;
             flex-direction: row;
             justify-content: space-between;
         }

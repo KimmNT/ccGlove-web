@@ -1,27 +1,24 @@
 // HomePage.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import usePageNavigation from "../uesPageNavigation"; // Corrected import path
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
 import Bloom from "../assets/images/broom.png";
 import Spray from "../assets/images/spray.png";
 import Shining from "../assets/images/shining.png";
-import Cleaning1 from "../assets/images/cleaning1.jpg";
-import Cleaning3 from "../assets/images/cleaning3.jpg";
-import Cleaning4 from "../assets/images/cleaning4.jpg";
-import Cleaning5 from "../assets/images/sheduling.jpg";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   FaCalendarCheck,
   FaClock,
   FaLongArrowAltRight,
   FaToolbox,
 } from "react-icons/fa";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
 import emailjs from "@emailjs/browser";
 
 function HomePage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
+  const ref = useRef(null);
+  const isInView = useInView(ref, { triggerOnce: true });
   const [userEmail, setuserEmail] = useState("");
   const [isSent, setIsSent] = useState(false);
 
@@ -99,6 +96,10 @@ function HomePage() {
     <div className="home__container">
       <div className="home__headline">
         <img
+          ref={ref}
+          animate={isInView ? { opacity: 1, x: -50 } : { opacity: 0, x: 0 }}
+          initial={{ opacity: 0, x: 0 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
           className="home__headline_image"
           src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108189/geaeaj3jr7jfxjsrniyp.jpg"
           alt="cleaing"
