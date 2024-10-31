@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import "../../assets/sass/management/manageShareStyle.scss";
 import "../../assets/sass/management/adminStyle.scss";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db, dbTimeSheet } from "../../firebase";
+import useAuth from "../../useAuth";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 import { IoMdLogOut } from "react-icons/io";
 import { LuPackageSearch } from "react-icons/lu";
 import { MdOutlineDashboardCustomize, MdOutlineDiscount } from "react-icons/md";
@@ -18,6 +19,7 @@ import HolidayManage from "./HolidayManage";
 
 export default function AdminPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
+  const { isAuthenticated, logout } = useAuth();
   const now = new Date();
   const date = now.toLocaleDateString(); // e.g., '8/5/2024'
 
@@ -85,7 +87,6 @@ export default function AdminPage() {
       // Handle error as needed
     }
   };
-
   return (
     <div className="admin__container">
       <div className="admin__content">
@@ -183,7 +184,10 @@ export default function AdminPage() {
               </div>
               <div
                 className="btn logout"
-                onClick={() => navigateToPage("/loginPage")}
+                onClick={() => {
+                  logout();
+                  navigateToPage("/loginPage");
+                }}
               >
                 ok
               </div>
