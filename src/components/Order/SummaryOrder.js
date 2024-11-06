@@ -3,13 +3,7 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/orderStyle.scss";
 import "../../assets/sass/summaryStyle.scss";
-import { IoIosArrowForward } from "react-icons/io";
-import {
-  FaArrowAltCircleRight,
-  FaArrowLeft,
-  FaArrowRight,
-  FaMinus,
-} from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaMinus } from "react-icons/fa";
 import "react-calendar/dist/Calendar.css";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../firebase";

@@ -1,6 +1,5 @@
 // HomePage.jsx
 import { useEffect, useState } from "react";
-import usePageNavigation from "../uesPageNavigation"; // Corrected import path
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
 import "../assets/sass/historyStyle.scss";
@@ -143,6 +142,8 @@ export default function HistoryPage() {
         return "Daily Service";
       case 2:
         return "Custom Service";
+      default:
+        return "";
     }
   };
 
@@ -279,7 +280,6 @@ export default function HistoryPage() {
     //for date
     const currentDay = date.getDate();
     const currentMonth = months[date.getMonth()];
-    const currentYear = date.getFullYear().toString().substring(2, 4);
     const currentDate = `${currentDay}${currentMonth}`;
 
     //for time

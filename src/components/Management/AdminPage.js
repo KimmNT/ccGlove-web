@@ -19,7 +19,7 @@ import HolidayManage from "./HolidayManage";
 
 export default function AdminPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
-  const { isAuthenticated, logout } = useAuth();
+  const { logout } = useAuth();
   const now = new Date();
   const date = now.toLocaleDateString(); // e.g., '8/5/2024'
 

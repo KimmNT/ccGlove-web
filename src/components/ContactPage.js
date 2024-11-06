@@ -3,7 +3,6 @@ import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
 import Shining from "../assets/images/shining.png";
 import emailjs from "@emailjs/browser";
-import Cleaning1 from "../assets/images/cleaning1.jpg";
 
 export default function ContactPage() {
   const textareaRef = useRef(null);
@@ -20,14 +19,6 @@ export default function ContactPage() {
       behavior: "smooth", // Smooth scrolling transition
     });
   }, []);
-
-  const handleResize = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = "auto"; // Reset the height
-      textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on scroll height
-    }
-  };
 
   const sendEmail = (value) => {
     // Template parameters to be sent via EmailJS

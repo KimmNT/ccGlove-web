@@ -14,14 +14,13 @@ import {
 import { db } from "../../firebase";
 import { IoMdLogOut } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
-import { LuPackage2 } from "react-icons/lu";
 import { MdDone, MdOutlineCleaningServices } from "react-icons/md";
-import { IoMdClose, IoMdDoneAll } from "react-icons/io";
+import { IoMdDoneAll } from "react-icons/io";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function StaffPage() {
   const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
-  const { isAuthenticated, logout } = useAuth();
+  const { logout } = useAuth();
 
   const now = new Date();
   const date = now.toLocaleDateString();

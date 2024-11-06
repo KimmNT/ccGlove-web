@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "../../../assets/sass/management/manageItemStyle.scss";
 
 export default function UserInfoChange({

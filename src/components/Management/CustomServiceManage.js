@@ -6,11 +6,9 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  query,
   updateDoc,
-  where,
 } from "firebase/firestore";
-import { db, dbTimeSheet } from "../../firebase";
+import { db } from "../../firebase";
 import { FaPlus } from "react-icons/fa";
 import { MdArrowOutward } from "react-icons/md";
 

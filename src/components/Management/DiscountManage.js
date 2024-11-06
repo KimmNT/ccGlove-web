@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../../assets/sass/management/manageItemStyle.scss";
-import { FaArrowRightLong, FaMagnifyingGlass, FaStar } from "react-icons/fa6";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { LuPackage2 } from "react-icons/lu";
-import { MdDone, MdOutlineCleaningServices } from "react-icons/md";
-import { IoMdClose, IoMdDoneAll } from "react-icons/io";
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 

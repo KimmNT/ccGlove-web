@@ -3,8 +3,6 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
 import "../../assets/sass/orderStyle.scss";
-import { FaClock, FaCoins, FaGitter } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
 import { MdArrowOutward } from "react-icons/md";
 import { FaArrowLeft } from "react-icons/fa";
 import { collection, getDocs } from "firebase/firestore";
@@ -12,7 +10,7 @@ import { db } from "../../firebase";
 import { FaBarsStaggered } from "react-icons/fa6";
 
 export default function CustomOrder() {
-  const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
+  const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
   const [isOnTop, setIsOnTop] = useState(false);
   const [customeServiceList, setCustomServiceList] = useState([]);
   const [filterService, setFilterService] = useState([]);

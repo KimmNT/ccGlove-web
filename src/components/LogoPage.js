@@ -1,5 +1,4 @@
 import React from "react";
-import Logo from "../assets/images/icon.png";
 import "../assets/sass/shareStyle.scss";
 
 export default function LogoPage() {

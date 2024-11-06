@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
-import Spray from "../../assets/images/spray.png";
 import Bloom from "../../assets/images/broom.png";
 import {
   FaCalendarCheck,

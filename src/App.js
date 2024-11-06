@@ -5,7 +5,6 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import Cookies from "js-cookie";
 import "./App.css";
 import "./assets/sass/shareStyle.scss";
 import HomePage from "./components/HomePage";

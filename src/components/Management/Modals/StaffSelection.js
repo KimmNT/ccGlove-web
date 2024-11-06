@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db, dbTimeSheet } from "../../../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { dbTimeSheet } from "../../../firebase";
 import "../../../assets/sass/management/manageItemStyle.scss";
 
 export default function StaffSelection({ closeModal, selectedItem }) {

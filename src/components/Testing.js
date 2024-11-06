@@ -1,70 +1,86 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
-import { QRCodeCanvas } from "qrcode.react"; // Use QRCodeCanvas or QRCodeSVG
-
-const BankQRCode = () => {
-  const [bankInfo, setBankInfo] = useState({
-    bankName: "HOKKAIDO SHINKIN BANK", //Jucho (kc)  : HOKKAIDO SHINKIN BANK
-    branchName: "108", //058 - 〇五八 (Kanji) - ゼロゴハチ (Katakana) : 108
-    accountType: "Current", //(Futsuu) current/general :
-    accountNumber: "4204429", //81712551 : 4204429
-    accountHolder: "イエペツクス", // キム　チ (Katakana) - KIM CHI : イエペツクス
-  });
-
-  // Format the bank information for the QR code
-  const bankInfoText = `
-    Bank Name: ${bankInfo.bankName}
-    Branch Name: ${bankInfo.branchName}
-    Account Type: ${bankInfo.accountType}
-    Account Number: ${bankInfo.accountNumber}
-    Account Holder Name: ${bankInfo.accountHolder}
-  `;
-
-  return (
-    <div style={{ textAlign: "center" }}>
-      <h2>Bank Account QR Code</h2>
-      <QRCodeCanvas value={bankInfoText.trim()} size={200} />
-      {/* Alternatively, use <QRCodeSVG value={bankInfoText.trim()} size={200} /> */}
-      <p>Scan to get bank details</p>
-    </div>
-  );
-};
-
-export default BankQRCode;
-=======
-import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+const stripePromise = loadStripe(
+  "pk_test_51PxUfQRppoFEICbDuJs0UimX2Fo5mR0ZvIMlEkH1PTC1FJpySFQoAdxT7SLCFCbgFIECqrFlPktTwqH2KtDmOaUf000fsvrLrb"
+);
 
 export default function Testing() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const CheckoutForm = ({ clientSecret }) => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [paymentStatus, setPaymentStatus] = useState("");
 
-  // Function to handle login
-  const loginUser = () => {
-    // For example purposes, assume token is '12345abcde'
-    const token = "12345abcde";
-    Cookies.set("urs_login_token_key", token, { expires: 1, path: "/" });
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+
+      if (!stripe || !elements) {
+        return; // Stripe.js has not loaded yet
+      }
+
+      const cardElement = elements.getElement(CardElement);
+
+      // Confirm the payment with Stripe using the clientSecret
+      const { paymentIntent, error } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+          },
+        }
+      );
+
+      if (error) {
+        setPaymentStatus(`Payment failed: ${error.message}`);
+      } else if (paymentIntent.status === "succeeded") {
+        setPaymentStatus("Payment succeeded!");
+      }
+    };
+
+    return (
+      <form onSubmit={handleSubmit}>
+        <CardElement />
+        <button type="submit" disabled={!stripe}>
+          Pay
+        </button>
+        <p>{paymentStatus}</p>
+      </form>
+    );
   };
 
-  // Function to handle logout
-  const logoutUser = () => {
-    Cookies.remove("urs_login_token_key");
-  };
+  const [clientSecret, setClientSecret] = useState("");
+  const [orderValue, setOrderValue] = useState(0);
 
-  // Check if user is authenticated when component mounts
-  useEffect(() => {
-    const token = Cookies.get("urs_login_token_key");
-    setIsAuthenticated(!!token);
-  }, []);
+  const handleCreateTransaction = (amount) => {
+    fetch(
+      "https://ccglove-web-api.onrender.com/api/payments/create-payment-intent",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount }), // Only need to send amount
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  };
 
   return (
-    <div>
-      <h1>{isAuthenticated ? "Welcome, User!" : "Please log in"}</h1>
-      {!isAuthenticated ? (
-        <button onClick={loginUser}>Login</button>
-      ) : (
-        <button onClick={logoutUser}>Logout</button>
-      )}
-    </div>
+    <Elements stripe={stripePromise}>
+      <div>
+        <input
+          value={orderValue}
+          onChange={(e) => setOrderValue(e.target.value)}
+        />
+        <button onClick={() => handleCreateTransaction(orderValue)}>
+          Submit now
+        </button>
+      </div>
+      {clientSecret && <CheckoutForm clientSecret={clientSecret} />}
+    </Elements>
   );
 }
->>>>>>> d575be95c60d813898905f0287416ac1e568a54a
