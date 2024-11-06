@@ -1,10 +1,12 @@
-import "./App.css";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
 } from "react-router-dom";
+import Cookies from "js-cookie";
+import "./App.css";
 import "./assets/sass/shareStyle.scss";
 import HomePage from "./components/HomePage";
 import NotFoundPage from "./components/NotFoundPage";
@@ -26,16 +28,16 @@ import AdminPage from "./components/Management/AdminPage";
 import StaffPage from "./components/Management/StaffPage";
 import LoginPage from "./components/Management/LoginPage";
 import HistoryPage from "./components/HistoryPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 const Layout = ({ children }) => {
   const location = useLocation();
 
-  // Conditionally render Navbar and Footer
   const showLayout =
     location.pathname !== "/completed" &&
     location.pathname !== "/loginPage" &&
     location.pathname !== "/adminPage" &&
-    location.pathname !== "/staffPage"; // Update the condition based on your 404 path
+    location.pathname !== "/staffPage";
 
   return (
     <>
@@ -69,8 +71,14 @@ function App() {
           <Route path="/paymentOrder" element={<PaymentOrder />} />
           {/* MANAGEMENT */}
           <Route path="/loginPage" element={<LoginPage />} />
-          <Route path="/adminPage" element={<AdminPage />} />
-          <Route path="/staffPage" element={<StaffPage />} />
+          <Route
+            path="/adminPage"
+            element={<ProtectedRoute element={<AdminPage />} />}
+          />
+          <Route
+            path="/staffPage"
+            element={<ProtectedRoute element={<StaffPage />} />}
+          />
           {/* Fallback route for 404 */}
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/testing" element={<Testing />} />

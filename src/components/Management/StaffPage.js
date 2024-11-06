@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
+import useAuth from "../../useAuth";
 import "../../assets/sass/management/manageShareStyle.scss";
 import "../../assets/sass/management/staffStyle.scss";
 import {
@@ -20,6 +21,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function StaffPage() {
   const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
+  const { isAuthenticated, logout } = useAuth();
+
   const now = new Date();
   const date = now.toLocaleDateString();
 
@@ -319,7 +322,10 @@ export default function StaffPage() {
               </div>
               <div
                 className="btn logout"
-                onClick={() => navigateToPage("/loginPage")}
+                onClick={() => {
+                  logout();
+                  navigateToPage("/loginPage");
+                }}
               >
                 ok
               </div>

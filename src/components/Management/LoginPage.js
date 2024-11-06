@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
 import "../../assets/sass/management/loginStyle.scss";
+import Cookies from "js-cookie";
 
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { dbTimeSheet } from "../../firebase";
@@ -14,7 +15,6 @@ export default function LoginPage() {
   const [err, setErr] = useState("");
   const [isSaved, setIsSaved] = useState(false);
   const [isAlreadySaved, setIsAlreadySaved] = useState(false);
-  const [isAlert, setIsAlert] = useState(false);
 
   useEffect(() => {
     const loadSavedInfo = JSON.parse(localStorage.getItem("cfxo6u7xp5"));
@@ -24,6 +24,27 @@ export default function LoginPage() {
       setPassword(loadSavedInfo.password);
     }
   }, []);
+
+  const generateRandomToken = (length) => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+    let token = "";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      token += characters[randomIndex];
+    }
+
+    return token;
+  };
+
+  const loginUserWithCookies = () => {
+    // For example purposes, assume token is '12345abcde'
+    Cookies.set("urs_login_token_key", generateRandomToken(32), {
+      expires: 1,
+      path: "/",
+    });
+  };
 
   const handleLogin = async (userEmail, userPassword) => {
     try {
@@ -54,11 +75,13 @@ export default function LoginPage() {
       // Handle querySnapshot data here
       querySnapshot.forEach((doc) => {
         if (doc.data().role === "admin") {
+          loginUserWithCookies();
           navigateToPage("/adminPage", {
             userId: doc.data().id,
             userName: doc.data().userName,
           });
         } else {
+          loginUserWithCookies();
           navigateToPage("/staffPage", {
             userId: doc.data().id,
             userName: doc.data().userName,

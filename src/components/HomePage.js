@@ -1,5 +1,5 @@
 // HomePage.jsx
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import usePageNavigation from "../uesPageNavigation"; // Corrected import path
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
@@ -16,6 +16,10 @@ import emailjs from "@emailjs/browser";
 
 function HomePage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
+<<<<<<< HEAD
+=======
+
+>>>>>>> d575be95c60d813898905f0287416ac1e568a54a
   const [userEmail, setuserEmail] = useState("");
   const [isSent, setIsSent] = useState(false);
 
