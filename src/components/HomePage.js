@@ -6,7 +6,6 @@ import "../assets/sass/homeStyle.scss";
 import Bloom from "../assets/images/broom.png";
 import Spray from "../assets/images/spray.png";
 import Shining from "../assets/images/shining.png";
-import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   FaCalendarCheck,
   FaClock,
@@ -17,8 +16,6 @@ import emailjs from "@emailjs/browser";
 
 function HomePage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
-  const ref = useRef(null);
-  const isInView = useInView(ref, { triggerOnce: true });
   const [userEmail, setuserEmail] = useState("");
   const [isSent, setIsSent] = useState(false);
 
@@ -96,10 +93,6 @@ function HomePage() {
     <div className="home__container">
       <div className="home__headline">
         <img
-          ref={ref}
-          animate={isInView ? { opacity: 1, x: -50 } : { opacity: 0, x: 0 }}
-          initial={{ opacity: 0, x: 0 }}
-          transition={{ duration: 1, ease: "easeInOut" }}
           className="home__headline_image"
           src="https://res.cloudinary.com/dovp2f63c/image/upload/v1730108189/geaeaj3jr7jfxjsrniyp.jpg"
           alt="cleaing"
@@ -107,7 +100,7 @@ function HomePage() {
         <div className="home__headline_title">
           <div className="slogan">
             We are here for your
-            <span className="slogan__hightlight"> cleaning time!</span>
+            <span className="slogan__hightlight"> cleaning needs!</span>
           </div>
           <div className="sub__slogan small__text">
             Let us handle the cleaning while you enjoy more time <br /> for what
@@ -125,11 +118,11 @@ function HomePage() {
       </div>
       <div className="home__box home__box_row">
         <div className="box__content colored">
-          <div className="box__title">Who we are</div>
+          <div className="box__title">Why Choose Us</div>
           <div className="box__value">
             <div className="value__item small__text">
               We specialize in thorough, detailed cleaning that goes beyond the
-              surface, giving you peace of mind and a fresh, hygienic space
+              surface. Giving you peace of mind and a fresh, hygienic space
             </div>
             <div className="value__item small__text">
               Our dedicated team uses eco-friendly products and modern
@@ -167,8 +160,8 @@ function HomePage() {
           </div>
           <div className="box__value">
             <div className="value__item">
-              We offer a variety of services, including hourly rentals, daily
-              rentals, or a customizable option to best suit your needs.
+              We offer a range of services, including year-round, daily, and
+              hourly cleaning, to ensure the perfect fit for your needs.
             </div>
           </div>
         </div>
@@ -181,12 +174,12 @@ function HomePage() {
               </div>
               <div className="service_content">
                 <div className="content__slogan">
-                  Quick and efficient cleaning
+                  Quick and efficient cleaning by the hour.
                 </div>
                 <div className="content__value">
-                  Perfect for a quick, efficient clean! Our 'Hire in Hours'
-                  service is ideal for small spaces or quick touch-ups. Book our
-                  cleaners by the hour for a hassle-free experience
+                  Perfect for small spaces, specific areas, or quick
+                  touch-ups—book our professional cleaners by the hour to get
+                  the job done without any hassle.
                 </div>
               </div>
               <div
@@ -227,30 +220,30 @@ function HomePage() {
             <div className="service">
               <div className="service_headline">
                 <FaToolbox className="headline__icon" />
-                <div className="headline__text">Hire with Custom Service</div>
+                <div className="headline__text">Year-round/Custom Service</div>
               </div>
               <div className="service_content">
                 <div className="content__slogan">
-                  Choose from specialized services
+                  Tell us what you need, we’ll deliver our best.
                 </div>
                 <div className="content__value">
-                  Our goal is to simplify your life by offering you the most
-                  relevant and helpful information for everything you could ever
-                  need.
+                  We also offer a year-round cleaning service designed to
+                  maintain a pristine and inviting atmosphere in your space all
+                  year long.
                 </div>
               </div>
               <div
                 className="service__btn"
                 onClick={() => navigateToPage("/order/customOrder")}
               >
-                <div>Explor more</div>
+                <div>Customize your services</div>
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="home__box">
+      {/* <div className="home__box">
         <div className="box__content colored">
           <div className="box__title">Why Choose Us</div>
           <div className="box__value">
@@ -312,7 +305,7 @@ function HomePage() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="home__box colored home__box_row">
         <div className="box__content">
           <div className="box__title">

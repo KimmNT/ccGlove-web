@@ -508,6 +508,19 @@ a {
     .footer__info {
       display: flex;
       gap: 2rem;
+      .footer__info_item{
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+        .footer__info_image{
+          width: 15rem;
+          height: 15rem;
+          object-fit: contain;
+          position: absolute;
+          bottom: 5rem;
+          right: -6rem;
+        }
+      }
       .social__icon {
         font-size: 2rem;
         cursor: pointer;

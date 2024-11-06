@@ -122,14 +122,12 @@ function AboutPage() {
       <div className="home__box">
         <div className="box__content">
           {/* <div className="box__title">Who we are</div> */}
-          <div className="box__value">
+          <div className="box__value colored">
             <div className="value__item">
               We specialize in thorough, detailed cleaning that goes beyond the
-              surface, giving you peace of mind and a fresh, hygienic space
-            </div>
-            <div className="value__item">
-              Our dedicated team uses eco-friendly products and modern
-              techniques to deliver a clean you can trust.
+              surface. Giving you peace of mind and a fresh, hygienic space. Our
+              dedicated team uses eco-friendly products and modern techniques to
+              deliver a clean you can trust.
             </div>
           </div>
         </div>
@@ -178,6 +176,16 @@ function AboutPage() {
           </div>
         </div>
       </div>
+      <div className="home__box">
+        <div className="box__content">
+          <div className="box__title box__title_smaller">
+            We have collaborated with numerous clients,
+          </div>
+          <div className="box__title box__title_smaller colored">
+            including Seasons Niseko, Tacito, K-tsuru and many more.
+          </div>
+        </div>
+      </div>
       <div className="home__box" id="services">
         <div className="box__content">
           <div className="box__title">
@@ -186,8 +194,8 @@ function AboutPage() {
           </div>
           <div className="box__value">
             <div className="value__item">
-              We offer a variety of services, including hourly rentals, daily
-              rentals, or a customizable option to best suit your needs.
+              We offer a range of services, including year-round, daily, and
+              hourly cleaning, to ensure the perfect fit for your needs.
             </div>
           </div>
         </div>
@@ -200,12 +208,12 @@ function AboutPage() {
               </div>
               <div className="service_content">
                 <div className="content__slogan">
-                  Quick and efficient cleaning
+                  Quick and efficient cleaning by the hour.
                 </div>
                 <div className="content__value">
-                  Perfect for a quick, efficient clean! Our 'Hire in Hours'
-                  service is ideal for small spaces or quick touch-ups. Book our
-                  cleaners by the hour for a hassle-free experience
+                  Perfect for small spaces, specific areas, or quick
+                  touch-ups—book our professional cleaners by the hour to get
+                  the job done without any hassle.
                 </div>
               </div>
               <div
@@ -246,23 +254,23 @@ function AboutPage() {
             <div className="service">
               <div className="service_headline">
                 <FaToolbox className="headline__icon" />
-                <div className="headline__text">Hire with Custom Service</div>
+                <div className="headline__text">Year-round/Custom Service</div>
               </div>
               <div className="service_content">
                 <div className="content__slogan">
-                  Choose from specialized services
+                  Tell us what you need, we’ll deliver our best.
                 </div>
                 <div className="content__value">
-                  Our goal is to simplify your life by offering you the most
-                  relevant and helpful information for everything you could ever
-                  need.
+                  We also offer a year-round cleaning service designed to
+                  maintain a pristine and inviting atmosphere in your space all
+                  year long.
                 </div>
               </div>
               <div
                 className="service__btn"
                 onClick={() => navigateToPage("/order/customOrder")}
               >
-                <div>Explor more</div>
+                <div>Customize your services</div>
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
             </div>
@@ -337,7 +345,7 @@ function AboutPage() {
           <div className="box__title">What people say</div>
         </div>
         <div className="review__list">
-          {reviews.map((review, index) => (
+          {reviews.slice(0, 6).map((review, index) => (
             <div className="review__item" key={index}>
               <div className="review__info">
                 <div className="info__item review__name">{review.userName}</div>
@@ -399,7 +407,7 @@ function AboutPage() {
             </div>
             <div className="contact__or">OR</div>
             <div className="buy__btn" onClick={() => navigateToPage("/order")}>
-              buy now
+              book now
               <FaLongArrowAltRight className="contact__btn_icon" />
             </div>
           </div>

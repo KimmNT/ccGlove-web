@@ -146,7 +146,9 @@ export default function DayOrder() {
       return;
     }
     if (formattedDateMoment.isSame(currentDay, "day")) {
-      setAlertValue("Sorry we closed! Please choose another day.");
+      setAlertValue(
+        "Sorry, we’re fully booked for today. Please select another day."
+      );
       setIsAlert(true);
       return;
     }

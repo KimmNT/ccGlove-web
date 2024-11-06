@@ -146,6 +146,9 @@ $breakpoint-large: 1200px;
       .box__title {
         font-size: 4rem;
         font-weight: 600;
+        &.box__title_smaller{
+          font-size: 2.5rem;
+        }
       }
       .box__value {
         display: flex;
@@ -292,12 +295,18 @@ $breakpoint-large: 1200px;
           border-radius: 2rem;
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
           gap: 3rem;
           transition: $transition;
           &:hover {
             transition: $transition;
             background-color: $primary;
             color: $light;
+            .service_content{
+              .content__value{
+                display: block;
+              }
+            }
           }
           .service_headline {
             display: flex;
@@ -318,9 +327,9 @@ $breakpoint-large: 1200px;
             gap: 1rem;
             width: 100%;
             .content__slogan {
-              font-size: 1.8rem;
-              font-weight: 600;
+              font-size: 1.5rem;
               display: flex;
+              font-weight: 600;
             }
             .content__value {
               line-height: 3rem;

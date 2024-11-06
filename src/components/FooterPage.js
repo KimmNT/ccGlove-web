@@ -1,21 +1,13 @@
-import { useEffect, useState } from "react";
-import usePageNavigation from "../uesPageNavigation"; // Corrected import path
 import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
-import LogoPage from "./LogoPage";
-import Bloom from "../assets/images/broom.png";
-import Spray from "../assets/images/spray.png";
-import Shining from "../assets/images/shining.png";
-import Cleaning1 from "../assets/images/cleaning1.jpg";
-import Cleaning2 from "../assets/images/cleaning2.jpg";
-import Cleaning3 from "../assets/images/cleaning3.jpg";
-import Cleaning4 from "../assets/images/cleaning4.jpg";
-import Cleaning5 from "../assets/images/sheduling.jpg";
 import { FaAndroid, FaApple, FaInstagram } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io5";
 import { FaLine } from "react-icons/fa";
+import LineQRCode from "../assets/images/line_qrcode.jpeg";
+import { useState } from "react";
 
 export default function FooterPage() {
+  const [isLineClicked, setIsLineClicked] = useState(false);
   return (
     <div className="footer__container">
       <div className="footer__content">
@@ -24,12 +16,24 @@ export default function FooterPage() {
           <a href="https://www.instagram.com/ccgniseko/" target="_blank">
             <FaInstagram className="social__icon instagram" />
           </a>
-          <a href="https://wa.me/qr/FTONB2SAVSF3O1/" target="_blank">
+          <a
+            href="https://api.whatsapp.com/send/?phone=817039650906&text&type=phone_number&app_absent=0"
+            target="_blank"
+          >
             <IoLogoWhatsapp className="social__icon instagram" />
           </a>
-          <a href="https://line.me/ti/p/UrMJR91o61" target="_blank">
-            <FaLine className="social__icon instagram" />
-          </a>
+          <div className="footer__info_item">
+            {isLineClicked && (
+              <img
+                src={LineQRCode}
+                alt="line__qrcode"
+                className="footer__info_image"
+              />
+            )}
+            <div onClick={() => setIsLineClicked(!isLineClicked)}>
+              <FaLine className="social__icon instagram" />
+            </div>
+          </div>
           <FaAndroid className="social__icon android" />
           <FaApple className="social__icon ios" />
         </div>
@@ -37,7 +41,9 @@ export default function FooterPage() {
       <div className="footer__rights_container">
         <div className="footer__rights">@jk</div>
         <div className="footer__rights">ccgloves@ccgniseko.com</div>
-        <div className="footer__rights">Policy</div>
+        <a href="https://google.com" target="_blank" className="footer__rights">
+          Private and Policy
+        </a>
         <div className="footer__rights">All rights reserved</div>
       </div>
     </div>

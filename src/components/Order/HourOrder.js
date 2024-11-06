@@ -92,7 +92,9 @@ export default function HourOrder() {
           moment(working.selectedDate).isSame(currentDay, "day") &&
           currentTime.getHours() >= 19
         ) {
-          setAlertValue("Sorry we closed! Please choose another day.");
+          setAlertValue(
+            "Sorry, we’re fully booked for today. Please select another day."
+          );
           setStartTime(0);
           setIsAlert(true);
         } else {
@@ -120,7 +122,9 @@ export default function HourOrder() {
     } else {
       setIsAlert(true);
       setStartTime(0);
-      setAlertValue("Sorry we closed! Please choose another day.");
+      setAlertValue(
+        "Sorry, we’re fully booked for today. Please select another day."
+      );
       setIsClose(true);
     }
   }, [state]);
@@ -163,7 +167,9 @@ export default function HourOrder() {
       setIsClose(true);
     }
     if (selectedDay.isSame(currentDay, "day") && currentTime.getHours() >= 16) {
-      setAlertValue("Sorry we closed! Please choose another day.");
+      setAlertValue(
+        "Sorry, we’re fully booked for today. Please select another day."
+      );
       setStartTime(0);
       setIsAlert(true);
       setIsClose(true);
