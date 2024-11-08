@@ -41,7 +41,7 @@ export default function ContactPage() {
           setuserEmail("");
           setUserMessage("");
           setUserName("");
-          setUserPhone(0);
+          setUserPhone("");
         },
         (error) => {
           console.log("FAILED...", error.text);
@@ -143,9 +143,7 @@ export default function ContactPage() {
                 </div>
                 <div className="contact__info_item">
                   <div className="contact__info_title">Email</div>
-                  <div className="contact__info_value">
-                    ccsupport@ccgniseko.com
-                  </div>
+                  <div className="contact__info_value">info@ccgniseko.com</div>
                 </div>
               </div>
             </div>
