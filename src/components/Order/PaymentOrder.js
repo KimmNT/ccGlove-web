@@ -7,6 +7,10 @@ import { FaArrowLeft } from "react-icons/fa";
 import "react-calendar/dist/Calendar.css";
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CryptoJS from "crypto-js";
+import CheckoutFromStripe from "./CheckoutFromStripe";
 
 export default function PaymentOrder() {
   const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
@@ -16,22 +20,12 @@ export default function PaymentOrder() {
   const [alertValue, setAlertValue] = useState("");
   const [isSaved, setIsSaved] = useState(false);
   const [paymentCount, setPaymentCount] = useState(0);
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardExpYear, setCardExpYear] = useState(0);
-  const [cardExpMonth, setCardExpMonth] = useState(0);
-  const [cardCVC, setCardCVC] = useState(0);
+
+  const [isStripePromise, setIsStripePromise] = useState(null);
 
   useEffect(() => {
     setPaymentCount(state.paymentCount);
-    const loadSavedInfo = JSON.parse(localStorage.getItem("qqw6rtpl"));
-    if (loadSavedInfo !== null) {
-      setCardNumber(loadSavedInfo.cardNumber);
-      setCardCVC(loadSavedInfo.cardCVC);
-      setCardExpMonth(loadSavedInfo.cardExpMonth);
-      setCardExpYear(loadSavedInfo.cardExpYear);
-      setAlertValue(true);
-    }
-
+    fetchAndDecryptKey();
     window.scrollTo({
       top: 0, // Scroll to the top
       behavior: "smooth", // Smooth scrolling transition
@@ -46,78 +40,22 @@ export default function PaymentOrder() {
     return () => window.removeEventListener("scroll", checkIfAtTop);
   }, []);
 
-  // Luhn Algorithm for card number validation
-  function validateCardNumber(cardNumber) {
-    const regex = /^\d{13,19}$/; // 13 to 19 digits
-    if (!regex.test(cardNumber)) {
-      return false;
-    }
+  const decryptKey = (encryptedKey) => {
+    const bytes = CryptoJS.AES.decrypt(
+      encryptedKey,
+      "egx8c9rbtz5q73klfdmn4w10hvoip6"
+    );
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
 
-    let sum = 0;
-    let shouldDouble = false;
-    for (let i = cardNumber.length - 1; i >= 0; i--) {
-      let digit = parseInt(cardNumber[i]);
-
-      if (shouldDouble) {
-        digit *= 2;
-        if (digit > 9) digit -= 9;
-      }
-
-      sum += digit;
-      shouldDouble = !shouldDouble;
-    }
-
-    return sum % 10 === 0;
-  }
-
-  // Validate CVC
-  function validateCVC(cardCVC, cardNumber) {
-    const amexRegex = /^3[47]/; // American Express starts with 34 or 37
-    if (amexRegex.test(cardNumber)) {
-      return /^\d{4}$/.test(cardCVC); // Amex has a 4-digit CVC
-    } else {
-      return /^\d{3}$/.test(cardCVC); // Others have a 3-digit CVC
-    }
-  }
-
-  // Validate Expiration Date
-  function validateExpiryDate(cardExpMonth, cardExpYear) {
-    // Ensure month is valid
-    if (cardExpMonth < 1 || cardExpMonth > 12) {
-      return false;
-    }
-
-    // Combine year and month into a comparable format
-    const expDate = new Date(`20${cardExpYear}`, cardExpMonth - 1);
-    const today = new Date();
-
-    return expDate > today;
-  }
-
-  function formatCardNumber(number) {
-    const numStr = number.toString();
-    let formatted = "";
-
-    if (/^3[47]/.test(numStr)) {
-      // American Express (15 digits, format: xxxx xxxxxx xxxxx)
-      formatted = numStr.replace(/(\d{4})(\d{6})(\d{5})/, "$1 $2 $3");
-    } else if (/^3(?:0[0-5]|[68])/.test(numStr)) {
-      // Diners Club (14 digits, format: xxxx xxxxxx xxxx)
-      formatted = numStr.replace(/(\d{4})(\d{6})(\d{4})/, "$1 $2 $3");
-    } else if (
-      /^4/.test(numStr) ||
-      /^5[1-5]/.test(numStr) ||
-      /^6/.test(numStr)
-    ) {
-      // Visa, MasterCard, Discover (16 digits, format: xxxx xxxx xxxx xxxx)
-      formatted = numStr.replace(/(\d{4})(\d{4})(\d{4})(\d{4})/, "$1 $2 $3 $4");
-    } else {
-      // Default case: Format as groups of 4 digits (for unknown lengths)
-      formatted = numStr.replace(/(\d{4})(?=\d)/g, "$1 ");
-    }
-
-    return formatted.trim();
-  }
+  const fetchAndDecryptKey = async () => {
+    const response = await fetch(
+      "https://ccglove-web-api.onrender.com/api/get-publish-key"
+    );
+    const data = await response.json();
+    const stripePromise = loadStripe(decryptKey(data.encryptedKey));
+    setIsStripePromise(stripePromise);
+  };
 
   const checkIfAtTop = () => {
     if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
@@ -149,195 +87,128 @@ export default function PaymentOrder() {
       },
     });
   };
+  // const handleNavigate = async () => {
+  //   const now = new Date();
+  //   const date = now.toLocaleDateString(); // e.g., '8/5/2024'
+  //   const time = now.toLocaleTimeString(); // e.g., '3:45:30 PM'
 
-  const handleNavigate = async () => {
-    let isValid = true; // Track if all validations pass
-    let alertMessage = "";
-
-    // Check if any field is empty
-    if (
-      cardNumber === "" ||
-      cardCVC === 0 ||
-      cardExpYear === 0 ||
-      cardExpMonth === 0
-    ) {
-      alertMessage = "Please fill in your card information.";
-      isValid = false;
-    }
-    // Validate card number
-    if (!validateCardNumber(cardNumber)) {
-      alertMessage =
-        "Incorrect card information, please double-check your card details.";
-      isValid = false;
-    }
-
-    // Validate CVC
-    if (!validateCVC(cardCVC, cardNumber)) {
-      alertMessage =
-        "Incorrect card information, please double-check your card details.";
-      isValid = false;
-    }
-
-    // Validate expiration date
-    if (!validateExpiryDate(cardExpMonth, cardExpYear)) {
-      alertMessage =
-        "Incorrect card information, please double-check your card details.";
-      isValid = false;
-    }
-
-    // If validation failed, set alert
-    if (!isValid) {
-      setIsAlert(true);
-      setAlertValue(alertMessage);
-    } else {
-      const now = new Date();
-      const date = now.toLocaleDateString(); // e.g., '8/5/2024'
-      const time = now.toLocaleTimeString(); // e.g., '3:45:30 PM'
-
-      await addDoc(collection(db, "orderList"), {
-        id: state.orderID,
-        type: state.orderType,
-        user: {
-          userFirstName: state.userInfo.firstName,
-          userLastName: state.userInfo.lastName,
-          userEmail: state.userInfo.email,
-          userPhone: state.userInfo.phone,
-          userAddress: `${state.userInfo.addDetail}, ${state.userInfo.district}, ${state.userInfo.city}, ${state.userInfo.prefecture}`,
-          userPostCode: state.userInfo.postCode,
-        },
-        status: 0,
-        payment: {
-          // paymentState: 0,
-          paymentOption: 1,
-          paymentNumer: cardNumber,
-          paymentCVV: cardCVC,
-          paymentDate: `${cardExpMonth}/${cardExpYear}`,
-        },
-        workingTime: state.workingTime,
-        total: state.paymentCount,
-        created: {
-          date: date,
-          time: time,
-        },
-        working: {
-          date: "",
-          time: "",
-        },
-        completed: {
-          date: "",
-          time: "",
-        },
-        ratingState: 0,
-        belongTo: {
-          empId: "",
-          empName: "",
-        },
-        describe: "",
-      });
-      if (
-        state.discountInfo.discountID !== "" &&
-        state.discountInfo.discountReuse === 0
-      ) {
-        //Remove discount code
-        await deleteDoc(doc(db, "discountList", state.discountInfo.discountID));
-      }
-      if (isSaved) {
-        const saveInfo = {
-          cardNumber: cardNumber,
-          cardCVC: cardCVC,
-          cardExpMonth: cardExpMonth,
-          cardExpYear: cardExpYear,
-        };
-        await localStorage.setItem("qqw6rtpl", JSON.stringify(saveInfo));
-      }
-      navigateToPage("/completed", {
-        orderID: state.orderID,
-        from: "paymentOrder",
-      });
-    }
-  };
+  //   await addDoc(collection(db, "orderList"), {
+  //     id: state.orderID,
+  //     type: state.orderType,
+  //     user: {
+  //       userFirstName: state.userInfo.firstName,
+  //       userLastName: state.userInfo.lastName,
+  //       userEmail: state.userInfo.email,
+  //       userPhone: state.userInfo.phone,
+  //       userAddress: `${state.userInfo.addDetail}, ${state.userInfo.district}, ${state.userInfo.city}, ${state.userInfo.prefecture}`,
+  //       userPostCode: state.userInfo.postCode,
+  //     },
+  //     status: 0,
+  //     payment: {
+  //       paymentOption: 1,
+  //       paymentNumer: 0,
+  //       paymentCVV: 0,
+  //       paymentDate: 0,
+  //     },
+  //     workingTime: state.workingTime,
+  //     total: state.paymentCount,
+  //     created: {
+  //       date: date,
+  //       time: time,
+  //     },
+  //     working: {
+  //       date: "",
+  //       time: "",
+  //     },
+  //     completed: {
+  //       date: "",
+  //       time: "",
+  //     },
+  //     ratingState: 0,
+  //     belongTo: {
+  //       empId: "",
+  //       empName: "",
+  //     },
+  //     describe: "",
+  //   });
+  //   if (
+  //     state.discountInfo.discountID !== "" &&
+  //     state.discountInfo.discountReuse === 0
+  //   ) {
+  //     //Remove discount code
+  //     await deleteDoc(doc(db, "discountList", state.discountInfo.discountID));
+  //   }
+  //   navigateToPage("/completed", {
+  //     orderID: state.orderID,
+  //     from: "paymentOrder",
+  //   });
+  // };
 
   const formatNumber = (number) => {
     return number.toLocaleString();
   };
+  const getServiceType = (type) => {
+    switch (type) {
+      case 0:
+        return "Hourly Service";
+      case 1:
+        return "Daily Service";
+      case 2:
+        return "Custom Service";
+      default:
+        return "";
+    }
+  };
 
   return (
-    <div className="payment__container">
-      <div className={`page__headline ${isOnTop && `onTop`}`}>
-        <div
-          className="page__headline_icon_container"
-          onClick={handleNavigateBack}
-        >
-          <FaArrowLeft className="page__headline_icon" />
+    <Elements stripe={isStripePromise}>
+      <div className="payment__container">
+        <div className={`page__headline ${isOnTop && `onTop`}`}>
+          <div
+            className="page__headline_icon_container"
+            onClick={handleNavigateBack}
+          >
+            <FaArrowLeft className="page__headline_icon" />
+          </div>
+          <div className="page__headline_title">Check Out</div>
         </div>
-        <div className="page__headline_title">Check Out</div>
-      </div>
-      <div className="payment__content">
-        <div className="payment__atm">
-          <div className="atm__item full">
-            <div className="atm__item_title">Card number</div>
-            <input
-              placeholder="Card's number"
-              value={formatCardNumber(cardNumber)}
-              onChange={(e) => setCardNumber(e.target.value)}
-            />
+        <div className="payment__content">
+          <div className="payment__info">
+            <div className="payment__info_content">
+              <div className="payment__info_item">
+                <div className="payment__info_item_title">Service:</div>
+                <div className="payment__info_item_value">
+                  {getServiceType(state.orderType)}
+                </div>
+              </div>
+              <div className="payment__info_item">
+                <div className="payment__info_item_title highlight">Total:</div>
+                <div className="payment__info_item_value highlight">
+                  {formatNumber(paymentCount)}¥
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="atm__item half">
-            <div className="atm__item_title">CVC</div>
-            <input
-              className="center"
-              placeholder="CVC"
-              value={cardCVC}
-              onChange={(e) => setCardCVC(e.target.value)}
-            />
-          </div>
-          <div className="atm__item half">
-            <div className="atm__item_title">Expired date</div>
-            <div className="input__group">
-              <input
-                className="center"
-                placeholder="MM"
-                value={cardExpMonth}
-                onChange={(e) => setCardExpMonth(e.target.value)}
+          <div className="payment__atm">
+            {state.clientSecret && (
+              <CheckoutFromStripe
+                clientSecret={state.clientSecret}
+                stateValue={state}
               />
-              /
-              <input
-                className="center"
-                placeholder="YY"
-                value={cardExpYear}
-                onChange={(e) => setCardExpYear(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="payment__saved">
-            <div
-              onClick={() => setIsSaved(!isSaved)}
-              className={`payment__saved_checkbox ${isSaved && `saved`}`}
-            ></div>
-            <div className="payment__saved_value">Save for future use</div>
+            )}
           </div>
         </div>
-        <div className="payment__info">
-          <div className="payment__total">
-            Total: {formatNumber(paymentCount)}¥
-          </div>
-          <div className="order__payment one__item_row">
-            <div onClick={handleNavigate} className="order__payment_value">
-              finish your order
+        {isAlert && (
+          <div className="pop__container">
+            <div className="pop__content">
+              <div className="pop__alert">{alertValue}</div>
+              <div className="pop__close" onClick={() => setIsAlert(false)}>
+                close
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
-      {isAlert && (
-        <div className="pop__container">
-          <div className="pop__content">
-            <div className="pop__alert">{alertValue}</div>
-            <div className="pop__close" onClick={() => setIsAlert(false)}>
-              close
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+    </Elements>
   );
 }

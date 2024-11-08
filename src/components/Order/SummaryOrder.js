@@ -26,6 +26,7 @@ export default function SummaryOrder() {
   const [discountString, setDiscountString] = useState("");
   const [discountID, setDiscountID] = useState("");
   const [discountReuse, setDiscountReuse] = useState(0);
+  const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
     setPaymentCount(state.paymentCount);
@@ -185,13 +186,29 @@ export default function SummaryOrder() {
   };
 
   const handleNavigate = async () => {
+    const paymentValue = (
+      paymentCount +
+      paymentCount * 0.1 -
+      (paymentCount + paymentCount * 0.1) * (discountResult / 100)
+    ).toFixed(0);
+
+    const response = await fetch(
+      `https://ccglove-web-api.onrender.com/api/payments/create-payment-intent`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: paymentValue }),
+      }
+    );
+
+    const data = await response.json();
+    const clientSecret = data.clientSecret;
+
+    // Navigate only after retrieving the clientSecret
     navigateToPage("/paymentOrder", {
       moveFrom: state.moveFrom,
       orderType: state.orderType,
-      paymentCount:
-        paymentCount +
-        paymentCount * 0.1 -
-        (paymentCount + paymentCount * 0.1) * (discountResult / 100),
+      paymentCount: paymentValue,
       discountInfo: {
         discountID: discountID,
         discountResult: discountResult,
@@ -201,6 +218,7 @@ export default function SummaryOrder() {
       userInfo: state.userInfo,
       workingTime: state.workingTime,
       orderID: orderId,
+      clientSecret: clientSecret, // Pass the clientSecret here
     });
   };
 

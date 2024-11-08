@@ -30,15 +30,15 @@ export default function OrderPage() {
         </div>
       </div>
       <div className="home__box" id="services">
-        <div className="box__content colored">
+        <div className="box__content">
           <div className="box__title">
             What we offer{" "}
             <img src={Bloom} alt="bloom" className="small__image" />
           </div>
           <div className="box__value">
             <div className="value__item">
-              We offer a variety of services, including hourly rentals, daily
-              rentals, or a customizable option to best suit your needs.
+              We offer a range of services, including year-round, daily, and
+              hourly cleaning, to ensure the perfect fit for your needs.
             </div>
           </div>
         </div>
@@ -51,12 +51,12 @@ export default function OrderPage() {
               </div>
               <div className="service_content">
                 <div className="content__slogan">
-                  Quick and efficient cleaning
+                  Quick and efficient cleaning by the hour.
                 </div>
                 <div className="content__value">
-                  Perfect for a quick, efficient clean! Our 'Hire in Hours'
-                  service is ideal for small spaces or quick touch-ups. Book our
-                  cleaners by the hour for a hassle-free experience
+                  Perfect for small spaces, specific areas, or quick
+                  touch-ups—book our professional cleaners by the hour to get
+                  the job done without any hassle.
                 </div>
               </div>
               <div
@@ -97,23 +97,23 @@ export default function OrderPage() {
             <div className="service">
               <div className="service_headline">
                 <FaToolbox className="headline__icon" />
-                <div className="headline__text">Hire with Custom Service</div>
+                <div className="headline__text">Year-round/Custom Service</div>
               </div>
               <div className="service_content">
                 <div className="content__slogan">
-                  Choose from specialized services
+                  Tell us what you need, we’ll deliver our best.
                 </div>
                 <div className="content__value">
-                  Our goal is to simplify your life by offering you the most
-                  relevant and helpful information for everything you could ever
-                  need.
+                  We also offer a year-round cleaning service designed to
+                  maintain a pristine and inviting atmosphere in your space all
+                  year long.
                 </div>
               </div>
               <div
                 className="service__btn"
                 onClick={() => navigateToPage("/order/customOrder")}
               >
-                <div>Explor more</div>
+                <div>Customize your services</div>
                 <FaLongArrowAltRight className="service__btn_icon" />
               </div>
             </div>

@@ -1,0 +1,89 @@
+//COLORES
+$primary: #141e46;
+$btnColor: #f0eeed;
+$bgColor: #ededed;
+$softRed: #f45050;
+$softYellow: #ffc861;
+$dark: #000;
+$light: #fff;
+$softGrey: #d3d3d3;
+$darkGreen: #1b5e20;
+$darkGrey: #b7b7b7;
+// Define colors
+$color-1: #fcd35e;
+$color-2: #e16c94;
+$color-3: #7e4eb0;
+$color-4: #2d3162;
+
+//VARIABLE
+$boxShadow: 0px 5px 10px rgb(163, 163, 163);
+$transition: all ease-in-out 0.2s;
+
+$breakpoint-small: 768px;
+$breakpoint-medium: 990px;
+$breakpoint-large: 1200px;
+
+@font-face {
+  font-family: FiraSan;
+  src: url(../fonts/FiraSans-Regular.ttf);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: "FiraSan";
+  scroll-behavior: smooth;
+}
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+a {
+  text-decoration: none;
+}
+
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 100%;
+    gap: 5rem;
+    .card-element-row{
+        width: 100%;
+        .card-element {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          }
+    }
+  
+  .pay-button {
+    background-color: $softYellow;
+    color: $dark;
+    padding: 1rem;
+    border: none;
+    border-radius: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    &:disabled{
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+  
+  .payment-status {
+    color: $softRed;
+    font-weight: 600;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  }
