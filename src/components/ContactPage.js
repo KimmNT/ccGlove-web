@@ -139,7 +139,7 @@ export default function ContactPage() {
               <div className="contact__info">
                 <div className="contact__info_item">
                   <div className="contact__info_title">Hotline</div>
-                  <div className="contact__info_value">07 039 650 906</div>
+                  <div className="contact__info_value">070-3965-0906</div>
                 </div>
                 <div className="contact__info_item">
                   <div className="contact__info_title">Email</div>

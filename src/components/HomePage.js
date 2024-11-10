@@ -129,6 +129,10 @@ function HomePage() {
               techniques to deliver a clean you can trust.
             </div>
           </div>
+          <div className="box__btn" onClick={() => navigateToPage("/about")}>
+            <div className="box__btn_text">read more</div>
+            <FaLongArrowAltRight className="box__btn_icon" />
+          </div>
         </div>
         <div className="box__images">
           <div className="image__group">

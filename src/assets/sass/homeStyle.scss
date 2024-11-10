@@ -146,7 +146,7 @@ $breakpoint-large: 1200px;
       .box__title {
         font-size: 4rem;
         font-weight: 600;
-        &.box__title_smaller{
+        &.box__title_smaller {
           font-size: 2.5rem;
         }
       }
@@ -161,6 +161,42 @@ $breakpoint-large: 1200px;
           &.text_on_left {
             text-align: left;
           }
+        }
+      }
+      .box__btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 2px solid $light;
+        color: $light;
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        gap: 1rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: $transition;
+        &:hover {
+          transition: $transition;
+          background-color: $softYellow;
+          border: 2px solid $softYellow;
+          .box__btn_text {
+            color: $dark;
+          }
+          .box__btn_icon {
+            transition: $transition;
+            transform: translateX(10px);
+            color: $dark;
+          }
+        }
+
+        .box__btn_text {
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+        .box__btn_icon {
+          transition: $transition;
+          font-size: 2rem;
         }
       }
     }
@@ -302,8 +338,8 @@ $breakpoint-large: 1200px;
             transition: $transition;
             background-color: $primary;
             color: $light;
-            .service_content{
-              .content__value{
+            .service_content {
+              .content__value {
                 display: block;
               }
             }
@@ -384,7 +420,7 @@ $breakpoint-large: 1200px;
           .reason__image {
             width: 80%;
             height: 40rem;
-            object-fit:cover;
+            object-fit: cover;
             border-radius: 1rem;
           }
           .reason__content {

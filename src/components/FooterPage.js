@@ -40,8 +40,12 @@ export default function FooterPage() {
       </div>
       <div className="footer__rights_container">
         <div className="footer__rights">@jk</div>
-        <div className="footer__rights">ccgloves@ccgniseko.com</div>
-        <a href="https://google.com" target="_blank" className="footer__rights">
+        <div className="footer__rights">info@ccgniseko.com</div>
+        <a
+          // href="https://google.com"
+          target="_blank"
+          className="footer__rights link"
+        >
           Private and Policy
         </a>
         <div className="footer__rights">All rights reserved</div>

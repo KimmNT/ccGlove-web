@@ -353,10 +353,10 @@ a {
     padding: 2rem 0;
     gap: 5rem;
     border-radius: 1rem;
-    @media (min-width:$breakpoint-small) {
+    @media (min-width: $breakpoint-small) {
       width: unset;
       padding: 2rem;
-      &.pop__container_larger{
+      &.pop__container_larger {
         width: 40%;
       }
     }
@@ -391,41 +391,41 @@ a {
         font-size: 1.5rem;
       }
     }
-    .pop__list{
+    .pop__list {
       width: 90%;
       display: flex;
       flex-direction: column;
       gap: 3rem;
-      .pop__item{
+      .pop__item {
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        .pop__item_title{
+        .pop__item_title {
           font-size: 1.5rem;
         }
-        .pop__item_value{
+        .pop__item_value {
           width: 20%;
           font-size: 1.5rem;
           font-weight: 600;
         }
-        .pop__item_list{
+        .pop__item_list {
           display: flex;
           align-items: center;
           justify-content: flex-end;
           flex-wrap: wrap;
           gap: 2rem;
-          .pop__item_value{
-            padding: .5rem 0;
-            border-radius: .5rem;
+          .pop__item_value {
+            padding: 0.5rem 0;
+            border-radius: 0.5rem;
             text-align: center;
             cursor: pointer;
             transition: $transition;
-            &:hover{
+            &:hover {
               transition: $transition;
               background-color: $primary;
               color: $light;
             }
-            &.pop__item_value_active{
+            &.pop__item_value_active {
               background-color: $primary;
               color: $light;
             }
@@ -439,12 +439,12 @@ a {
       align-items: center;
       justify-content: space-between;
       // gap: 2rem;
-      .delete{
+      .delete {
         background-color: $softRed;
         border-color: $softRed;
         color: $light;
       }
-      .close{
+      .close {
         background-color: $softYellow;
         border-color: $softYellow;
         color: $dark;
@@ -497,7 +497,7 @@ a {
     flex-direction: column;
     align-items: center;
     gap: 5rem;
-    @media (min-width:$breakpoint-small) {
+    @media (min-width: $breakpoint-small) {
       justify-content: space-between;
       flex-direction: row;
     }
@@ -508,11 +508,11 @@ a {
     .footer__info {
       display: flex;
       gap: 2rem;
-      .footer__info_item{
+      .footer__info_item {
         display: flex;
         align-items: flex-start;
         position: relative;
-        .footer__info_image{
+        .footer__info_image {
           width: 15rem;
           height: 15rem;
           object-fit: contain;
@@ -528,7 +528,7 @@ a {
       }
     }
   }
-  .footer__rights_container{
+  .footer__rights_container {
     width: 100%;
     display: flex;
     align-items: center;
@@ -538,6 +538,10 @@ a {
     .footer__rights {
       font-size: 1.5rem;
       font-weight: 600;
+      &.link {
+        text-decoration: none;
+        color: $dark;
+      }
     }
   }
 }

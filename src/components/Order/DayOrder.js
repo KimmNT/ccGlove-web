@@ -26,22 +26,6 @@ export default function DayOrder() {
   const [isAlert, setIsAlert] = useState(false);
   const [isOnTop, setIsOnTop] = useState(false);
 
-  const durationTime = [
-    { time: 3 },
-    { time: 4 },
-    { time: 5 },
-    { time: 6 },
-    { time: 7 },
-    { time: 8 },
-    { time: 9 },
-    { time: 10 },
-    { time: 11 },
-    { time: 12 },
-    { time: 13 },
-    { time: 14 },
-    { time: 15 },
-  ];
-
   const startTimeArray = [
     {
       time: 7,
@@ -60,33 +44,6 @@ export default function DayOrder() {
     },
     {
       time: 12,
-    },
-  ];
-
-  const holidayArray = [
-    {
-      name: "Testing Day",
-      date: "22/10",
-    },
-    {
-      name: "Christmas Day",
-      date: "25/12",
-    },
-    {
-      name: "Lunar New Year",
-      date: "31/12",
-    },
-    {
-      name: "Lunar New Year",
-      date: "01/01",
-    },
-    {
-      name: "Lunar New Year",
-      date: "02/01",
-    },
-    {
-      name: "Lunar New Year",
-      date: "03/01",
     },
   ];
 
@@ -112,8 +69,8 @@ export default function DayOrder() {
   }, [state]);
 
   useEffect(() => {
-    setPaymentCount(selectedDates.length * 20000 + holidayCount * 7000);
-  }, [holidayCount, selectedDates]);
+    setPaymentCount(selectedDates.length * 20000);
+  }, [selectedDates]);
 
   const checkIfAtTop = () => {
     if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
@@ -123,20 +80,11 @@ export default function DayOrder() {
     }
   };
 
-  const isHoliday = (date) => {
-    const formattedDate = moment(date).format("DD/MM");
-    const holiday = holidayArray.find(
-      (holiday) => holiday.date === formattedDate
-    );
-    return holiday;
-  };
-
   const handleDateChange = (newDate) => {
     const formattedDate = moment(newDate).format("DD/MM/YYYY");
     const currentDay = moment().startOf("day"); // Get current day without time
     const formattedDateMoment = moment(newDate); // Convert selected date to moment object
     const currentTime = new Date();
-    const holiday = isHoliday(newDate);
 
     // Check if selected date is in the past
     if (formattedDateMoment.isBefore(currentDay, "day")) {
@@ -162,19 +110,8 @@ export default function DayOrder() {
           (dateObj) => dateObj.selectedDate !== formattedDate
         )
       );
-      if (holiday) {
-        setHolidayCount((prevCount) => prevCount - 1);
-      }
       setCalendarKey(calendarKey + 1);
     } else {
-      if (holiday) {
-        setIsAlert(true);
-        setAlertValue(
-          `Today is the ${holiday.name}. We will add 1000¥/h to the total invoice for holiday occasions.`
-        );
-        setStartTime(0);
-        setHolidayCount((prevCount) => prevCount + 1);
-      }
       // Otherwise, add the date with custom fields
       setSelectedDates((prevSelectedDates) => {
         const newEntry = {
@@ -272,14 +209,10 @@ export default function DayOrder() {
   };
 
   const handleRemoveDate = (currentDate) => {
-    const holiday = isHoliday(currentDate);
     // If it is already selected, remove it from the array
     setSelectedDates(
       selectedDates.filter((dateObj) => dateObj.selectedDate !== currentDate)
     );
-    if (holiday) {
-      setHolidayCount((prevCount) => prevCount - 1);
-    }
     setCalendarKey(calendarKey + 1);
     setIsPopUp(false);
   };

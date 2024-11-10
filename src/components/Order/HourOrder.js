@@ -41,33 +41,6 @@ export default function HourOrder() {
     { time: 15 },
   ];
 
-  const holidayArray = [
-    {
-      name: "Testing Day",
-      date: "22/10",
-    },
-    {
-      name: "Christmas Day",
-      date: "25/12",
-    },
-    {
-      name: "Lunar New Year",
-      date: "31/12",
-    },
-    {
-      name: "Lunar New Year",
-      date: "01/01",
-    },
-    {
-      name: "Lunar New Year",
-      date: "02/01",
-    },
-    {
-      name: "Lunar New Year",
-      date: "03/01",
-    },
-  ];
-
   useEffect(() => {
     window.scrollTo({
       top: 0, // Scroll to the top
@@ -103,18 +76,6 @@ export default function HourOrder() {
           );
           setStartTime(working.startTime);
           setDuration(working.duration);
-          const holiday = isHoliday(
-            moment(working.selectedDate, "DD/MM/YYYY").toString()
-          );
-          if (holiday) {
-            setIsHolidaySelected(true);
-            setIsAlert(true);
-            setAlertValue(
-              `Today is ${holiday.name}. We will add 1000¥/h to the total invoice for holiday occasions.`
-            );
-          } else {
-            setIsHolidaySelected(false);
-          }
         }
       });
     } else if (getCurrentHour() > 7 && getCurrentHour() < 16) {
@@ -130,12 +91,8 @@ export default function HourOrder() {
   }, [state]);
 
   useEffect(() => {
-    if (isHolidaySelected) {
-      setPaymentCount(duration * 4000);
-    } else {
-      setPaymentCount(duration * 3000);
-    }
-  }, [duration, isHolidaySelected]);
+    setPaymentCount(duration * 3000);
+  }, [duration]);
 
   const checkIfAtTop = () => {
     if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
@@ -143,14 +100,6 @@ export default function HourOrder() {
     } else {
       setIsOnTop(false);
     }
-  };
-
-  const isHoliday = (date) => {
-    const formattedDate = moment(date).format("DD/MM");
-    const holiday = holidayArray.find(
-      (holiday) => holiday.date === formattedDate
-    );
-    return holiday;
   };
 
   const handleDateChange = (newDate) => {
@@ -173,17 +122,6 @@ export default function HourOrder() {
       setStartTime(0);
       setIsAlert(true);
       setIsClose(true);
-    }
-    const holiday = isHoliday(newDate);
-    if (holiday) {
-      setIsHolidaySelected(true);
-      setIsAlert(true);
-      setAlertValue(
-        `Today is ${holiday.name}.We will add 1000¥/h to the total invoice for holiday occasions.`
-      );
-      setStartTime(0);
-    } else {
-      setIsHolidaySelected(false);
     }
   };
 
