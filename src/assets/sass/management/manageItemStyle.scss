@@ -763,14 +763,13 @@ $breakpoint-large: 1200px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    // gap: 10rem;
     width: 50%;
     gap: 5rem;
     &.remove__width {
       width: unset;
     }
     @media (max-width: $breakpoint-large) {
-      width: 80%;
+      // width: 80%;
     }
     .service__headline {
       font-size: 3rem;
@@ -782,18 +781,21 @@ $breakpoint-large: 1200px;
       }
     }
     .service__item {
-      width: 50%;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      border-radius: 0.5rem;
+      background-color: $primary;
       .service__item_box {
-        width: 100%;
+        width: 90%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: $primary;
-        padding: 2rem;
+        padding: 2rem 1rem;
+        // background-color: $primary;
+        // padding: 2rem;
         color: $light;
         .service__item_title {
           font-size: 1.5rem;
@@ -801,6 +803,23 @@ $breakpoint-large: 1200px;
         .service__item_value {
           font-size: 1.5rem;
           font-weight: 600;
+        }
+        .service__item_vertical_line {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          .review__state {
+            color: $light;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            &.active {
+              background-color: $light;
+              color: $dark;
+            }
+          }
         }
       }
     }

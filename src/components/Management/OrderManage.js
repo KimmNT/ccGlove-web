@@ -349,7 +349,7 @@ export default function OrderManage({ data, refresh }) {
         <div className="ordermanage__navbar">
           <div className="ordermanage__search">
             <div className="ordermanage__search_item">
-              <div className="search__title">ID, name, owner...</div>
+              <div className="search__title">ID, user name, staff name...</div>
               <div className="search__content input">
                 <input
                   type="text"
@@ -640,9 +640,8 @@ export default function OrderManage({ data, refresh }) {
               <div className="detail__item_title">Total</div>
               <div className="detail__item_value">{selectedOrder?.total}¥</div>
             </div>
-            <div className="detail__item_break_vertical"></div>
             {/* Payment option */}
-            <div className="detail__item background">
+            {/* <div className="detail__item background">
               <div className="detail__item_title">Payment type</div>
               {selectedOrder?.payment.paymentOption === 1 ? (
                 <>
@@ -664,7 +663,7 @@ export default function OrderManage({ data, refresh }) {
               ) : (
                 <div className="detail__item_value">Cash</div>
               )}
-            </div>
+            </div> */}
           </div>
           <div className="detail__item_break"></div>
           {/* Working time */}
@@ -748,22 +747,38 @@ export default function OrderManage({ data, refresh }) {
           </div>
           {/* Belong to */}
           <div className="detail__box more__on_top">
-            <div
-              className="detail__item half__width"
-              onClick={() => setIsStaff(true)}
-            >
-              {selectedStaff !== "" ? (
-                <>
-                  <div className="detail__item_value owner">
-                    Responsible: {selectedStaff}
+            {selectedOrder?.status === 0 || selectedOrder?.status === 1 ? (
+              <div
+                className="detail__item half__width"
+                onClick={() => setIsStaff(true)}
+              >
+                {selectedStaff !== "" ? (
+                  <>
+                    <div className="detail__item_value owner">
+                      Responsible: {selectedStaff}
+                    </div>
+                  </>
+                ) : (
+                  <div className="detail__item_value">
+                    Not assigned to any staff yet!
                   </div>
-                </>
-              ) : (
-                <div className="detail__item_value">
-                  Not assigned to any staff yet!
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            ) : (
+              <div className="detail__item half__width">
+                {selectedStaff !== "" ? (
+                  <>
+                    <div className="detail__item_value owner">
+                      Responsible: {selectedStaff}
+                    </div>
+                  </>
+                ) : (
+                  <div className="detail__item_value">
+                    Not assigned to any staff yet!
+                  </div>
+                )}
+              </div>
+            )}
             <div className="detail__btn_container">
               <div className="btn delete" onClick={() => setIsDelete(true)}>
                 Delete this order

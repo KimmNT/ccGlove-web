@@ -1,144 +1,147 @@
 //COLORES
-$primary : #141E46;
-$btnColor : #F0EEED;
-$bgColor : #EDEDED;
-$softRed : #F45050;
-$softYellow : #FFC861;
-$dark : #000;
-$light : #FFF;
-$softGrey:#d3d3d3;
+$primary: #141e46;
+$btnColor: #f0eeed;
+$bgColor: #ededed;
+$softRed: #f45050;
+$softYellow: #ffc861;
+$dark: #000;
+$light: #fff;
+$softGrey: #d3d3d3;
 
 //VARIABLE
-$boxShadow:-10px 10px 5px rgb(217, 217, 217);
-$transition: all ease-in-out .2s;
+$boxShadow: -10px 10px 5px rgb(217, 217, 217);
+$transition: all ease-in-out 0.2s;
 
 $breakpoint-small: 600px;
 $breakpoint-medium: 990px;
 $breakpoint-large: 1200px;
 
 @font-face {
-    font-family: FiraSan;
-    src: url(../../fonts/FiraSans-Regular.ttf);
+  font-family: FiraSan;
+  src: url(../../fonts/FiraSans-Regular.ttf);
 }
 
-.admin__container{
-    width: 100%;
-    background-color: $bgColor;
+.admin__container {
+  width: 100%;
+  background-color: $bgColor;
+  position: relative;
+  .admin__headline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 0;
+    max-width: 990px !important;
+    margin: 0 auto;
+    .admin__headline_time {
+      font-size: 3rem;
+      font-weight: 600;
+      color: $dark;
+    }
+    .admin__headline_date {
+      border: 2px solid $primary;
+      color: $light;
+      background-color: $primary;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      border-radius: 1rem;
+    }
+  }
+  .admin__content {
+    // max-width: 990px !important;
+    width: 95%;
+    min-height: 100vh;
+    // margin: 0 auto;
     position: relative;
-    .admin__headline{
+    .admin__side_container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 10%;
+      background-color: $light;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .side__headline {
+        font-size: 1.5rem;
+        color: $primary;
+        font-weight: 600;
+        text-align: center;
+      }
+      .side__navbar_content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $light;
+        gap: 2rem;
+        .navbar__item {
+          width: 20rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem 0;
+          border-radius: 0.5rem;
+          gap: 1rem;
+          background-color: $light;
+          color: $primary;
+          transition: $transition;
+          cursor: pointer;
+          &.navbar__item_active {
+            transition: $transition;
+            background-color: $primary;
+            color: $light;
+          }
+          .navbar__item_icon {
+            font-size: 1.7rem;
+          }
+          .navbar__item_title {
+            font-size: 1.3rem;
+            width: 50%;
+            text-align: center;
+            font-weight: 600;
+          }
+        }
+      }
+      .side__logout {
+        background-color: $softRed;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        padding: 2rem 0;
-        max-width: 990px !important;
-        margin: 0 auto;
-        .admin__headline_time{
-            font-size: 3rem;
-            font-weight: 600;
-            color: $dark;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        color: $light;
+        border-radius: 1rem;
+        cursor: pointer;
+        .side__logout_icon {
+          font-size: 2rem;
         }
-        .admin__headline_date{
-            border: 2px solid $primary;
-            color: $light;
-            background-color: $primary;
-            padding: 1rem 2rem;
-            font-size: 1.5rem;
-            border-radius: 1rem;
-        }
+      }
     }
-    .admin__content{
-        // max-width: 990px !important;
-        width: 95%;
-        min-height: 100vh;
-        // margin: 0 auto;
-        position: relative;
-        .admin__side_container{
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 10%;
-            background-color: $light;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            padding: 1rem 1.5rem;
-            border-radius: 1rem;
-            overflow-y: scroll;
-            .side__headline{
-                font-size: 1.5rem;
-                color: $primary;
-                font-weight: 600;
-                text-align: center;
-            }
-            .side__navbar_content{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                background-color: $light;
-                gap: 2rem;
-                .navbar__item{
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 2rem 0;
-                    border-radius: .5rem;
-                    gap: 1rem;
-                    background-color: $light;
-                    color: $primary;
-                    transition: $transition;
-                    cursor: pointer;
-                    &.navbar__item_active{
-                        transition: $transition;
-                        background-color: $primary;
-                        color: $light;
-                    }
-                    .navbar__item_icon{
-                        font-size: 1.7rem;
-                    }  
-                    .navbar__item_title{
-                        font-size: 1.3rem;
-                        width: 50%;
-                        text-align: center;
-                        font-weight: 600;
-                    }
-                }
-            }
-            .side__logout{
-                background-color: $softRed;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 1rem;
-                padding: 1rem 2rem;
-                font-size: 1.5rem;
-                text-transform: uppercase;
-                color: $light;
-                border-radius: 1rem;
-                cursor: pointer;
-                .side__logout_icon{
-                    font-size: 2rem;
-                }
-            }
-        }
-        .admin__manage{
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.5rem;
-            .for__navbar{
-                width: 10%;
-                height: 100%;
-            }
-            .manage__content{
-                width: 87%;
-                height: 100%;
-            }
-        }
+    .admin__manage {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      .for__navbar {
+        width: 10%;
+        height: 100%;
+      }
+      .manage__content {
+        width: 87%;
+        height: 100%;
+      }
     }
+  }
 }

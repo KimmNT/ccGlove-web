@@ -119,7 +119,7 @@ export default function AdminPage() {
                 }`}
               >
                 <MdOutlineDashboardCustomize className="navbar__item_icon" />
-                <div className="navbar__item_title">Custom Services</div>
+                <div className="navbar__item_title">News</div>
               </div>
               <div
                 onClick={() => setSideBarState(3)}
@@ -179,7 +179,10 @@ export default function AdminPage() {
           <div className="logout__alert">
             <div className="logout__alert_title">Do you want to log out ?</div>
             <div className="logout__alert_btn">
-              <div className="btn cancel" onClick={() => setIsLogout(false)}>
+              <div
+                className="btn logout_cancel"
+                onClick={() => setIsLogout(false)}
+              >
                 cancel
               </div>
               <div
