@@ -159,7 +159,7 @@ export default function LoginPage() {
             <div className="logout__alert_title">{email} ?</div>
             <div className="logout__alert_btn break">
               <div
-                className="btn cancel"
+                className="btn logout_cancel"
                 onClick={() => {
                   setIsAlreadySaved(false);
                   setEmail("");

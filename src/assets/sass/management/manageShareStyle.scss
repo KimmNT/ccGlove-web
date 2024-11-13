@@ -1,116 +1,116 @@
 //COLORES
-$primary : #141E46;
-$btnColor : #F0EEED;
-$bgColor : #EDEDED;
-$softRed : #F45050;
-$softYellow : #FFC861;
-$dark : #000;
-$light : #FFF;
-$softGrey:#d3d3d3;
+$primary: #141e46;
+$btnColor: #f0eeed;
+$bgColor: #ededed;
+$softRed: #f45050;
+$softYellow: #ffc861;
+$dark: #000;
+$light: #fff;
+$softGrey: #d3d3d3;
 
 //VARIABLE
-$boxShadow:-10px 10px 5px rgb(217, 217, 217);
-$transition: all ease-in-out .2s;
+$boxShadow: -10px 10px 5px rgb(217, 217, 217);
+$transition: all ease-in-out 0.2s;
 
 $breakpoint-small: 600px;
 $breakpoint-medium: 990px;
 $breakpoint-large: 1200px;
 
-*{
-    padding: 0;
-    margin: 0;
+* {
+  padding: 0;
+  margin: 0;
 }
-html{
-    font-size: 62.5%;
+html {
+  font-size: 62.5%;
 }
-body{
-    font-family: "FiraSan";
-    scroll-behavior: smooth;
+body {
+  font-family: "FiraSan";
+  scroll-behavior: smooth;
 }
-img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
 }
 
 @font-face {
-    font-family: FiraSan;
-    src: url(../../fonts/FiraSans-Regular.ttf);
+  font-family: FiraSan;
+  src: url(../../fonts/FiraSans-Regular.ttf);
 }
 
-.manage__container{
-    width: 100%;
-    background-color: $bgColor;
-    position: relative;
-    .manage__content{
-        max-width: 375px !important;
-        min-height: 100vh;
-        margin: 0 auto;
-        // padding: 10rem 0;
-    }
+.manage__container {
+  width: 100%;
+  background-color: $bgColor;
+  position: relative;
+  .manage__content {
+    max-width: 375px !important;
+    min-height: 100vh;
+    margin: 0 auto;
+    // padding: 10rem 0;
+  }
 }
-.manage__logout_alert{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba($color: #000000, $alpha: 0.6);
+.manage__logout_alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color: #000000, $alpha: 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .logout__alert {
+    background-color: $light;
+    padding: 2rem 3rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    .logout__alert{
-        background-color: $light;
-        padding: 2rem 3rem;
-        border-radius: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        .logout__alert_title{
-            font-size: 2rem;
-            font-weight: 600;
-        }
-        .logout__alert_btn{
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 1rem;
-            .btn{
-                &.cancel{
-                    border: none;
-                }  
-                &.logout{
-                    background-color: $softYellow;
-                    color: $dark;
-                    border-color: $softYellow;
-                }
-                &.login{
-                    background-color: $softYellow;
-                    color: $dark;
-                    border-color: $softYellow;
-                }
-            }
-        }
+    .logout__alert_title {
+      font-size: 2rem;
+      font-weight: 600;
     }
+    .logout__alert_btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+      .btn {
+        &.logout_cancel {
+          border: none;
+        }
+        &.logout {
+          background-color: $softYellow;
+          color: $dark;
+          border-color: $softYellow;
+        }
+        &.login {
+          background-color: $softYellow;
+          color: $dark;
+          border-color: $softYellow;
+        }
+      }
+    }
+  }
 }
-.btn{
-    padding: 1rem 2rem;
-    font-size: 1.3rem;
-    font-weight: 600;
-    border-radius: .5rem;
-    border: 2px solid $primary;
-    text-transform: uppercase;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.btn {
+  padding: 1rem 2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  border: 2px solid $primary;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

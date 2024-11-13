@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { IoMdLogOut } from "react-icons/io";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { MdDone, MdOutlineCleaningServices } from "react-icons/md";
 import { IoMdDoneAll } from "react-icons/io";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -93,6 +93,14 @@ export default function StaffPage() {
           <>
             <div className="done">
               Done <IoMdDoneAll />
+            </div>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            <div className="cancel">
+              Cancelled <FaTimes />
             </div>
           </>
         );
@@ -220,7 +228,7 @@ export default function StaffPage() {
           <div className="staff__search_input">
             <input
               placeholder="Enter Order ID or Customer name"
-              value={inputValue}
+              value={inputValue.toUpperCase()}
               onChange={(e) => setInputValue(e.target.value)}
             />
             <FaSearch
@@ -255,9 +263,13 @@ export default function StaffPage() {
                   {order.workingTime.slice(0, 1).map((working, index) => (
                     <div key={index} className="staff__order_value daily">
                       {working.selectedDate} <br />
-                      <div className="adding">
-                        + {order.workingTime.length - 1}
-                      </div>
+                      {order.type === 1 ? (
+                        <div className="adding">
+                          + {order.workingTime.length - 1}
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -307,6 +319,14 @@ export default function StaffPage() {
               >
                 Done
               </div>
+              <div
+                className={`staff__manage_order_btn ${
+                  orderStateFilter === 4 ? `cancel` : ``
+                }`}
+                onClick={() => handleFilter(4, "")}
+              >
+                Cancelled
+              </div>
             </div>
           )}
         </div>
@@ -316,7 +336,10 @@ export default function StaffPage() {
           <div className="logout__alert">
             <div className="logout__alert_title">Do you want to log out ?</div>
             <div className="logout__alert_btn">
-              <div className="btn cancel" onClick={() => setIsLogout(false)}>
+              <div
+                className="btn logout_cancel"
+                onClick={() => setIsLogout(false)}
+              >
                 cancel
               </div>
               <div
@@ -340,87 +363,97 @@ export default function StaffPage() {
                 #{selectedOrder?.id}
               </div>
             </div>
-            <div className="staff__detail_item_break"></div>
-            <div className="staff__detail_item">
-              <div className="staff__detail_item_title">Service</div>
-              <div className="staff__detail_item_value">
-                {getServiceType(selectedOrder?.type)}
-              </div>
-            </div>
-            <div className="staff__detail_item_break"></div>
-            <div className="staff__detail_item">
-              <div className="staff__detail_item_title">Customer</div>
-              <div className="staff__detail_item_list one__line">
-                <div className="staff__detail_item_value">
-                  Name: {selectedOrder?.user.userFirstName}{" "}
-                  {selectedOrder?.user.userLastName}
-                </div>
-                <div className="staff__detail_item_value">
-                  Email: {selectedOrder?.user.userEmail}
-                </div>
-                <div className="staff__detail_item_value">
-                  Phone number: {selectedOrder?.user.userPhone}
-                </div>
-                <div className="staff__detail_item_value">
-                  Postcode: {selectedOrder?.user.userPostCode}
-                </div>
-                <div className="staff__detail_item_value">
-                  Address: {selectedOrder?.user.userAddress}
-                </div>
-              </div>
-            </div>
-            <div className="staff__detail_item_break"></div>
-            <div className="staff__detail_item">
-              <div className="staff__detail_item_title">Working</div>
-              <div className="staff__detail_item_list">
-                {selectedOrder?.workingTime.map((working, index) => (
-                  <div key={index} className="staff__detail_item_list_item">
-                    <div className="staff__detail_list_box">
-                      <div className="staff__detail_list_box_title">Date</div>
-                      <div className="staff__detail_list_box_value">
-                        {working.selectedDate}
-                      </div>
-                    </div>
-                    <div className="staff__detail_list_box">
-                      <div className="staff__detail_list_box_title">
-                        Start time
-                      </div>
-                      <div className="staff__detail_list_box_value">
-                        {working.startTime}:00 -{" "}
-                        {working.startTime + working.duration}
-                        :00{" "}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="staff__detail_item_break"></div>
-            {orderStatus === 3 && (
+            <div className="staff__detail_item_content">
+              <div className="staff__detail_item_break"></div>
               <div className="staff__detail_item">
-                <div className="staff__detail_item_title">Describe</div>
-                <textarea
-                  placeholder="Give a note about this order"
-                  value={
-                    selectedOrder?.describe !== ""
-                      ? selectedOrder?.describe
-                      : orderDescribe
-                  }
-                  onChange={(e) => setOrderDescribe(e.target.value)}
-                  className="staff__detail_item_textarea"
-                  rows={3}
-                ></textarea>
+                <div className="staff__detail_item_title">Service</div>
+                <div className="staff__detail_item_value">
+                  {getServiceType(selectedOrder?.type)}
+                </div>
               </div>
-            )}
+              <div className="staff__detail_item_break"></div>
+              <div className="staff__detail_item">
+                <div className="staff__detail_item_title">Customer</div>
+                <div className="staff__detail_item_list one__line">
+                  <div className="staff__detail_item_value">
+                    Name: {selectedOrder?.user.userFirstName}{" "}
+                    {selectedOrder?.user.userLastName}
+                  </div>
+                  <div className="staff__detail_item_value">
+                    Email: {selectedOrder?.user.userEmail}
+                  </div>
+                  <div className="staff__detail_item_value">
+                    Phone number: {selectedOrder?.user.userPhone}
+                  </div>
+                  <div className="staff__detail_item_value">
+                    Postcode: {selectedOrder?.user.userPostCode}
+                  </div>
+                  <div className="staff__detail_item_value">
+                    Address: {selectedOrder?.user.userAddress}
+                  </div>
+                </div>
+              </div>
+              <div className="staff__detail_item_break"></div>
+              <div className="staff__detail_item">
+                <div className="staff__detail_item_title">Working</div>
+                <div className="staff__detail_item_list">
+                  {selectedOrder?.workingTime.map((working, index) => (
+                    <div key={index} className="staff__detail_item_list_item">
+                      <div className="staff__detail_list_box">
+                        <div className="staff__detail_list_box_title">Date</div>
+                        <div className="staff__detail_list_box_value">
+                          {working.selectedDate}
+                        </div>
+                      </div>
+                      <div className="staff__detail_list_box">
+                        <div className="staff__detail_list_box_title">
+                          Start time
+                        </div>
+                        <div className="staff__detail_list_box_value">
+                          {working.startTime}:00 -{" "}
+                          {working.startTime + working.duration}
+                          :00{" "}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="staff__detail_item_break"></div>
+              {orderStatus === 3 && (
+                <div className="staff__detail_item">
+                  <div className="staff__detail_item_title">Describe</div>
+                  <textarea
+                    placeholder="Give a note about this order"
+                    value={
+                      selectedOrder?.describe !== ""
+                        ? selectedOrder?.describe
+                        : orderDescribe
+                    }
+                    onChange={(e) => setOrderDescribe(e.target.value)}
+                    className="staff__detail_item_textarea"
+                    rows={3}
+                  ></textarea>
+                </div>
+              )}
+            </div>
             <div className="staff__detail_item_btn_container">
               {orderStatus === 3 ? (
-                <></>
+                <div></div>
               ) : (
-                <div className="staff__detail_item_btn">
-                  {getOrderStatus(orderStatus)}
-                  <FaArrowRightLong className="staff__detail_item_icon" />
-                  {renderStatusActions(orderStatus)}
-                </div>
+                <>
+                  {orderStatus === 4 ? (
+                    <div className="btn cancel">
+                      Cancelled <FaTimes />
+                    </div>
+                  ) : (
+                    <div className="staff__detail_item_btn">
+                      {getOrderStatus(orderStatus)}
+                      <FaArrowRightLong className="staff__detail_item_icon" />
+                      {renderStatusActions(orderStatus)}
+                    </div>
+                  )}
+                </>
               )}
               <div className="staff__detail_item_btn">
                 <div

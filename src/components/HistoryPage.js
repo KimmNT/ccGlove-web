@@ -309,7 +309,7 @@ export default function HistoryPage() {
         <div className="history__search">
           <input
             placeholder="Enter your order ID"
-            value={inputValue}
+            value={inputValue.toUpperCase()}
             onChange={(e) => setInputValue(e.target.value)}
           />
           <div className="history__btn" onClick={handleSearchOrder}>

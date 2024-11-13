@@ -346,10 +346,17 @@ function AboutPage() {
                 <div className="info__item review__name">{review.userName}</div>
                 <div className="review__rate">
                   {review.orderService === 0 ? (
-                    // <FaClock className="info__item review__service" />
-                    <div className="review__service">Hourly</div>
+                    <div className="review__service">
+                      Service:
+                      <FaClock className="info__item review__service" />
+                      Hourly
+                    </div>
                   ) : review.orderService === 1 ? (
-                    <FaCalendarCheck className="review__service" />
+                    <div className="review__service">
+                      Service:
+                      <FaCalendarCheck className="review__service" />
+                      Daily
+                    </div>
                   ) : (
                     <FaToolbox className="review__service" />
                   )}

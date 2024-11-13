@@ -253,17 +253,20 @@ export default function HourOrder() {
           {formatNumber(paymentCount)}¥
         </div>
         <div className="order__payment_container">
-          <div className="order__payment_content">
+          <div className="order__payment_btn">
             <IoIosArrowForward className="order__payment_icon" />
           </div>
         </div>
       </div>
       {isAlert && (
         <div className="pop__container">
-          <div className="pop__content">
+          <div className="pop__content pop__container_larger">
             <div className="pop__alert">{alertContent}</div>
-            <div className="pop__close" onClick={() => setIsAlert(false)}>
-              close
+            <div className="pop__btn_container">
+              <div></div>
+              <div className="btn close" onClick={() => setIsAlert(false)}>
+                close
+              </div>
             </div>
           </div>
         </div>

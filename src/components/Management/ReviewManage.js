@@ -207,57 +207,57 @@ export default function ReviewManage({ data, refresh }) {
         <div className="serivce__create_container">
           <div className="service__content">
             <div className="service__headline">Edit review</div>
-            <div className="service__input_list">
-              <div className="input__item">
-                <div className="input__title">Order ID</div>
-                <div className="input__title highlight">
+            <div className="service__item">
+              <div className="service__item_box">
+                <div className="service__item_title">Order ID</div>
+                <div className="service__item_value ">
                   #{selectedItem?.orderId}
                 </div>
               </div>
-              <div className="input__item_break"></div>
-              <div className="input__item">
-                <div className="input__title">User name</div>
-                <div className="input__title highlight">
+              {/* <div className="input__item_break"></div> */}
+              <div className="service__item_box">
+                <div className="service__item_title">User name</div>
+                <div className="service__item_value ">
                   {selectedItem?.userName}
                 </div>
               </div>
-              <div className="input__item_break"></div>
+              {/* <div className="input__item_break"></div> */}
 
-              <div className="input__item">
-                <div className="input__title">Service rate</div>
-                <div className="input__title highlight">
+              <div className="service__item_box">
+                <div className="service__item_title">Service rate</div>
+                <div className="service__item_value ">
                   {selectedItem?.rateService}/4
                 </div>
               </div>
-              <div className="input__item_break"></div>
+              {/* <div className="input__item_break"></div> */}
 
-              <div className="input__item">
-                <div className="input__title">Booking rate</div>
-                <div className="input__title highlight">
+              <div className="service__item_box">
+                <div className="service__item_title">Booking rate</div>
+                <div className="service__item_value ">
                   {selectedItem?.rateBooking}/4
                 </div>
               </div>
-              <div className="input__item_break"></div>
+              {/* <div className="input__item_break"></div> */}
 
-              <div className="input__item">
-                <div className="input__title">Staff rate</div>
-                <div className="input__title highlight">
+              <div className="service__item_box">
+                <div className="service__item_title">Staff rate</div>
+                <div className="service__item_value ">
                   {selectedItem?.rateStaff}/4
                 </div>
               </div>
-              <div className="input__item_break"></div>
+              {/* <div className="input__item_break"></div> */}
 
-              <div className="input__item">
-                <div className="input__title">More feedback</div>
-                <div className="input__title highlight">
+              <div className="service__item_box">
+                <div className="service__item_title">More feedback</div>
+                <div className="service__item_value ">
                   {selectedItem?.rateFeedback}
                 </div>
               </div>
-              <div className="input__item_break"></div>
+              {/* <div className="input__item_break"></div> */}
 
-              <div className="input__item">
-                <div className="input__title">State</div>
-                <div className="input__title">
+              <div className="service__item_box">
+                <div className="service__item_title">State</div>
+                <div className="service__item_vertical_line">
                   <div
                     onClick={() => setReviewState(0)}
                     className={`review__state ${
@@ -283,7 +283,7 @@ export default function ReviewManage({ data, refresh }) {
                   className="service__btn btn delete"
                   onClick={() => setIsDelete(true)}
                 >
-                  delete this service
+                  delete this review
                 </div>
               ) : (
                 <div></div>
@@ -312,26 +312,6 @@ export default function ReviewManage({ data, refresh }) {
             <div className="service__headline delete__title">
               Do you want to delete this review
             </div>
-            {/* <div className="service__item">
-              <div className="service__item_box">
-                <div className="service__item_title">Discount Code</div>
-                <div className="service__item_value">
-                  #{selectedItem.discountCode}
-                </div>{" "}
-              </div>
-              <div className="service__item_box">
-                <div className="service__item_title">Discount Value</div>
-                <div className="service__item_value">
-                  {selectedItem.discountValue}%
-                </div>{" "}
-              </div>
-              <div className="service__item_box">
-                <div className="service__item_title">Discount Created Date</div>
-                <div className="service__item_value">
-                  {selectedItem.discountCreatedDate}
-                </div>{" "}
-              </div>
-            </div> */}
             <div className="service__btn_container">
               <div></div>
               <div className="service__btn_group">

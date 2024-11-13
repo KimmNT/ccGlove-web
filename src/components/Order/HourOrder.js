@@ -238,7 +238,7 @@ export default function HourOrder() {
                 <div className="order__payment_value">
                   {formatNumber(paymentCount)}¥
                 </div>
-                <div className="order__payment_container">
+                <div className="order__payment_btn">
                   <IoIosArrowForward className="order__payment_icon" />
                 </div>
               </div>

@@ -3,7 +3,7 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
 import "../../assets/sass/orderStyle.scss";
-import { FaClock, FaCoins } from "react-icons/fa";
+import { FaClock, FaCoins, FaEdit, FaPenAlt } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaArrowLeft } from "react-icons/fa";
 import Calendar from "react-calendar";
@@ -277,6 +277,9 @@ export default function DayOrder() {
                       {date.startTime}:00-{date.startTime + date.duration}:00
                     </div>
                   </div>
+                  <div className="day__item_group_close">
+                    <FaEdit />
+                  </div>
                 </div>
               ))}
             </div>
@@ -284,7 +287,7 @@ export default function DayOrder() {
               <div className="order__payment_value">
                 {formatNumber(paymentCount)}¥
               </div>
-              <div className="order__payment_container">
+              <div className="order__payment_btn">
                 <IoIosArrowForward className="order__payment_icon" />
               </div>
             </div>
@@ -292,7 +295,7 @@ export default function DayOrder() {
         )}
       </div>
       {isPopUp && (
-        <div className="pop__container ">
+        <div className="pop__container">
           <div className="pop__content pop__container_larger">
             <div className="pop__headline">Update date</div>
             <div className="pop__list">
@@ -302,12 +305,15 @@ export default function DayOrder() {
                   {selectedDateUpdate?.selectedDate}
                 </div>
               </div>
+              <div className="pop__item_break"></div>
               <div className="pop__item">
                 <div className="pop__item_title">Duration</div>
                 <div className="pop__item_value">
                   {selectedDateUpdate?.duration} hours
                 </div>
               </div>
+              <div className="pop__item_break"></div>
+
               <div className="pop__item">
                 <div className="pop__item_title">Start time</div>
                 <div className="pop__item_list">

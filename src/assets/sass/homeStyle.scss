@@ -244,6 +244,9 @@ $breakpoint-large: 1200px;
             gap: 1rem;
             .review__service {
               font-size: 1.5rem;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
             }
             .review__value {
               font-size: 1.5rem;

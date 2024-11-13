@@ -26,7 +26,7 @@ export default function SummaryOrder() {
   const [discountString, setDiscountString] = useState("");
   const [discountID, setDiscountID] = useState("");
   const [discountReuse, setDiscountReuse] = useState(0);
-  const [clientSecret, setClientSecret] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     setPaymentCount(state.paymentCount);
@@ -186,6 +186,7 @@ export default function SummaryOrder() {
   };
 
   const handleNavigate = async () => {
+    setIsProcessing(true);
     const paymentValue = (
       paymentCount +
       paymentCount * 0.1 -
@@ -371,14 +372,33 @@ export default function SummaryOrder() {
               <></>
             )}
           </div>
-          <div
+          <button
             className="order__payment one__item_row"
             onClick={handleNavigate}
+            disabled={isProcessing}
           >
-            <div className="order__payment_value">checkout now</div>
-          </div>
+            <div className="order__payment_value">
+              {isProcessing ? `processing` : `checkout now`}
+            </div>
+          </button>
         </div>
       </div>
+      {isProcessing && (
+        <div className="pop__container">
+          <div className="pop__content">
+            <div className="pop__headline">
+              Your order is being created. <br /> Please wait a moment
+            </div>
+            <div className="dot__animation">
+              <div className="dot__item delay__one"></div>
+              <div className="dot__item delay__two"></div>
+              <div className="dot__item delay__three"></div>
+              <div className="dot__item delay__four"></div>
+              <div className="dot__item delay__five"></div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
