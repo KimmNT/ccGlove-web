@@ -190,17 +190,17 @@ export default function SummaryOrder() {
     const paymentValue =
       paymentCount * 1.037 * 1.1 * (1 - discountResult / 100);
 
-    // const response = await fetch(
-    //   `https://ccglove-web-api.onrender.com/api/payments/create-payment-intent`,
-    //   {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ amount: paymentValue }),
-    //   }
-    // );
+    const response = await fetch(
+      `https://ccglove-web-api.onrender.com/api/payments/create-payment-intent`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: paymentValue }),
+      }
+    );
 
-    // const data = await response.json();
-    // const clientSecret = data.clientSecret;
+    const data = await response.json();
+    const clientSecret = data.clientSecret;
 
     // Navigate only after retrieving the clientSecret
     navigateToPage("/paymentOrder", {
@@ -216,7 +216,7 @@ export default function SummaryOrder() {
       userInfo: state.userInfo,
       workingTime: state.workingTime,
       orderID: orderId,
-      // clientSecret: clientSecret, // Pass the clientSecret here
+      clientSecret: clientSecret, // Pass the clientSecret here
     });
   };
 
