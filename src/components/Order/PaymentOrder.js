@@ -184,7 +184,7 @@ export default function PaymentOrder() {
               <div className="payment__info_item">
                 <div className="payment__info_item_title highlight">Total:</div>
                 <div className="payment__info_item_value highlight">
-                  {formatNumber(paymentCount)}¥
+                  {Math.round(paymentCount)}¥
                 </div>
               </div>
             </div>

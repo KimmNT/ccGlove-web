@@ -189,13 +189,13 @@ export default function SummaryOrder() {
     setIsProcessing(true);
     const paymentValue =
       paymentCount * 1.037 * 1.1 * (1 - discountResult / 100);
-
+    console.log(Math.round(paymentValue));
     const response = await fetch(
       `https://ccglove-web-api.onrender.com/api/payments/create-payment-intent`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: paymentValue }),
+        body: JSON.stringify({ amount: Math.round(paymentValue) }),
       }
     );
 
@@ -293,7 +293,7 @@ export default function SummaryOrder() {
                 </div>
               )} */}
               <div className="price__item_value total">
-                {formatNumber(
+                {Math.round(
                   paymentCount * 1.037 * 1.1 * (1 - discountResult / 100)
                 )}
                 ¥
