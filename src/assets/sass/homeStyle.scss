@@ -1,12 +1,17 @@
 //COLORES
-$primary: #141e46;
-$btnColor: #f0eeed;
-$bgColor: #ededed;
-$softRed: #f45050;
-$softYellow: #ffc861;
-$dark: #000;
-$light: #fff;
-$softGrey: #d3d3d3;
+$primary : #141E46;
+$btnColor : #F0EEED;
+$bgColor : #EDEDED;
+$softRed : #F45050;
+$softYellow : #FFC861;
+$softYelloToWhite:#FFD381;
+$dark : #000;
+$darkText:#4b4b4b;
+$light : #FFF;
+$softGrey:#d3d3d3;
+$darkGreen: #1b5e20;
+$lightGreen: #109b27;
+$darkGrey: #b7b7b7;
 
 //VARIABLE
 $boxShadow: -10px 10px 5px rgb(217, 217, 217);
@@ -480,7 +485,20 @@ $breakpoint-large: 1200px;
               padding: 2rem;
             }
             .btn__form {
-              width: 90%;
+              background-color: $softYellow;
+              color: $light;
+              width: 100%;
+              font-family: "Firasan";
+              font-size: 2rem;
+              color: $dark;
+              &.sent{
+                transition: $transition;
+                background-color: $lightGreen;
+                pointer-events: none;
+                color: $light;
+                font-size: 2rem;
+                width: 90%;
+              }
             }
           }
           input {
@@ -504,16 +522,13 @@ $breakpoint-large: 1200px;
             background-color: $softYellow;
             cursor: pointer;
             transition: $transition;
-            &:hover {
-              .contact__btn_icon {
-                transition: $transition;
-                transform: translateX(10px);
-              }
-            }
             .contact__btn_icon {
               color: $dark;
               transition: $transition;
               font-size: 2rem;
+              background: none;
+              border: none;
+              font-family: "Firasan";
             }
           }
           .buy__btn {

@@ -28,6 +28,7 @@ import StaffPage from "./components/Management/StaffPage";
 import LoginPage from "./components/Management/LoginPage";
 import HistoryPage from "./components/HistoryPage";
 import ProtectedRoute from "./ProtectedRoute";
+import YearroundOrder from "./components/Order/YearroundOrder";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -64,6 +65,7 @@ function App() {
           <Route path="/order/hourlyOrder" element={<HourOrder />} />
           <Route path="/order/dailyOrder" element={<DayOrder />} />
           <Route path="/order/customOrder" element={<CustomOrder />} />
+          <Route path="/order/yearroundOrder" element={<YearroundOrder />} />
           <Route path="/orderDetail/:orderId" element={<OrderDetail />} />
           <Route path="/inforOrder" element={<InforOrder />} />
           <Route path="/summaryOrder" element={<SummaryOrder />} />

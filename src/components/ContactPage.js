@@ -3,6 +3,7 @@ import "../assets/sass/shareStyle.scss";
 import "../assets/sass/homeStyle.scss";
 import Shining from "../assets/images/shining.png";
 import emailjs from "@emailjs/browser";
+import { FaCheck } from "react-icons/fa";
 
 export default function ContactPage() {
   const textareaRef = useRef(null);
@@ -12,6 +13,7 @@ export default function ContactPage() {
   const [userName, setUserName] = useState("");
   const [userMessag, setUserMessage] = useState("");
   const [isSent, setIsSent] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     window.scrollTo({
@@ -70,8 +72,10 @@ export default function ContactPage() {
 
   const handleSendEmail = () => {
     if (userEmail.includes("@gmail.com")) {
+      setIsSending(true);
       sendEmail(userEmail);
     } else {
+      setIsSending(true);
       sendEmail(fixEmailDomain(userEmail));
     }
   };
@@ -124,14 +128,19 @@ export default function ContactPage() {
                   rows={3}
                   onChange={(e) => setUserMessage(e.target.value)}
                 ></textarea>
-                <div
-                  className="contact__btn btn__form"
-                  onClick={handleSendEmail}
-                >
-                  <div className="contact__btn_icon">
-                    {isSent ? `SENT` : `SUBMIT`}
+                {isSent ? (
+                  <div className="btn__form btn sent">
+                    <FaCheck />
                   </div>
-                </div>
+                ) : (
+                  <button
+                    className="btn__form btn"
+                    onClick={handleSendEmail}
+                    disabled={isSending}
+                  >
+                    {isSending ? `SENDING...` : `SUBMIT`}
+                  </button>
+                )}
               </div>
             </div>
             <div className="break__text">OR</div>

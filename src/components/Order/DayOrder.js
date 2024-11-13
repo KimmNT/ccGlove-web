@@ -18,8 +18,6 @@ export default function DayOrder() {
   const [selectedDates, setSelectedDates] = useState([]);
   const [calendarKey, setCalendarKey] = useState(0); // Track calendar key for force re-render
   const [duration, setDuration] = useState(3);
-  const [startTime, setStartTime] = useState(0);
-  const [holidayCount, setHolidayCount] = useState(0);
   const [paymentCount, setPaymentCount] = useState(0);
   const [isPopUp, setIsPopUp] = useState(false);
   const [alertValue, setAlertValue] = useState("");

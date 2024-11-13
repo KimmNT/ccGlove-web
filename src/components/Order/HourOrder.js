@@ -16,7 +16,6 @@ export default function HourOrder() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [duration, setDuration] = useState(3);
   const [startTime, setStartTime] = useState(0);
-  const [isHolidaySelected, setIsHolidaySelected] = useState(false);
   const [paymentCount, setPaymentCount] = useState(0);
   const [isPopUp, setIsPopUp] = useState(false);
   const [isDuration, setIsDuration] = useState(false);

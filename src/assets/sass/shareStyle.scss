@@ -1,12 +1,17 @@
 //COLORES
-$primary: #141e46;
-$btnColor: #f0eeed;
-$bgColor: #ededed;
-$softRed: #f45050;
-$softYellow: #ffc861;
-$dark: #000;
-$light: #fff;
-$bgIcon: #ba5ebb;
+$primary : #141E46;
+$btnColor : #F0EEED;
+$bgColor : #EDEDED;
+$softRed : #F45050;
+$softYellow : #FFC861;
+$softYelloToWhite:#FFD381;
+$dark : #000;
+$darkText:#4b4b4b;
+$light : #FFF;
+$softGrey:#d3d3d3;
+$darkGreen: #1b5e20;
+$lightGreen: #109b27;
+$darkGrey: #b7b7b7;
 // Define colors
 $color-1: #fcd35e;
 $color-2: #e16c94;
@@ -201,11 +206,12 @@ a {
         transform: translateY(-100%);
       }
       .navbar__menu {
-        position: absolute;
+        position: fixed;
         background-color: $light;
         width: 100%;
         top: 0;
         padding-bottom: 4rem;
+        z-index: 99;
         .navbar__menu_content {
           width: 100%;
           display: flex;
@@ -304,7 +310,7 @@ a {
   transition: $transition;
   border-radius: 2rem;
   box-shadow: $boxShadow;
-  z-index: 99;
+  z-index: 0;
   @media (min-width: $breakpoint-small) {
   }
   &.onTop {

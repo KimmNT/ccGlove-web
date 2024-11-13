@@ -9,6 +9,9 @@ $dark : #000;
 $darkText:#4b4b4b;
 $light : #FFF;
 $softGrey:#d3d3d3;
+$darkGreen: #1b5e20;
+$lightGreen: #109b27;
+$darkGrey: #b7b7b7;
 
 //VARIABLE
 $boxShadow:-10px 10px 5px rgb(217, 217, 217);
@@ -219,6 +222,121 @@ $breakpoint-large: 1200px;
                             border-radius: .5rem;
                         }  
                     }   
+                }
+            }
+        }
+        .order__year{
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 90%;
+            align-items: center;
+            gap: 3rem;
+            @media (min-width:$breakpoint-small) {
+                width: 100%;
+            }
+            .order__year_btn_container{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                width: 100%;
+                .order__year_btn{
+                    padding: 1rem 2rem;
+                    font-size: 1.5rem;
+                    background-color: $light;
+                    border-radius: 1rem;
+                    cursor: pointer;
+                    &.order__year_btn_active{
+                        background-color: $softYellow;
+                        color: $dark;
+                        font-weight: 600;
+                    }
+                }
+            }
+            .order__year_content{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                .order__year_image_container{
+                    display: none;
+                    @media (min-width:$breakpoint-small) {
+                        display: block;
+                        height: 50rem;
+                        width: 50%;
+                    }
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 1rem;
+                    }
+                }
+                .order__year_option_container{
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    gap: 2rem;
+                    width: 100%;
+                    @media (min-width:$breakpoint-small) {
+                        width: 45%;
+                    }
+                    .order__year_describe{
+                        font-size: 1.3rem;
+                        line-height: 2rem;
+                        margin-bottom: 2rem;
+                        width: 90%;
+                        @media (min-width:$breakpoint-small) {
+                            font-size: 1.5rem;
+                        }
+                    }
+                    input {
+                        width: 90%;
+                        padding: 1rem 2rem;
+                        border-radius: 1rem;
+                        outline: none;
+                        border: none;
+                        font-weight: 600;
+                        font-family: FiraSan;
+                    }
+                    .contact__textarea {
+                        width: 90%;
+                        border-radius: 1rem;
+                        outline: none;
+                        border: none;
+                        font-weight: 600;
+                        font-family: FiraSan;
+                        padding: 2rem;
+                    }
+                    .order__year_option_btn_container{
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        .order__year_option_btn{
+                            width: 100%;
+                            font-size: 2rem;
+                            background-color: $softYellow;
+                            padding: 1rem 10rem;
+                            border-radius: 1rem;
+                            color: $dark;
+                            font-weight: 600;
+                            margin-top: 2rem;
+                            text-align: center;
+                            cursor: pointer;
+                            outline: none;
+                            border: none;
+                            font-family: "Firasan";
+                            transition: $transition;
+                            &.sent{
+                                transition: $transition;
+                                background-color: $lightGreen;
+                                pointer-events: none;
+                                color: $light;
+                            }
+                        }
+                    }
                 }
             }
         }

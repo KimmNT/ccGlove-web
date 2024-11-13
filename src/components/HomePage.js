@@ -238,7 +238,7 @@ function HomePage() {
               </div>
               <div
                 className="service__btn"
-                onClick={() => navigateToPage("/order/customOrder")}
+                onClick={() => navigateToPage("/order/yearroundOrder")}
               >
                 <div>Customize your services</div>
                 <FaLongArrowAltRight className="service__btn_icon" />
