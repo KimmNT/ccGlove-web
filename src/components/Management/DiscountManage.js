@@ -3,6 +3,7 @@ import "../../assets/sass/management/manageItemStyle.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { TbRefresh } from "react-icons/tb";
 
 export default function DiscountManage({ data, refresh }) {
   const [isCreate, setIsCreate] = useState(false);
@@ -130,6 +131,9 @@ export default function DiscountManage({ data, refresh }) {
             </div>
           </div>
         </div>
+      </div>
+      <div className="ordermanage__get_latest" onClick={refresh}>
+        <TbRefresh className="ordermanage__get_latest_icon" />
       </div>
       {isCreate && (
         <div className="serivce__create_container">

@@ -45,7 +45,6 @@ export default function AdminPage() {
           ...orderData,
         };
       });
-      console.log(ordersData);
 
       setOrderList(ordersData);
     } catch (error) {

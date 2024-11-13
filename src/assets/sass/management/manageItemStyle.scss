@@ -38,6 +38,7 @@ $breakpoint-large: 1200px;
       position: fixed;
       top: 1rem;
       animation: menuMoving forwards ease-in-out 0.5s;
+      overflow-y: auto;
       &.notAbsolute {
         position: relative;
       }
@@ -348,6 +349,8 @@ $breakpoint-large: 1200px;
     align-items: center;
     justify-content: center;
     opacity: 0;
+    overflow-y: auto;
+    z-index: 10;
     &.detail__active {
       transition: $transition;
       animation-delay: 1s;
@@ -365,6 +368,8 @@ $breakpoint-large: 1200px;
       padding: 2rem 4rem;
       border-radius: 1rem;
       gap: 2rem;
+      padding-top: 15rem;
+      min-width: 50%;
       .detail__box {
         width: 100%;
         display: flex;
@@ -524,6 +529,25 @@ $breakpoint-large: 1200px;
       }
     }
   }
+  .ordermanage__get_latest{
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $darkGreen;
+    cursor: pointer;
+    border: 1px solid $light;
+    z-index: 0;
+    .ordermanage__get_latest_icon{
+      font-size: 2rem;
+      color: $light;
+    }
+  }
 
   .pending {
     padding: 1rem 1.5rem;
@@ -592,6 +616,7 @@ $breakpoint-large: 1200px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  z-index: 99;
   .edit__content {
     background-color: $light;
     padding: 3rem 3rem 2rem;

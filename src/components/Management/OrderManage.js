@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { LuPackage2 } from "react-icons/lu";
 import { MdDone, MdOutlineCleaningServices } from "react-icons/md";
 import { IoMdClose, IoMdDoneAll } from "react-icons/io";
+import { TbRefresh } from "react-icons/tb";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import StaffSelection from "./Modals/StaffSelection";
@@ -789,6 +790,9 @@ export default function OrderManage({ data, refresh }) {
             </div>
           </div>
         </div>
+      </div>
+      <div className="ordermanage__get_latest" onClick={refresh}>
+        <TbRefresh className="ordermanage__get_latest_icon" />
       </div>
       {isStaff && (
         <StaffSelection

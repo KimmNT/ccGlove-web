@@ -3,7 +3,7 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/orderStyle.scss";
 import "../../assets/sass/summaryStyle.scss";
-import { FaArrowLeft, FaArrowRight, FaMinus } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaMinus, FaTimes } from "react-icons/fa";
 import "react-calendar/dist/Calendar.css";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -187,23 +187,20 @@ export default function SummaryOrder() {
 
   const handleNavigate = async () => {
     setIsProcessing(true);
-    const paymentValue = (
-      paymentCount +
-      paymentCount * 0.1 -
-      (paymentCount + paymentCount * 0.1) * (discountResult / 100)
-    ).toFixed(0);
+    const paymentValue =
+      paymentCount * 1.037 * 1.1 * (1 - discountResult / 100);
 
-    const response = await fetch(
-      `https://ccglove-web-api.onrender.com/api/payments/create-payment-intent`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: paymentValue }),
-      }
-    );
+    // const response = await fetch(
+    //   `https://ccglove-web-api.onrender.com/api/payments/create-payment-intent`,
+    //   {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ amount: paymentValue }),
+    //   }
+    // );
 
-    const data = await response.json();
-    const clientSecret = data.clientSecret;
+    // const data = await response.json();
+    // const clientSecret = data.clientSecret;
 
     // Navigate only after retrieving the clientSecret
     navigateToPage("/paymentOrder", {
@@ -219,7 +216,7 @@ export default function SummaryOrder() {
       userInfo: state.userInfo,
       workingTime: state.workingTime,
       orderID: orderId,
-      clientSecret: clientSecret, // Pass the clientSecret here
+      // clientSecret: clientSecret, // Pass the clientSecret here
     });
   };
 
@@ -243,9 +240,22 @@ export default function SummaryOrder() {
           <div className="summary__id">Order ID: #{orderId}</div>
           <div className="summary__price">
             <div className="price__item">
-              <div className="price__item_title">Sub total:</div>
+              <div className="price__item_title">Service price:</div>
               <div className="price__item_value">
                 {formatNumber(paymentCount)}¥
+              </div>
+            </div>
+            <div className="price__item">
+              <div className="price__item_title">Payment fee:</div>
+              <div className="price__item_value">
+                {formatNumber(paymentCount * 0.037)}¥
+              </div>
+            </div>
+            <div className="price__item_break"></div>
+            <div className="price__item">
+              <div className="price__item_title">Subtotal:</div>
+              <div className="price__item_value">
+                {formatNumber(paymentCount * 1.037)}¥
               </div>
             </div>
             <div className="price__item">
@@ -258,30 +268,36 @@ export default function SummaryOrder() {
                 <div className="price__item_value">
                   <div className="price__discount">-{discountResult}%</div>
                   <div className="price__remove" onClick={handleNotUseDiscount}>
-                    <FaMinus />
+                    <FaTimes />
                   </div>
                 </div>
               </div>
             ) : (
               <></>
             )}
+            <div className="price__item_break"></div>
             <div className="price__item">
-              <div className="price__item_title total">Total:</div>
-              {discountResult > 0 ? (
+              <div className="price__item_value total">Total:</div>
+              {/* {discountResult > 0 ? (
                 <div className="price__item_value total">
                   {formatNumber(
-                    paymentCount +
-                      paymentCount * 0.1 -
-                      (paymentCount + paymentCount * 0.1) *
-                        (discountResult / 100)
+                    paymentCount * 1.037 * 1.1 * (1 - discountResult / 100)
                   )}
                   ¥
                 </div>
               ) : (
                 <div className="price__item_value total">
-                  {formatNumber(paymentCount + paymentCount * 0.1)}¥
+                  {formatNumber(
+                    paymentCount * 1.037 * 1.1 * (1 - discountResult / 100)
+                  )}¥
                 </div>
-              )}
+              )} */}
+              <div className="price__item_value total">
+                {formatNumber(
+                  paymentCount * 1.037 * 1.1 * (1 - discountResult / 100)
+                )}
+                ¥
+              </div>
             </div>
           </div>
           <div className="summary__discount">

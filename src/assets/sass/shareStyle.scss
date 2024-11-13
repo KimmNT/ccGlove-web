@@ -616,7 +616,7 @@ a {
     height: 1rem;
     border-radius: 50%;
     background-color: $primary;
-    animation: dotMoving 2s forwards infinite;
+    animation: dotMoving 1s forwards infinite;
     &.delay__one{
       animation-delay: .2s;
     }

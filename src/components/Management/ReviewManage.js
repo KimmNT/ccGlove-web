@@ -4,6 +4,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import "react-datepicker/dist/react-datepicker.css";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { TbRefresh } from "react-icons/tb";
 
 export default function ReviewManage({ data, refresh }) {
   const [filteredItems, setFilteredItems] = useState(data);
@@ -202,6 +203,9 @@ export default function ReviewManage({ data, refresh }) {
             </div>
           </div>
         </div>
+      </div>
+      <div className="ordermanage__get_latest" onClick={refresh}>
+        <TbRefresh className="ordermanage__get_latest_icon" />
       </div>
       {isEdit && (
         <div className="serivce__create_container">

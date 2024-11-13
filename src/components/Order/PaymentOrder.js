@@ -71,7 +71,7 @@ export default function PaymentOrder() {
       orderType: state.orderType,
       paymentCount:
         (state.paymentCount * 100) /
-        (1.1 * (100 - state.discountInfo.discountResult)),
+        (1.037 * 1.1 * (100 - state.discountInfo.discountResult)),
       discountInfo: state.discountInfo,
       workingTime: state.workingTime,
       userInfo: {
