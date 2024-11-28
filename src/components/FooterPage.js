@@ -39,7 +39,7 @@ export default function FooterPage() {
         </div>
       </div>
       <div className="footer__rights_container">
-        <div className="footer__rights">@jk</div>
+        <div className="footer__rights">@Jkim</div>
         <div className="footer__rights">info@ccgniseko.com</div>
         <a
           // href="https://google.com"

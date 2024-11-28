@@ -10,6 +10,7 @@ import { db } from "../../firebase";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CryptoJS from "crypto-js";
+import emailjs from "@emailjs/browser";
 import CheckoutFromStripe from "./CheckoutFromStripe";
 
 export default function PaymentOrder() {
@@ -18,7 +19,6 @@ export default function PaymentOrder() {
   const [isOnTop, setIsOnTop] = useState(false);
   const [isAlert, setIsAlert] = useState(false);
   const [alertValue, setAlertValue] = useState("");
-  const [isSaved, setIsSaved] = useState(false);
   const [paymentCount, setPaymentCount] = useState(0);
 
   const [isStripePromise, setIsStripePromise] = useState(null);
@@ -65,13 +65,23 @@ export default function PaymentOrder() {
     }
   };
 
+  const handleRevertServicePrice = (grandTotal) => {
+    const movingFee = state.userInfo.movingFee;
+
+    const servicePrice =
+      (grandTotal - 1.137 * movingFee) /
+      1.137 /
+      (1 - state.discountInfo.discountResult / 100);
+
+    // Round and return the final value
+    return Math.round(servicePrice);
+  };
+
   const handleNavigateBack = () => {
     navigateToPage("/summaryOrder", {
       moveFrom: state.moveFrom,
       orderType: state.orderType,
-      paymentCount:
-        (state.paymentCount * 100) /
-        (1.037 * 1.1 * (100 - state.discountInfo.discountResult)),
+      paymentCount: handleRevertServicePrice(paymentCount),
       discountInfo: state.discountInfo,
       workingTime: state.workingTime,
       userInfo: {
@@ -80,69 +90,72 @@ export default function PaymentOrder() {
         phone: state.userInfo.phone,
         email: state.userInfo.email,
         prefecture: state.userInfo.prefecture,
-        city: state.userInfo.city,
         district: state.userInfo.district,
+        town: state.userInfo.town,
         postCode: state.userInfo.postCode,
         addDetail: state.userInfo.addDetail,
+        movingFee: state.userInfo.movingFee,
       },
     });
   };
-  // const handleNavigate = async () => {
-  //   const now = new Date();
-  //   const date = now.toLocaleDateString(); // e.g., '8/5/2024'
-  //   const time = now.toLocaleTimeString(); // e.g., '3:45:30 PM'
 
-  //   await addDoc(collection(db, "orderList"), {
-  //     id: state.orderID,
-  //     type: state.orderType,
-  //     user: {
-  //       userFirstName: state.userInfo.firstName,
-  //       userLastName: state.userInfo.lastName,
-  //       userEmail: state.userInfo.email,
-  //       userPhone: state.userInfo.phone,
-  //       userAddress: `${state.userInfo.addDetail}, ${state.userInfo.district}, ${state.userInfo.city}, ${state.userInfo.prefecture}`,
-  //       userPostCode: state.userInfo.postCode,
-  //     },
-  //     status: 0,
-  //     payment: {
-  //       paymentOption: 1,
-  //       paymentNumer: 0,
-  //       paymentCVV: 0,
-  //       paymentDate: 0,
-  //     },
-  //     workingTime: state.workingTime,
-  //     total: state.paymentCount,
-  //     created: {
-  //       date: date,
-  //       time: time,
-  //     },
-  //     working: {
-  //       date: "",
-  //       time: "",
-  //     },
-  //     completed: {
-  //       date: "",
-  //       time: "",
-  //     },
-  //     ratingState: 0,
-  //     belongTo: {
-  //       empId: "",
-  //       empName: "",
-  //     },
-  //     describe: "",
-  //   });
-  //   if (
-  //     state.discountInfo.discountID !== "" &&
-  //     state.discountInfo.discountReuse === 0
-  //   ) {
-  //     //Remove discount code
-  //     await deleteDoc(doc(db, "discountList", state.discountInfo.discountID));
-  //   }
-  //   navigateToPage("/completed", {
-  //     orderID: state.orderID,
-  //     from: "paymentOrder",
-  //   });
-  // };
+  const handleNavigate = async () => {
+    const now = new Date();
+    const date = now.toLocaleDateString(); // e.g., '8/5/2024'
+    const time = now.toLocaleTimeString(); // e.g., '3:45:30 PM'
+
+    await addDoc(collection(db, "orderList"), {
+      id: state.orderID,
+      type: state.orderType,
+      user: {
+        userFirstName: state.userInfo.firstName,
+        userLastName: state.userInfo.lastName,
+        userEmail: state.userInfo.email,
+        userPhone: state.userInfo.phone,
+        userAddress: `${state.userInfo.addDetail}, ${state.userInfo.town}, ${state.userInfo.district}, ${state.userInfo.prefecture}`,
+        userPostCode: state.userInfo.postCode,
+      },
+      status: 0,
+      payment: {
+        paymentOption: 1,
+        paymentNumer: 0,
+        paymentCVV: 0,
+        paymentDate: 0,
+      },
+      workingTime: state.workingTime,
+      total: state.paymentCount,
+      created: {
+        date: date,
+        time: time,
+      },
+      working: {
+        date: "",
+        time: "",
+      },
+      completed: {
+        date: "",
+        time: "",
+      },
+      ratingState: 0,
+      belongTo: {
+        empId: "",
+        empName: "",
+      },
+      describe: "",
+    });
+    sendEmail();
+    if (
+      state.discountInfo.discountID !== "" &&
+      state.discountInfo.discountReuse === 0
+    ) {
+      //Remove discount code
+      await deleteDoc(doc(db, "discountList", state.discountInfo.discountID));
+    }
+    navigateToPage("/completed", {
+      orderID: state.orderID,
+      from: "paymentOrder",
+    });
+  };
 
   const formatNumber = (number) => {
     return number.toLocaleString();
@@ -159,55 +172,90 @@ export default function PaymentOrder() {
         return "";
     }
   };
+  const sendEmail = (value) => {
+    // Template parameters to be sent via EmailJS
+    const templateParams = {
+      subject_message: `New order: #${state.orderID}`,
+      welcome_text: `You have a new order #${state.orderID}`,
+      sub_message: `https://ccgniseko.com/loginPage`,
+      user_email: `Customer email: ${state.userInfo.email}`,
+      user_name: `${state.userInfo.firstName} ${state.userInfo.lastName}`,
+      user_phone: `Customer phone number: ${state.userInfo.phone}`,
+      message: `You have a new ${getServiceType(state.orderType)} order from ${
+        state.userInfo.firstName
+      } ${
+        state.userInfo.lastName
+      }. Please visit Admin page for more information.`,
+    };
+    emailjs
+      .send(
+        "service_w0kfb1d",
+        "template_7szuo82",
+        templateParams,
+        "UCOII6_f0u6pockwH"
+      )
+      .then(
+        () => {
+          console.log("SENT");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
+  };
 
   return (
     <Elements stripe={isStripePromise}>
-      <div className="payment__container">
-        <div className={`page__headline ${isOnTop && `onTop`}`}>
-          <div
-            className="page__headline_icon_container"
-            onClick={handleNavigateBack}
-          >
-            <FaArrowLeft className="page__headline_icon" />
+      <div className="content">
+        <div className="payment__container">
+          <div className={`page__headline ${isOnTop && `onTop`}`}>
+            <div
+              className="page__headline_icon_container"
+              onClick={handleNavigateBack}
+            >
+              <FaArrowLeft className="page__headline_icon" />
+            </div>
+            <div className="page__headline_title">Check Out</div>
           </div>
-          <div className="page__headline_title">Check Out</div>
-        </div>
-        <div className="payment__content">
-          <div className="payment__info">
-            <div className="payment__info_content">
-              <div className="payment__info_item">
-                <div className="payment__info_item_title">Service:</div>
-                <div className="payment__info_item_value">
-                  {getServiceType(state.orderType)}
+          <div className="payment__content">
+            <div className="payment__info">
+              <div className="payment__info_content">
+                <div className="payment__info_item">
+                  <div className="payment__info_item_title">Service:</div>
+                  <div className="payment__info_item_value">
+                    {getServiceType(state.orderType)}
+                  </div>
                 </div>
-              </div>
-              <div className="payment__info_item">
-                <div className="payment__info_item_title highlight">Total:</div>
-                <div className="payment__info_item_value highlight">
-                  {Math.round(paymentCount)}¥
+                <div className="payment__info_item">
+                  <div className="payment__info_item_title highlight">
+                    Total:
+                  </div>
+                  <div className="payment__info_item_value highlight">
+                    {formatNumber(Math.round(paymentCount))}¥
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="payment__atm">
-            {state.clientSecret && (
-              <CheckoutFromStripe
-                clientSecret={state.clientSecret}
-                stateValue={state}
-              />
-            )}
-          </div>
-        </div>
-        {isAlert && (
-          <div className="pop__container">
-            <div className="pop__content">
-              <div className="pop__alert">{alertValue}</div>
-              <div className="pop__close" onClick={() => setIsAlert(false)}>
-                close
-              </div>
+            <div className="payment__atm">
+              {state.clientSecret && (
+                <CheckoutFromStripe
+                  clientSecret={state.clientSecret}
+                  stateValue={state}
+                />
+              )}
             </div>
           </div>
-        )}
+          {isAlert && (
+            <div className="pop__container">
+              <div className="pop__content">
+                <div className="pop__alert">{alertValue}</div>
+                <div className="pop__close" onClick={() => setIsAlert(false)}>
+                  close
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </Elements>
   );

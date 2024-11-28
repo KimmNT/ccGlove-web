@@ -9,6 +9,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 export default function HourOrder() {
   const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
@@ -23,6 +25,7 @@ export default function HourOrder() {
   const [alertValue, setAlertValue] = useState("");
   const [isAlert, setIsAlert] = useState(false);
   const [isOnTop, setIsOnTop] = useState(false);
+  const [disabledDatesList, setDisabledDatesList] = useState([]);
 
   const durationTime = [
     { time: 3 },
@@ -56,6 +59,7 @@ export default function HourOrder() {
   }, []);
 
   useEffect(() => {
+    getDisableWorkingDate();
     if (state) {
       const currentTime = new Date();
       const currentDay = moment().startOf("day"); // Get current day without time
@@ -92,6 +96,40 @@ export default function HourOrder() {
   useEffect(() => {
     setPaymentCount(duration * 3000);
   }, [duration]);
+
+  const getDisableWorkingDate = async () => {
+    try {
+      const data = await getDocs(collection(db, "disableDatesList"));
+      const listData = data.docs.map((doc) => {
+        const itemData = doc.data();
+        return {
+          idFireBase: doc.id,
+          ...itemData,
+        };
+      });
+      const disabledDates = listData.flatMap((date) => date.disableList || []); // Extract and flatten all disableList arrays
+      // setSelectedDates(disabledDates);
+      setDisabledDatesList(disabledDates);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      // Handle error as needed
+    }
+  };
+
+  const isDateDisabled = ({ date, view }) => {
+    // Disable only specific dates
+    if (view === "month") {
+      // Format the current date to DD/MM/YYYY
+      const formattedDate = `${String(date.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}/${String(date.getDate()).padStart(2, "0")}/${date.getFullYear()}`;
+
+      // Check if the formatted date is in the disabledDates array
+      return disabledDatesList.includes(formattedDate);
+    }
+    return false; // Only check for month view
+  };
 
   const checkIfAtTop = () => {
     if (window.scrollY === 0 || document.documentElement.scrollTop === 0) {
@@ -181,137 +219,148 @@ export default function HourOrder() {
   };
 
   return (
-    <div className="order__container">
-      <div className={`page__headline ${isOnTop && `onTop`}`}>
-        <div
-          className="page__headline_icon_container"
-          onClick={handleNavigateBack}
-        >
-          <FaArrowLeft className="page__headline_icon" />
-        </div>
-        <div className="page__headline_title">Hourly Service</div>
-      </div>
-      <div className="order__content">
-        <div className="order__headline_content">
-          {" "}
-          <div className="order__headline">
-            <div className="order__value">
-              <FaClock /> 07:00 - 22:00
-            </div>
-            <div className="order__value">
-              <FaCoins /> 3000¥/h (at least 3hrs)
-            </div>
+    <div className="content">
+      <div className="order__container">
+        <div className={`page__headline ${isOnTop && `onTop`}`}>
+          <div
+            className="page__headline_icon_container"
+            onClick={handleNavigateBack}
+          >
+            <FaArrowLeft className="page__headline_icon" />
           </div>
-          <Calendar onChange={handleDateChange} value={selectedDate} />
+          <div className="page__headline_title">Hourly Service</div>
         </div>
-        {isClose ? (
-          <></>
-        ) : (
-          <div className="order__hours">
-            <div className="order__hours_headline">Choose working hours</div>
-            <div className="order__hours_content">
-              <div
-                className="order__hours_item"
-                onClick={() => {
-                  setIsPopUp(true);
-                  setIsDuration(true);
-                }}
-              >
-                <div className="item__title">Duration</div>
-                <div className="item__break"></div>
-                <div className="item__value">{duration} hrs</div>
+        <div className="order__content">
+          <div className="order__headline_content">
+            {" "}
+            <div className="order__headline">
+              <div className="order__value">
+                <FaClock /> 07:00 - 22:00
               </div>
-              <div
-                className="order__hours_item"
-                onClick={() => {
-                  setIsPopUp(true);
-                  setIsDuration(false);
-                }}
-              >
-                <div className="item__title">Start time</div>
-                <div className="item__break"></div>
-                <div className="item__value">{startTime}:00</div>
+              <div className="order__value">
+                <FaCoins /> 3000¥/h (at least 3hrs)
               </div>
             </div>
-            {startTime > 0 && (
-              <div className="order__payment" onClick={handleNavigate}>
-                <div className="order__payment_value">
-                  {formatNumber(paymentCount)}¥
+            <Calendar
+              onChange={handleDateChange}
+              value={selectedDate}
+              tileDisabled={isDateDisabled}
+            />
+          </div>
+          {isClose ? (
+            <></>
+          ) : (
+            <div className="order__hours">
+              <div className="order__hours_headline">Choose working hours</div>
+              <div className="order__hours_content">
+                <div
+                  className="order__hours_item"
+                  onClick={() => {
+                    setIsPopUp(true);
+                    setIsDuration(true);
+                  }}
+                >
+                  <div className="item__title">Duration</div>
+                  <div className="item__break"></div>
+                  <div className="item__value">{duration} hrs</div>
                 </div>
-                <div className="order__payment_btn">
-                  <IoIosArrowForward className="order__payment_icon" />
+                <div
+                  className="order__hours_item"
+                  onClick={() => {
+                    setIsPopUp(true);
+                    setIsDuration(false);
+                  }}
+                >
+                  <div className="item__title">Start time</div>
+                  <div className="item__break"></div>
+                  <div className="item__value">{startTime}:00</div>
                 </div>
               </div>
-            )}
-          </div>
-        )}
-      </div>
-      {isPopUp && (
-        <div className="pop__container">
-          <div className="pop__content pop__container_larger">
-            <div className="pop__headline">Choose duration</div>
-            {isDuration ? (
-              <div className="pop__value">
-                {durationTime.map((duration, index) => (
-                  <div
-                    key={index}
-                    className="value__item"
-                    onClick={() => {
-                      setDuration(duration.time);
-                      setIsPopUp(false);
-                      setStartTime(0);
-                    }}
-                  >
-                    {duration.time}
+              {startTime > 0 && (
+                <div className="order__payment" onClick={handleNavigate}>
+                  <div className="order__payment_value">
+                    {formatNumber(paymentCount)}¥
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="pop__value">
-                {sortedNumbers.length === 0 ? (
-                  <div className="value__empty">
-                    Please choose another duration
+                  <div className="order__payment_btn">
+                    <IoIosArrowForward className="order__payment_icon" />
                   </div>
-                ) : (
-                  <>
-                    {sortedNumbers.map((number, index) => (
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        {isPopUp && (
+          <div className="pop__container">
+            <div className="pop__content pop__container_larger">
+              {isDuration ? (
+                <>
+                  <div className="pop__headline">Choose duration</div>
+                  <div className="pop__value">
+                    {durationTime.map((duration, index) => (
                       <div
                         key={index}
                         className="value__item"
                         onClick={() => {
-                          setStartTime(number.time);
+                          setDuration(duration.time);
                           setIsPopUp(false);
+                          setStartTime(0);
                         }}
                       >
-                        {number.time}
+                        {duration.time}
                       </div>
                     ))}
-                  </>
-                )}
-              </div>
-            )}
-            <div className="pop__btn_container">
-              <div></div>
-              <div className="btn close" onClick={() => setIsPopUp(false)}>
-                close
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="pop__headline">Choose start time</div>
+                  <div className="pop__value">
+                    {sortedNumbers.length === 0 ? (
+                      <div className="value__empty">
+                        Please choose another duration
+                      </div>
+                    ) : (
+                      <>
+                        {sortedNumbers.map((number, index) => (
+                          <div
+                            key={index}
+                            className="value__item"
+                            onClick={() => {
+                              setStartTime(number.time);
+                              setIsPopUp(false);
+                            }}
+                          >
+                            {number.time}
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </div>
+                </>
+              )}
+              <div className="pop__btn_container">
+                <div></div>
+                <div className="btn close" onClick={() => setIsPopUp(false)}>
+                  close
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      {isAlert && (
-        <div className="pop__container">
-          <div className="pop__content pop__container_larger">
-            <div className="pop__alert">{alertValue}</div>
-            <div className="pop__btn_container">
-              <div></div>
-              <div className="btn close" onClick={() => setIsAlert(false)}>
-                close
+        )}
+        {isAlert && (
+          <div className="pop__container">
+            <div className="pop__content pop__container_larger">
+              <div className="pop__alert">{alertValue}</div>
+              <div className="pop__btn_container">
+                <div></div>
+                <div className="btn close" onClick={() => setIsAlert(false)}>
+                  close
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

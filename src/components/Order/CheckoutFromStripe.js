@@ -4,6 +4,7 @@ import "../../assets/sass/CheckoutFromStripe.scss"; // Optional CSS file for cus
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 import usePageNavigation from "../../uesPageNavigation"; // Corrected import path
+import emailjs from "@emailjs/browser";
 
 export default function CheckoutFromStripe({ clientSecret, stateValue }) {
   const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
@@ -53,7 +54,7 @@ export default function CheckoutFromStripe({ clientSecret, stateValue }) {
         userLastName: stateValue.userInfo.lastName,
         userEmail: stateValue.userInfo.email,
         userPhone: stateValue.userInfo.phone,
-        userAddress: `${stateValue.userInfo.addDetail}, ${stateValue.userInfo.district}, ${stateValue.userInfo.city}, ${stateValue.userInfo.prefecture}`,
+        userAddress: `${stateValue.userInfo.addDetail}, ${stateValue.userInfo.town}, ${stateValue.userInfo.district}, ${stateValue.userInfo.prefecture}`,
         userPostCode: stateValue.userInfo.postCode,
       },
       status: 0,
@@ -84,6 +85,7 @@ export default function CheckoutFromStripe({ clientSecret, stateValue }) {
       },
       describe: "",
     });
+    sendEmail();
     if (
       stateValue.discountInfo.discountID !== "" &&
       stateValue.discountInfo.discountReuse === 0
@@ -115,6 +117,51 @@ export default function CheckoutFromStripe({ clientSecret, stateValue }) {
         iconColor: "#fa755a",
       },
     },
+  };
+
+  const getServiceType = (type) => {
+    switch (type) {
+      case 0:
+        return "Hourly Service";
+      case 1:
+        return "Daily Service";
+      case 2:
+        return "Custom Service";
+      default:
+        return "";
+    }
+  };
+
+  const sendEmail = (value) => {
+    // Template parameters to be sent via EmailJS
+    const templateParams = {
+      subject_message: `New order: #${state.orderID}`,
+      welcome_text: `You have a new order #${state.orderID}`,
+      sub_message: `https://ccgniseko.com/loginPage`,
+      user_email: `Customer email: ${state.userInfo.email}`,
+      user_name: `${state.userInfo.firstName} ${state.userInfo.lastName}`,
+      user_phone: `Customer phone number: ${state.userInfo.phone}`,
+      message: `You have a new ${getServiceType(state.orderType)} order from ${
+        state.userInfo.firstName
+      } ${
+        state.userInfo.lastName
+      }. Please visit Admin page for more information.`,
+    };
+    emailjs
+      .send(
+        "service_w0kfb1d",
+        "template_7szuo82",
+        templateParams,
+        "UCOII6_f0u6pockwH"
+      )
+      .then(
+        () => {
+          console.log("SENT");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
   };
 
   return (

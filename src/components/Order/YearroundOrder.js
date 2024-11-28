@@ -3,8 +3,7 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
 import "../../assets/sass/orderStyle.scss";
-import { FaCheck, FaClock, FaCoins } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
+import { FaCheck } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
 import CustomImage from "../../assets/images/custom.jpg";
@@ -68,13 +67,16 @@ export default function YearroundOrder() {
   const sendEmail = (value) => {
     // Template parameters to be sent via EmailJS
     const templateParams = {
-      user_email: value,
+      subject_message: `New message from ${userName}`,
+      welcome_text: "Hello ccgloves",
+      sub_message: "Here is my information:",
+      user_email: `Customer email: ${value}`,
       user_name: userName,
-      user_phone: userPhone,
+      user_phone: `Customer phone number: ${userPhone}`,
       message: `${
         customType === 0
           ? `I would like to know more about your year-round cleaning services. `
-          : ``
+          : `I need a custom service. `
       } ${userMessag}`,
     };
     emailjs
@@ -131,7 +133,11 @@ export default function YearroundOrder() {
               className={`order__year_btn ${
                 customType === 0 ? `order__year_btn_active` : ``
               }`}
-              onClick={() => setCustomType(0)}
+              onClick={() => {
+                setCustomType(0);
+                setIsSending(false);
+                setIsSent(false);
+              }}
             >
               Year-round Service
             </div>
@@ -139,7 +145,11 @@ export default function YearroundOrder() {
               className={`order__year_btn ${
                 customType === 1 ? `order__year_btn_active` : ``
               }`}
-              onClick={() => setCustomType(1)}
+              onClick={() => {
+                setCustomType(1);
+                setIsSending(false);
+                setIsSent(false);
+              }}
             >
               Custom Service
             </div>
@@ -154,9 +164,10 @@ export default function YearroundOrder() {
             <div className="order__year_option_container">
               {customType === 0 ? (
                 <div className="order__year_describe ">
-                  Year-round cleaning service is here to keep your space
-                  spotless and inviting all year long, so you can enjoy a
-                  consistently clean environment without the hassle.
+                  People who use year-round cleaning services include apartments
+                  for rent, houses for rent, and dormitory for rent. We provide
+                  not only cleaning but also amenities, soaps and kitchen
+                  supplies.
                 </div>
               ) : (
                 <div className="order__year_describe ">

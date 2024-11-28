@@ -366,7 +366,11 @@ a {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        .item__btn {
+        .btn{
+          &.close{
+            background-color: $softYellow;
+            border-color: $softYellow;
+          }
         }
         .result__btn_group {
           display: flex;

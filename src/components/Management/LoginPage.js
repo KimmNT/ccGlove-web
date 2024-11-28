@@ -15,15 +15,44 @@ export default function LoginPage() {
   const [err, setErr] = useState("");
   const [isSaved, setIsSaved] = useState(false);
   const [isAlreadySaved, setIsAlreadySaved] = useState(false);
+  const [errCount, setErrCount] = useState(0);
+  const [loginLock, setLoginLock] = useState(4);
 
   useEffect(() => {
-    const loadSavedInfo = JSON.parse(localStorage.getItem("cfxo6u7xp5"));
-    if (loadSavedInfo !== null) {
-      setIsAlreadySaved(true);
-      setEmail(loadSavedInfo.userName);
-      setPassword(loadSavedInfo.password);
+    const now = new Date();
+    const currentTime = now.getTime(); // Get time in milliseconds since epoch
+    const loadLoginLock = JSON.parse(localStorage.getItem("gr6q94t2v3"));
+    if (loadLoginLock) {
+      const lockedDuration = currentTime - loadLoginLock.time; // Time difference in milliseconds
+      if (lockedDuration > 1 * 60 * 1000) {
+        // If more than 5 minutes
+        localStorage.removeItem("gr6q94t2v3");
+        const loadSavedInfo = JSON.parse(localStorage.getItem("cfxo6u7xp5"));
+        if (loadSavedInfo !== null) {
+          setIsAlreadySaved(true);
+          setEmail(loadSavedInfo.userName);
+          setPassword(loadSavedInfo.password);
+        }
+      } else {
+        setErrCount(loadLoginLock.state);
+      }
     }
   }, []);
+
+  useEffect(() => {
+    if (errCount === 5) {
+      const now = new Date();
+      const lockedTime = now.getTime(); // Time in milliseconds since epoch
+      setErr("Too many attempts. Please try again in 5 minutes.");
+
+      const loginLocked = {
+        state: errCount,
+        time: lockedTime, // Save exact time of lock
+      };
+
+      localStorage.setItem("gr6q94t2v3", JSON.stringify(loginLocked));
+    }
+  }, [errCount]);
 
   const generateRandomToken = (length) => {
     const characters =
@@ -57,10 +86,12 @@ export default function LoginPage() {
       const querySnapshot = await getDocs(roleQuery);
 
       if (querySnapshot.empty) {
+        setLoginLock(loginLock - 1);
         // If no user is found, handle the case where login credentials are incorrect
-        setErr("Incorrect email or password");
+        setErr(`Incorrect email or password. ${loginLock} times left.`);
         setEmail("");
         setPassword("");
+        setErrCount(errCount + 1);
         return;
       }
 
@@ -94,6 +125,12 @@ export default function LoginPage() {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleLogin(email, password);
+    }
+  };
+
   return (
     <div className="login__container">
       <div className="login__headline">ccgloves</div>
@@ -113,6 +150,7 @@ export default function LoginPage() {
               type={isShowPW ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             {isShowPW ? (
               <div
@@ -144,12 +182,16 @@ export default function LoginPage() {
           <div className="btn cancel" onClick={() => navigateToPage("/")}>
             back to home
           </div>
-          <div
-            className="btn login"
-            onClick={() => handleLogin(email, password)}
-          >
-            login now
-          </div>
+          {errCount === 5 ? (
+            <></>
+          ) : (
+            <div
+              className="btn login"
+              onClick={() => handleLogin(email, password)}
+            >
+              login now
+            </div>
+          )}
         </div>
       </div>
       {isAlreadySaved && (

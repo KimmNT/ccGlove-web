@@ -298,360 +298,366 @@ export default function HistoryPage() {
     setIsRating(false);
   };
   return (
-    <div className="home__container">
-      <div className="home__headline_title home__headline_full">
-        <div className="slogan ">
-          Check your
-          <span className="slogan__hightlight"> order!</span>
-        </div>
-      </div>
-      <div className="history__container">
-        <div className="history__search">
-          <input
-            placeholder="Enter your order ID"
-            value={inputValue.toUpperCase()}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <div className="history__btn" onClick={handleSearchOrder}>
-            <FaMagnifyingGlass className="history__btn_icon" />
+    <div className="content">
+      <div className="home__container">
+        <div className="home__headline_title home__headline_full">
+          <div className="slogan ">
+            Check your
+            <span className="slogan__hightlight"> order!</span>
           </div>
         </div>
-        <div className="history__alert">{alertContent}</div>
-        {isSearchValue && (
-          <div className="history__result__after_search">
-            {searchList.length > 0 ? (
-              <>
-                {searchList.map((search, index) => (
-                  <div
-                    key={index}
-                    className="search__item"
-                    onClick={() => handleGetDetailOrder(search)}
-                  >
-                    <div className="search__item_headline">#{search.id}</div>
-                    <div className="search__item_box">
-                      <div className="item__box_title">Service: </div>
-                      <div className="item__box_value">
-                        {getServiceType(search.type)}
-                      </div>
-                    </div>
-                    <div className="search__item_box">
-                      <div className="item__box_title">Created: </div>
-                      <div className="item__box_value">
-                        {search.created.date}
-                      </div>
-                    </div>
-                    {search.completed.date !== "" ? (
-                      <div className="search__item_box">
-                        <div className="item__box_title">Completed: </div>
-                        <div className="item__box_value">
-                          {search.completed.date}
-                        </div>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                    <div className="search__item_box">
-                      <div className="item__box_title">Total: </div>
-                      <div className="item__box_value">{search.total}¥</div>
-                    </div>
-                    <div className="search__item_box">
-                      <div className="item__box_title">Status: </div>
-                      <div className="item__box_value">
-                        {getOrderStatus(search.status)}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </>
-            ) : (
-              <div>
-                No order found or no orders placed yet
-                <br />
-                Please check your information and try again.
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-      {isDetail && (
-        <div className="history__result">
-          <div className="history__result_content">
-            <div className="result__item">
-              <div className="result__item_headline">#{selectedOrder?.id}</div>
-              <div className="result__item_content">
-                <div className="result__item_box">
-                  <div className="item__box">
-                    <div className="item__box_title">Name: </div>
-                    <div className="item__box_value">
-                      {selectedOrder?.user.userFirstName}{" "}
-                      {selectedOrder?.user.userLastName}
-                    </div>
-                  </div>
-                  <div className="item__box">
-                    <div className="item__box_title">Email: </div>
-                    <div className="item__box_value">
-                      {selectedOrder?.user.userEmail}
-                    </div>
-                  </div>
-                  <div className="item__box">
-                    <div className="item__box_title">Phone number: </div>
-                    <div className="item__box_value">
-                      {selectedOrder?.user.userPhone}
-                    </div>
-                  </div>
-                  <div className="item__box">
-                    <div className="item__box_title">Address: </div>
-                    <div className="item__box_value">
-                      {selectedOrder?.user.userAddress} -{" "}
-                      {selectedOrder?.user.userPostCode}
-                    </div>
-                  </div>
-                </div>
-                <div className="result__item_box">
-                  <div className="item__box">
-                    <div className="item__box_title">Current status: </div>
-                    <div className="item__box_value">
-                      {getOrderStatus(selectedOrder?.status)}
-                      {selectedOrder?.status === 3 && (
-                        <>
-                          {selectedOrder?.ratingState === 0 ? (
-                            <div
-                              onClick={() => setIsRating(true)}
-                              className="item__box_rate"
-                            >
-                              <GoStarFill />
-                            </div>
-                          ) : (
-                            <div className="item__box_rate">Already rated</div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <div className="item__box">
-                    <div className="item__box_title">Service: </div>
-                    <div className="item__box_value">
-                      {getServiceType(selectedOrder?.type)}
-                    </div>
-                  </div>
-                  <div className="item__box">
-                    <div className="item__box_title">Total: </div>
-                    <div className="item__box_value">
-                      {selectedOrder?.total}¥
-                    </div>
-                  </div>
-                  <div className="item__box item__box_row">
-                    <div className="item__box_title">Working time: </div>
-                    <div className="item__box_list">
-                      {selectedOrder?.workingTime.map((working, index) => (
-                        <div key={index} className="list__item">
-                          <div className="list__item_box">
-                            <div className="list__item_title">Time:</div>
-                            <div className="list__item_value">
-                              {working.startTime}:00 -{" "}
-                              {working.startTime + working.duration}:00
-                            </div>
-                          </div>
-                          <div className="list__item_box">
-                            <div className="list__item_title">Duration:</div>
-                            <div className="list__item_value">
-                              {working.duration}hrs
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="item__box">
-                    <div className="item__box_title">Describe: </div>
-                    {selectedOrder?.describe !== "" ? (
-                      <div className="item__box_value">
-                        {selectedOrder?.describe}
-                      </div>
-                    ) : (
-                      <div className="item__box_value">Empty</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="result__item_btn">
-                {selectedOrder?.status === 0 || selectedOrder?.status === 1 ? (
-                  <div className="btn cancel" onClick={() => setIsCancel(true)}>
-                    cancel this order
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-                <div
-                  onClick={() => {
-                    setIsDetail(false);
-                  }}
-                  className=" btn "
-                >
-                  close
-                </div>
-              </div>
+        <div className="history__container">
+          <div className="history__search">
+            <input
+              placeholder="Enter your order ID"
+              value={inputValue.toUpperCase()}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            <div className="history__btn" onClick={handleSearchOrder}>
+              <FaMagnifyingGlass className="history__btn_icon" />
             </div>
           </div>
+          <div className="history__alert">{alertContent}</div>
+          {isSearchValue && (
+            <div className="history__result__after_search">
+              {searchList.length > 0 ? (
+                <>
+                  {searchList.map((search, index) => (
+                    <div
+                      key={index}
+                      className="search__item"
+                      onClick={() => handleGetDetailOrder(search)}
+                    >
+                      <div className="search__item_headline">#{search.id}</div>
+                      <div className="search__item_box">
+                        <div className="item__box_title">Service: </div>
+                        <div className="item__box_value">
+                          {getServiceType(search.type)}
+                        </div>
+                      </div>
+                      <div className="search__item_box">
+                        <div className="item__box_title">Created: </div>
+                        <div className="item__box_value">
+                          {search.created.date}
+                        </div>
+                      </div>
+                      {search.completed.date !== "" ? (
+                        <div className="search__item_box">
+                          <div className="item__box_title">Completed: </div>
+                          <div className="item__box_value">
+                            {search.completed.date}
+                          </div>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                      <div className="search__item_box">
+                        <div className="item__box_title">Total: </div>
+                        <div className="item__box_value">{search.total}¥</div>
+                      </div>
+                      <div className="search__item_box">
+                        <div className="item__box_title">Status: </div>
+                        <div className="item__box_value">
+                          {getOrderStatus(search.status)}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <div>
+                  No order found or no orders placed yet
+                  <br />
+                  Please check your information and try again.
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      )}
-      {isCancel && (
-        <div className="history__result">
-          <div className="history__result_content">
-            <div className="result__item">
-              <div className="result__item_headline">
-                Please tell us why you want to cancel this order
-              </div>
-              <textarea
-                placeholder="Enter your reason why cancel this order"
-                className="result__item_textarea"
-                value={describeValue}
-                rows={6}
-                onChange={(e) => setDescribeValue(e.target.value)}
-              ></textarea>
-              <div className="result__item_btn">
-                <div></div>
-                <div className="result__btn_group">
+        {isDetail && (
+          <div className="history__result">
+            <div className="history__result_content">
+              <div className="result__item">
+                <div className="result__item_headline">
+                  #{selectedOrder?.id}
+                </div>
+                <div className="result__item_content">
+                  <div className="result__item_box">
+                    <div className="item__box">
+                      <div className="item__box_title">Name: </div>
+                      <div className="item__box_value">
+                        {selectedOrder?.user.userFirstName}{" "}
+                        {selectedOrder?.user.userLastName}
+                      </div>
+                    </div>
+                    <div className="item__box">
+                      <div className="item__box_title">Email: </div>
+                      <div className="item__box_value">
+                        {selectedOrder?.user.userEmail}
+                      </div>
+                    </div>
+                    <div className="item__box">
+                      <div className="item__box_title">Phone number: </div>
+                      <div className="item__box_value">
+                        {selectedOrder?.user.userPhone}
+                      </div>
+                    </div>
+                    <div className="item__box">
+                      <div className="item__box_title">Address: </div>
+                      <div className="item__box_value">
+                        {selectedOrder?.user.userAddress} -{" "}
+                        {selectedOrder?.user.userPostCode}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="result__item_box">
+                    <div className="item__box">
+                      <div className="item__box_title">Current status: </div>
+                      <div className="item__box_value">
+                        {getOrderStatus(selectedOrder?.status)}
+                        {selectedOrder?.status === 3 && (
+                          <>
+                            {selectedOrder?.ratingState === 0 ? (
+                              <div
+                                onClick={() => setIsRating(true)}
+                                className="item__box_rate"
+                              >
+                                <GoStarFill />
+                              </div>
+                            ) : (
+                              <div className="item__box_rate">
+                                Already rated
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <div className="item__box">
+                      <div className="item__box_title">Service: </div>
+                      <div className="item__box_value">
+                        {getServiceType(selectedOrder?.type)}
+                      </div>
+                    </div>
+                    <div className="item__box">
+                      <div className="item__box_title">Total: </div>
+                      <div className="item__box_value">
+                        {selectedOrder?.total}¥
+                      </div>
+                    </div>
+                    <div className="item__box item__box_row">
+                      <div className="item__box_title">Working time: </div>
+                      <div className="item__box_list">
+                        {selectedOrder?.workingTime.map((working, index) => (
+                          <div key={index} className="list__item">
+                            <div className="list__item_box">
+                              <div className="list__item_title">Time:</div>
+                              <div className="list__item_value">
+                                {working.startTime}:00 -{" "}
+                                {working.startTime + working.duration}:00
+                              </div>
+                            </div>
+                            <div className="list__item_box">
+                              <div className="list__item_title">Duration:</div>
+                              <div className="list__item_value">
+                                {working.duration}hrs
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="result__item_btn">
+                  {selectedOrder?.status === 0 ||
+                  selectedOrder?.status === 1 ? (
+                    <div
+                      className="btn cancel"
+                      onClick={() => setIsCancel(true)}
+                    >
+                      cancel this order
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                   <div
                     onClick={() => {
-                      setIsCancel(false);
-                      setDescribeValue("");
+                      setIsDetail(false);
                     }}
                     className="btn close"
                   >
-                    cancel
-                  </div>
-                  <div onClick={handleCancelOrder} className="btn success">
-                    submit
+                    close
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      {isRating && (
-        <div className="history__result">
-          <div className="history__result_content">
-            <div className="result__item">
-              <div className="result__item_headline">
-                Share your thoughts with us.
-              </div>
-              <div className="result__item_content not__in_row">
-                <div className="result__item_box">
-                  <div className="item__box item__box_row">
-                    <div className="item__box_title">Service quality: </div>
-                    <div className="item__box_list">
-                      {rating.map((rate, index) => (
-                        <div
-                          key={index}
-                          onClick={() => setRateService(rate.value)}
-                          className={`list__item_rate ${
-                            rateService === rate.value
-                              ? `rate__active`
-                              : `rate__inactive`
-                          }`}
-                        >
-                          <div className="list__item_box">
-                            <div className="list__item_icon">{rate.icon}</div>
-                            <div className="list__item_value">{rate.title}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+        )}
+        {isCancel && (
+          <div className="history__result">
+            <div className="history__result_content">
+              <div className="result__item">
+                <div className="result__item_headline">
+                  Please tell us why you want to cancel this order
                 </div>
-                <div className="result__item_box">
-                  <div className="item__box item__box_row">
-                    <div className="item__box_title">Booking process: </div>
-                    <div className="item__box_list">
-                      {rating.map((rate, index) => (
-                        <div
-                          key={index}
-                          onClick={() => setRateBooking(rate.value)}
-                          className={`list__item_rate ${
-                            rateBooking === rate.value
-                              ? `rate__active`
-                              : `rate__inactive`
-                          }`}
-                        >
-                          <div className="list__item_box">
-                            <div className="list__item_icon">{rate.icon}</div>
-                            <div className="list__item_value">{rate.title}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="result__item_box">
-                  <div className="item__box item__box_row">
-                    <div className="item__box_title">Staff quality: </div>
-                    <div className="item__box_list">
-                      {rating.map((rate, index) => (
-                        <div
-                          key={index}
-                          onClick={() => setRateStaff(rate.value)}
-                          className={`list__item_rate ${
-                            rateStaff === rate.value
-                              ? `rate__active`
-                              : `rate__inactive`
-                          }`}
-                        >
-                          <div className="list__item_box">
-                            <div className="list__item_icon">{rate.icon}</div>
-                            <div className="list__item_value">{rate.title}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="result__item_box">
-                  <div className="item__box item__box_row">
-                    <div className="item__box_title">Any other though: </div>
-                    <textarea
-                      className="item__box_textarea"
-                      value={rateFeedback}
-                      onChange={(e) => setRateFeedback(e.target.value)}
-                      rows={5}
-                    ></textarea>
-                  </div>
-                </div>
-              </div>
-              <div className="result__item_btn">
-                <div></div>
-                <div className="result__btn_group">
-                  {isSent ? (
-                    <div className="discount__sent_text">
-                      A discount code was sent to your email. Check your inbox
-                      and spam folder.
-                    </div>
-                  ) : (
+                <textarea
+                  placeholder="Enter your reason why cancel this order"
+                  className="result__item_textarea"
+                  value={describeValue}
+                  rows={6}
+                  onChange={(e) => setDescribeValue(e.target.value)}
+                ></textarea>
+                <div className="result__item_btn">
+                  <div></div>
+                  <div className="result__btn_group">
                     <div
                       onClick={() => {
-                        setIsRating(false);
+                        setIsCancel(false);
+                        setDescribeValue("");
                       }}
                       className="btn close"
                     >
                       cancel
                     </div>
-                  )}
-                  {isSent ? (
-                    <div onClick={handleCloseModal} className="btn success">
-                      done
-                    </div>
-                  ) : (
-                    <div onClick={handleSendReview} className="btn success">
+                    <div onClick={handleCancelOrder} className="btn success">
                       submit
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+        {isRating && (
+          <div className="history__result">
+            <div className="history__result_content">
+              <div className="result__item">
+                <div className="result__item_headline">
+                  Share your thoughts with us.
+                </div>
+                <div className="result__item_content not__in_row">
+                  <div className="result__item_box">
+                    <div className="item__box item__box_row">
+                      <div className="item__box_title">Service quality: </div>
+                      <div className="item__box_list">
+                        {rating.map((rate, index) => (
+                          <div
+                            key={index}
+                            onClick={() => setRateService(rate.value)}
+                            className={`list__item_rate ${
+                              rateService === rate.value
+                                ? `rate__active`
+                                : `rate__inactive`
+                            }`}
+                          >
+                            <div className="list__item_box">
+                              <div className="list__item_icon">{rate.icon}</div>
+                              <div className="list__item_value">
+                                {rate.title}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="result__item_box">
+                    <div className="item__box item__box_row">
+                      <div className="item__box_title">Booking process: </div>
+                      <div className="item__box_list">
+                        {rating.map((rate, index) => (
+                          <div
+                            key={index}
+                            onClick={() => setRateBooking(rate.value)}
+                            className={`list__item_rate ${
+                              rateBooking === rate.value
+                                ? `rate__active`
+                                : `rate__inactive`
+                            }`}
+                          >
+                            <div className="list__item_box">
+                              <div className="list__item_icon">{rate.icon}</div>
+                              <div className="list__item_value">
+                                {rate.title}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="result__item_box">
+                    <div className="item__box item__box_row">
+                      <div className="item__box_title">Staff quality: </div>
+                      <div className="item__box_list">
+                        {rating.map((rate, index) => (
+                          <div
+                            key={index}
+                            onClick={() => setRateStaff(rate.value)}
+                            className={`list__item_rate ${
+                              rateStaff === rate.value
+                                ? `rate__active`
+                                : `rate__inactive`
+                            }`}
+                          >
+                            <div className="list__item_box">
+                              <div className="list__item_icon">{rate.icon}</div>
+                              <div className="list__item_value">
+                                {rate.title}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="result__item_box">
+                    <div className="item__box item__box_row">
+                      <div className="item__box_title">Any other though: </div>
+                      <textarea
+                        className="item__box_textarea"
+                        value={rateFeedback}
+                        onChange={(e) => setRateFeedback(e.target.value)}
+                        rows={5}
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div className="result__item_btn">
+                  <div></div>
+                  <div className="result__btn_group">
+                    {isSent ? (
+                      <div className="discount__sent_text">
+                        A discount code was sent to your email. Check your inbox
+                        and spam folder.
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => {
+                          setIsRating(false);
+                        }}
+                        className="btn close"
+                      >
+                        cancel
+                      </div>
+                    )}
+                    {isSent ? (
+                      <div onClick={handleCloseModal} className="btn success">
+                        done
+                      </div>
+                    ) : (
+                      <div onClick={handleSendReview} className="btn success">
+                        submit
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

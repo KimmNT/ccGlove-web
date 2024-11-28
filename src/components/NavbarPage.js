@@ -10,6 +10,7 @@ export default function NavbarPage() {
   // State to store the width of the window
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isNavBar, setIsNavBar] = useState(false);
+  const [navState, setNavState] = useState(0);
 
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
 
@@ -50,37 +51,49 @@ export default function NavbarPage() {
           </div>
           <div className="navbar__content">
             <div
-              className="menu__item"
+              className={`menu__item ${
+                navState === 0 ? `menu__item_acitve` : ``
+              }`}
               onClick={() => {
                 navigateToPage("/");
                 setIsNavBar(false);
+                setNavState(0);
               }}
             >
               <div className="menu__item_value">home</div>
             </div>
             <div
-              className="menu__item"
+              className={`menu__item ${
+                navState === 1 ? `menu__item_acitve` : ``
+              }`}
               onClick={() => {
                 navigateToPage("/about");
                 setIsNavBar(false);
+                setNavState(1);
               }}
             >
               <div className="menu__item_value">about</div>
             </div>
             <div
-              className="menu__item"
+              className={`menu__item ${
+                navState === 2 ? `menu__item_acitve` : ``
+              }`}
               onClick={() => {
                 navigateToPage("/history");
                 setIsNavBar(false);
+                setNavState(2);
               }}
             >
               <div className="menu__item_value">history</div>
             </div>
             <div
-              className="menu__item"
+              className={`menu__item ${
+                navState === 3 ? `menu__item_acitve` : ``
+              }`}
               onClick={() => {
                 navigateToPage("/contact");
                 setIsNavBar(false);
+                setNavState(3);
               }}
             >
               <div className="menu__item_value">contact</div>

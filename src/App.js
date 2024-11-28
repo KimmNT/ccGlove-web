@@ -43,7 +43,8 @@ const Layout = ({ children }) => {
     <>
       {showLayout && <NavbarPage />}
       <div className={showLayout ? "container" : ""}>
-        <div className={showLayout ? "content" : ""}>{children}</div>
+        {/* <div className={showLayout ? "content" : ""}>{children}</div> */}
+        {children}
       </div>
       {showLayout && <FooterPage />}
     </>
@@ -82,7 +83,7 @@ function App() {
           />
           {/* Fallback route for 404 */}
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="/testing" element={<Testing />} />
+          <Route path="/jessir/rusure/testing" element={<Testing />} />
         </Routes>
       </Layout>
     </Router>

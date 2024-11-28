@@ -335,6 +335,78 @@ $breakpoint-large: 1200px;
       }
     }
   }
+  .working__date_container{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-left: 5rem;
+    margin-top: 2rem;
+    .working__date_break{
+      width: 100%;
+      height: 1rem;
+      background-color: $light;
+    }
+    .working__list{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background-color: $light;
+      padding: 2rem;
+      border-radius: .5rem;
+      box-shadow: $boxShadow;
+      .working__list_item{
+        padding: 1rem 2rem;
+        background-color: $light;
+        color: $dark;
+        font-size: 1.3rem;
+        border-radius: .5rem;
+        cursor: pointer;
+        border: .1rem solid $primary;
+        &.working__list_item_active{
+          background-color: $primary;
+          font-weight: 600;
+          color: $light;
+        }
+        &.working__date_selection{
+          font-weight: 600;
+        }
+        &.date__item{
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          background-color: $primary;
+          justify-content: space-between;
+          .date__item_value{
+            font-size: 1.5rem;
+            color: $light;
+          }
+          .date__item_remove{
+            background-color: $softRed;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            .date__item_remove_icon{
+              color: $light;
+            }
+          }
+        }
+        &.save{
+          text-transform: uppercase;
+          font-weight: 600;
+          font-size: 1.5rem;
+          background-color: $softYellow;
+          border-color: $softYellow;
+          cursor: pointer;
+        }
+      }
+    }
+  }
   .ordermanage__detail {
     width: 100%;
     height: 100%;
@@ -846,6 +918,21 @@ $breakpoint-large: 1200px;
             }
           }
         }
+      }
+    }
+    .service__item_one_box{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      flex-wrap: wrap;
+      .service__item_one_box_item{
+        background-color: $primary;
+        color: $light;
+        padding: 1rem 2rem;
+        border-radius: .5rem;
+        font-weight: 600;
+        font-size: 1.5rem;
       }
     }
     .service__input_list {

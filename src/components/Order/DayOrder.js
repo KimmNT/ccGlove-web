@@ -9,6 +9,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 export default function DayOrder() {
   const { navigateToPage, state } = usePageNavigation(); // Custom hook to navigate
@@ -23,6 +25,7 @@ export default function DayOrder() {
   const [alertValue, setAlertValue] = useState("");
   const [isAlert, setIsAlert] = useState(false);
   const [isOnTop, setIsOnTop] = useState(false);
+  const [disabledDatesList, setDisabledDatesList] = useState([]);
 
   const startTimeArray = [
     {
@@ -61,6 +64,7 @@ export default function DayOrder() {
   }, []);
 
   useEffect(() => {
+    getDisableWorkingDate();
     if (state) {
       setSelectedDates(state.workingTime.workingTime);
     }
@@ -76,6 +80,40 @@ export default function DayOrder() {
     } else {
       setIsOnTop(false);
     }
+  };
+
+  const getDisableWorkingDate = async () => {
+    try {
+      const data = await getDocs(collection(db, "disableDatesList"));
+      const listData = data.docs.map((doc) => {
+        const itemData = doc.data();
+        return {
+          idFireBase: doc.id,
+          ...itemData,
+        };
+      });
+      const disabledDates = listData.flatMap((date) => date.disableList || []); // Extract and flatten all disableList arrays
+      // setSelectedDates(disabledDates);
+      setDisabledDatesList(disabledDates);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      // Handle error as needed
+    }
+  };
+
+  const isDateDisabled = ({ date, view }) => {
+    // Disable only specific dates
+    if (view === "month") {
+      // Format the current date to DD/MM/YYYY
+      const formattedDate = `${String(date.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}/${String(date.getDate()).padStart(2, "0")}/${date.getFullYear()}`;
+
+      // Check if the formatted date is in the disabledDates array
+      return disabledDatesList.includes(formattedDate);
+    }
+    return false; // Only check for month view
   };
 
   const handleDateChange = (newDate) => {
@@ -216,154 +254,155 @@ export default function DayOrder() {
   };
 
   return (
-    <div className="order__container">
-      <div className={`page__headline ${isOnTop && `onTop`}`}>
-        <div
-          className="page__headline_icon_container"
-          onClick={handleNavigateBack}
-        >
-          <FaArrowLeft className="page__headline_icon" />
-        </div>
-        <div className="page__headline_title">Daily Service</div>
-      </div>
-      <div className="order__content">
-        <div className="order__headline_content">
-          {" "}
-          <div className="order__headline">
-            <div className="order__value">
-              <FaClock /> 07:00 - 20:00
-            </div>
-            <div className="order__value">
-              <FaCoins /> 20,000¥/8hrs (1hr break included)
-            </div>
+    <div className="content">
+      <div className="order__container">
+        <div className={`page__headline ${isOnTop && `onTop`}`}>
+          <div
+            className="page__headline_icon_container"
+            onClick={handleNavigateBack}
+          >
+            <FaArrowLeft className="page__headline_icon" />
           </div>
-          <Calendar
-            key={calendarKey}
-            onClickDay={handleDateChange} // Use onClickDay for selecting multiple days
-            tileClassName={({ date, view }) =>
-              view === "month" && isDateSelected(date)
-                ? "selected-date"
-                : "not-selected-date"
-            }
-          />
+          <div className="page__headline_title">Daily Service</div>
         </div>
-        {selectedDates.length > 0 && (
-          <div className="order__days">
-            <div className="order__days_headline">
-              {selectedDates.length} days
+        <div className="order__content">
+          <div className="order__headline_content">
+            {" "}
+            <div className="order__headline">
+              <div className="order__value">
+                <FaClock /> 07:00 - 20:00
+              </div>
+              <div className="order__value">
+                <FaCoins /> 20,000¥/8hrs (1hr break included)
+              </div>
             </div>
-            <div className="order__days_list">
-              {selectedDates.map((date, index) => (
-                <div
-                  key={index}
-                  className="day__item"
-                  onClick={() => handleUpdateDate(date, index)}
-                >
-                  <div className="day__item_group">
-                    <div className="day__item_group_title">Date</div>
-                    <div className="day__item_group_value">
-                      {date.selectedDate}
+            <Calendar
+              key={calendarKey}
+              onClickDay={handleDateChange} // Use onClickDay for selecting multiple days
+              tileDisabled={isDateDisabled}
+              tileClassName={({ date, view }) =>
+                view === "month" && isDateSelected(date) ? "selected-date" : ""
+              }
+            />
+          </div>
+          {selectedDates.length > 0 && (
+            <div className="order__days">
+              <div className="order__days_headline">
+                {selectedDates.length} days
+              </div>
+              <div className="order__days_list">
+                {selectedDates.map((date, index) => (
+                  <div
+                    key={index}
+                    className="day__item"
+                    onClick={() => handleUpdateDate(date, index)}
+                  >
+                    <div className="day__item_group">
+                      <div className="day__item_group_title">Date</div>
+                      <div className="day__item_group_value">
+                        {date.selectedDate}
+                      </div>
+                    </div>
+                    <div className="day__item_group">
+                      <div className="day__item_group_title">Duration</div>
+                      <div className="day__item_group_value">
+                        {date.duration}hrs
+                      </div>
+                    </div>
+                    <div className="day__item_group">
+                      <div className="day__item_group_title">Start time</div>
+                      <div className="day__item_group_value">
+                        {date.startTime}:00-{date.startTime + date.duration}:00
+                      </div>
+                    </div>
+                    <div className="day__item_group_close">
+                      <FaEdit />
                     </div>
                   </div>
-                  <div className="day__item_group">
-                    <div className="day__item_group_title">Duration</div>
-                    <div className="day__item_group_value">
-                      {date.duration}hrs
-                    </div>
-                  </div>
-                  <div className="day__item_group">
-                    <div className="day__item_group_title">Start time</div>
-                    <div className="day__item_group_value">
-                      {date.startTime}:00-{date.startTime + date.duration}:00
-                    </div>
-                  </div>
-                  <div className="day__item_group_close">
-                    <FaEdit />
+                ))}
+              </div>
+              <div className="order__payment" onClick={handleNavigate}>
+                <div className="order__payment_value">
+                  {formatNumber(paymentCount)}¥
+                </div>
+                <div className="order__payment_btn">
+                  <IoIosArrowForward className="order__payment_icon" />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        {isPopUp && (
+          <div className="pop__container">
+            <div className="pop__content pop__container_larger">
+              <div className="pop__headline">Update date</div>
+              <div className="pop__list">
+                <div className="pop__item">
+                  <div className="pop__item_title">Date</div>
+                  <div className="pop__item_value">
+                    {selectedDateUpdate?.selectedDate}
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="order__payment" onClick={handleNavigate}>
-              <div className="order__payment_value">
-                {formatNumber(paymentCount)}¥
+                <div className="pop__item_break"></div>
+                <div className="pop__item">
+                  <div className="pop__item_title">Duration</div>
+                  <div className="pop__item_value">
+                    {selectedDateUpdate?.duration} hours
+                  </div>
+                </div>
+                <div className="pop__item_break"></div>
+
+                <div className="pop__item">
+                  <div className="pop__item_title">Start time</div>
+                  <div className="pop__item_list">
+                    {startTimeArray.map((startTime, index) => (
+                      <div
+                        onClick={() =>
+                          updateStartTime(selectedDateIndex, startTime.time)
+                        }
+                        className={`pop__item_value ${
+                          selectedDateUpdate?.startTime === startTime.time
+                            ? `pop__item_value_active`
+                            : ``
+                        }`}
+                        key={index}
+                      >
+                        {startTime.time}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <div className="order__payment_btn">
-                <IoIosArrowForward className="order__payment_icon" />
+              <div className="pop__btn_container">
+                <div
+                  className="btn delete"
+                  onClick={() =>
+                    handleRemoveDate(selectedDateUpdate?.selectedDate)
+                  }
+                >
+                  remove this date
+                </div>
+                <div className="btn close" onClick={() => setIsPopUp(false)}>
+                  close
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {isAlert && (
+          <div className="pop__container">
+            <div className="pop__content pop__container_larger">
+              <div className="pop__alert">{alertValue}</div>
+              <div className="pop__btn_container">
+                <div></div>
+                <div className="btn close" onClick={() => setIsAlert(false)}>
+                  close
+                </div>
               </div>
             </div>
           </div>
         )}
       </div>
-      {isPopUp && (
-        <div className="pop__container">
-          <div className="pop__content pop__container_larger">
-            <div className="pop__headline">Update date</div>
-            <div className="pop__list">
-              <div className="pop__item">
-                <div className="pop__item_title">Date</div>
-                <div className="pop__item_value">
-                  {selectedDateUpdate?.selectedDate}
-                </div>
-              </div>
-              <div className="pop__item_break"></div>
-              <div className="pop__item">
-                <div className="pop__item_title">Duration</div>
-                <div className="pop__item_value">
-                  {selectedDateUpdate?.duration} hours
-                </div>
-              </div>
-              <div className="pop__item_break"></div>
-
-              <div className="pop__item">
-                <div className="pop__item_title">Start time</div>
-                <div className="pop__item_list">
-                  {startTimeArray.map((startTime, index) => (
-                    <div
-                      onClick={() =>
-                        updateStartTime(selectedDateIndex, startTime.time)
-                      }
-                      className={`pop__item_value ${
-                        selectedDateUpdate?.startTime === startTime.time
-                          ? `pop__item_value_active`
-                          : ``
-                      }`}
-                      key={index}
-                    >
-                      {startTime.time}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="pop__btn_container">
-              <div
-                className="btn delete"
-                onClick={() =>
-                  handleRemoveDate(selectedDateUpdate?.selectedDate)
-                }
-              >
-                remove this date
-              </div>
-              <div className="btn close" onClick={() => setIsPopUp(false)}>
-                close
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {isAlert && (
-        <div className="pop__container">
-          <div className="pop__content pop__container_larger">
-            <div className="pop__alert">{alertValue}</div>
-            <div className="pop__btn_container">
-              <div></div>
-              <div className="btn close" onClick={() => setIsAlert(false)}>
-                close
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

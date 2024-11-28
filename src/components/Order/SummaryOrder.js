@@ -73,10 +73,11 @@ export default function SummaryOrder() {
         phone: state.userInfo.phone,
         email: state.userInfo.email,
         prefecture: state.userInfo.prefecture,
-        city: state.userInfo.city,
         district: state.userInfo.district,
+        town: state.userInfo.town,
         postCode: state.userInfo.postCode,
         addDetail: state.userInfo.addDetail,
+        movingFee: state.userInfo.movingFee,
       },
     });
   };
@@ -187,15 +188,12 @@ export default function SummaryOrder() {
 
   const handleNavigate = async () => {
     setIsProcessing(true);
-    const paymentValue =
-      paymentCount * 1.037 * 1.1 * (1 - discountResult / 100);
-    console.log(Math.round(paymentValue));
     const response = await fetch(
       `https://ccglove-web-api.onrender.com/api/payments/create-payment-intent`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: Math.round(paymentValue) }),
+        body: JSON.stringify({ amount: handleGrandTotalPrice() }),
       }
     );
 
@@ -206,7 +204,7 @@ export default function SummaryOrder() {
     navigateToPage("/paymentOrder", {
       moveFrom: state.moveFrom,
       orderType: state.orderType,
-      paymentCount: paymentValue,
+      paymentCount: handleGrandTotalPrice(),
       discountInfo: {
         discountID: discountID,
         discountResult: discountResult,
@@ -220,201 +218,234 @@ export default function SummaryOrder() {
     });
   };
 
+  const handleGrandTotalPrice = () => {
+    const paymentFee = 0.037; // 3.7% processing fee
+    const taxMultiplier = 0.1; // 10% tax
+    const movingFee = state.userInfo.movingFee;
+
+    // Ensure values are numbers and handle invalid inputs
+    const paymentCountValid = isNaN(paymentCount) ? 0 : paymentCount;
+    const movingFeeValid = isNaN(movingFee) ? 0 : movingFee;
+    const discountValid = isNaN(discountResult) ? 0 : discountResult;
+
+    // Break down the calculation
+    const subTotal =
+      paymentCountValid -
+      (paymentCountValid * discountValid) / 100 +
+      movingFeeValid;
+
+    const afterTaxes = subTotal * taxMultiplier;
+
+    const afterPaymentFee = subTotal * paymentFee;
+
+    // Round and return the final value
+    return Math.round(subTotal + afterTaxes + afterPaymentFee);
+  };
+
   const formatNumber = (number) => {
     return number.toLocaleString();
   };
 
   return (
-    <div className="summary__container">
-      <div className={`page__headline ${isOnTop && `onTop`}`}>
-        <div
-          className="page__headline_icon_container"
-          onClick={handleNavigateBack}
-        >
-          <FaArrowLeft className="page__headline_icon" />
+    <div className="content">
+      <div className="summary__container">
+        <div className={`page__headline ${isOnTop && `onTop`}`}>
+          <div
+            className="page__headline_icon_container"
+            onClick={handleNavigateBack}
+          >
+            <FaArrowLeft className="page__headline_icon" />
+          </div>
+          <div className="page__headline_title">Order Sumarry</div>
         </div>
-        <div className="page__headline_title">Order Sumarry</div>
-      </div>
-      <div className="summary__content">
-        <div className="summary__content_item background">
-          <div className="summary__id">Order ID: #{orderId}</div>
-          <div className="summary__price">
-            <div className="price__item">
-              <div className="price__item_title">Service price:</div>
-              <div className="price__item_value">
-                {formatNumber(paymentCount)}¥
-              </div>
-            </div>
-            <div className="price__item">
-              <div className="price__item_title">Payment fee:</div>
-              <div className="price__item_value">
-                {formatNumber(paymentCount * 0.037)}¥
-              </div>
-            </div>
-            <div className="price__item_break"></div>
-            <div className="price__item">
-              <div className="price__item_title">Subtotal:</div>
-              <div className="price__item_value">
-                {formatNumber(paymentCount * 1.037)}¥
-              </div>
-            </div>
-            <div className="price__item">
-              <div className="price__item_title">Taxes:</div>
-              <div className="price__item_value">10%</div>
-            </div>
-            {discountResult > 0 ? (
+        <div className="summary__content">
+          <div className="summary__content_item background">
+            <div className="summary__id">Order ID: #{orderId}</div>
+            <div className="summary__price">
               <div className="price__item">
-                <div className="price__item_title">Discount:</div>
+                <div className="price__item_title">Service price:</div>
                 <div className="price__item_value">
-                  <div className="price__discount">-{discountResult}%</div>
-                  <div className="price__remove" onClick={handleNotUseDiscount}>
-                    <FaTimes />
-                  </div>
+                  {formatNumber(paymentCount)}¥
                 </div>
               </div>
-            ) : (
-              <></>
-            )}
-            <div className="price__item_break"></div>
-            <div className="price__item">
-              <div className="price__item_value total">Total:</div>
-              {/* {discountResult > 0 ? (
-                <div className="price__item_value total">
+              {discountResult > 0 ? (
+                <div className="price__item">
+                  <div className="price__item_title">Discount:</div>
+                  <div className="price__item_value">
+                    <div className="price__discount">-{discountResult}%</div>
+                    <div
+                      className="price__remove"
+                      onClick={handleNotUseDiscount}
+                    >
+                      <FaTimes />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
+              {state.userInfo.movingFee > 0 && (
+                <div className="price__item">
+                  <div className="price__item_title">
+                    Transportation and travelling fee:
+                  </div>
+                  <div className="price__item_value">
+                    {formatNumber(state.userInfo.movingFee)}¥
+                  </div>
+                </div>
+              )}
+              <div className="price__item_break"></div>
+              <div className="price__item">
+                <div className="price__item_title">Subtotal:</div>
+                <div className="price__item_value">
                   {formatNumber(
-                    paymentCount * 1.037 * 1.1 * (1 - discountResult / 100)
+                    paymentCount -
+                      (paymentCount * discountResult) / 100 +
+                      state.userInfo.movingFee
                   )}
                   ¥
                 </div>
-              ) : (
-                <div className="price__item_value total">
+              </div>
+              <div className="price__item">
+                <div className="price__item_title">Payment fee:</div>
+                <div className="price__item_value">
                   {formatNumber(
-                    paymentCount * 1.037 * 1.1 * (1 - discountResult / 100)
-                  )}¥
+                    (paymentCount -
+                      (paymentCount * discountResult) / 100 +
+                      state.userInfo.movingFee) *
+                      0.037
+                  )}
+                  ¥
                 </div>
-              )} */}
-              <div className="price__item_value total">
-                {Math.round(
-                  paymentCount * 1.037 * 1.1 * (1 - discountResult / 100)
-                )}
-                ¥
+              </div>
+              <div className="price__item">
+                <div className="price__item_title">Taxes:</div>
+                <div className="price__item_value">10%</div>
+              </div>
+              <div className="price__item_break"></div>
+              <div className="price__item">
+                <div className="price__item_value total">Total:</div>
+                <div className="price__item_value total">
+                  {formatNumber(handleGrandTotalPrice())}¥
+                </div>
               </div>
             </div>
+            <div className="summary__discount">
+              <input
+                placeholder="Enter your discount code"
+                value={discountInput}
+                onChange={(e) => setDiscountInput(e.target.value)}
+              />
+              <div className="discount__btn" onClick={handleCheckDiscountCode}>
+                Apply
+              </div>
+            </div>
+            <div className="summary__string">{discountString}</div>
           </div>
-          <div className="summary__discount">
-            <input
-              placeholder="Enter your discount code"
-              value={discountInput}
-              onChange={(e) => setDiscountInput(e.target.value)}
-            />
-            <div className="discount__btn" onClick={handleCheckDiscountCode}>
-              Apply
-            </div>
-          </div>
-          <div className="summary__string">{discountString}</div>
-        </div>
-        <div className="summary__content_item">
-          <div className="summary__item">
-            <div className="item__content">
-              <div className="content__title">Name:</div>
-              <div className="content__value">
-                {" "}
-                {`${state.userInfo.firstName} ${state.userInfo.lastName}`}
+          <div className="summary__content_item">
+            <div className="summary__item">
+              <div className="item__content">
+                <div className="content__title">Name:</div>
+                <div className="content__value">
+                  {" "}
+                  {`${state.userInfo.firstName} ${state.userInfo.lastName}`}
+                </div>
+              </div>
+              <div className="item__content">
+                <div className="content__title">Phone:</div>
+                <div className="content__value">{`${state.userInfo.phone}`}</div>
+              </div>
+              <div className="item__content">
+                <div className="content__title">Email:</div>
+                <div className="content__value">{`${state.userInfo.email}`}</div>
+              </div>
+              <div className="item__content">
+                <div className="content__title">Address:</div>
+                <div className="content__value">
+                  {`${state.userInfo.addDetail}, ${state.userInfo.town}, ${state.userInfo.district}, ${state.userInfo.prefecture}`}
+                </div>
+              </div>
+              <div className="item__content">
+                <div className="content__title">Post code:</div>
+                <div className="content__value">
+                  {`${state.userInfo.postCode}`}
+                </div>
               </div>
             </div>
-            <div className="item__content">
-              <div className="content__title">Phone:</div>
-              <div className="content__value">{`${state.userInfo.phone}`}</div>
-            </div>
-            <div className="item__content">
-              <div className="content__title">Email:</div>
-              <div className="content__value">{`${state.userInfo.email}`}</div>
-            </div>
-            <div className="item__content">
-              <div className="content__title">Address:</div>
-              <div className="content__value">
-                {`${state.userInfo.addDetail}, ${state.userInfo.district}, ${state.userInfo.city}, ${state.userInfo.prefecture}`}
-              </div>
-            </div>
-            <div className="item__content">
-              <div className="content__title">Post code:</div>
-              <div className="content__value">
-                {`${state.userInfo.postCode}`}
-              </div>
-            </div>
-          </div>
-          <div className="summary__item">
-            <div className="item__content">
-              <div className="content__title">Service:</div>
-              <div className="content__value">
-                {state.orderType === 0 ? (
-                  <div className="content__value">Hourly Service</div>
-                ) : state.orderType === 1 ? (
-                  <div className="content__value">Daily Service</div>
-                ) : (
-                  <div className="content__value">Custom Service</div>
-                )}
-              </div>
-            </div>
-            <div className="item__content item__as_list">
-              {state.workingTime.map((item, index) => (
-                <div className="list__item" key={index}>
-                  {state.orderType === 3 ? (
-                    <>
-                      <div className="list__item_value">
-                        Title: {item.title}
-                      </div>
-                      <div className="list__item_value">
-                        Detail: {item.detail}
-                      </div>
-                    </>
+            <div className="summary__item">
+              <div className="item__content">
+                <div className="content__title">Service:</div>
+                <div className="content__value">
+                  {state.orderType === 0 ? (
+                    <div className="content__value">Hourly Service</div>
+                  ) : state.orderType === 1 ? (
+                    <div className="content__value">Daily Service</div>
                   ) : (
-                    <>
-                      <div className="list__item_value">
-                        Date: {item.selectedDate}
-                      </div>
-                      <div className="list__item_value">
-                        Work time: {item.startTime}:00-
-                        {item.startTime + item.duration}
-                        :00 ({item.duration}hrs)
-                      </div>
-                    </>
+                    <div className="content__value">Custom Service</div>
                   )}
                 </div>
-              ))}
+              </div>
+              <div className="item__content item__as_list">
+                {state.workingTime.map((item, index) => (
+                  <div className="list__item" key={index}>
+                    {state.orderType === 3 ? (
+                      <>
+                        <div className="list__item_value">
+                          Title: {item.title}
+                        </div>
+                        <div className="list__item_value">
+                          Detail: {item.detail}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="list__item_value">
+                          Date: {item.selectedDate}
+                        </div>
+                        <div className="list__item_value">
+                          Work time: {item.startTime}:00-
+                          {item.startTime + item.duration}
+                          :00 ({item.duration}hrs)
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {state.workingTime.length > 1 ? (
+                <FaArrowRight className="item__btn_display" />
+              ) : (
+                <></>
+              )}
             </div>
-            {state.workingTime.length > 1 ? (
-              <FaArrowRight className="item__btn_display" />
-            ) : (
-              <></>
-            )}
+            <button
+              className="order__payment one__item_row"
+              onClick={handleNavigate}
+              disabled={isProcessing}
+            >
+              <div className="order__payment_value">
+                {isProcessing ? `processing` : `checkout now`}
+              </div>
+            </button>
           </div>
-          <button
-            className="order__payment one__item_row"
-            onClick={handleNavigate}
-            disabled={isProcessing}
-          >
-            <div className="order__payment_value">
-              {isProcessing ? `processing` : `checkout now`}
-            </div>
-          </button>
         </div>
+        {isProcessing && (
+          <div className="pop__container">
+            <div className="pop__content">
+              <div className="pop__headline">
+                Your order is being created. <br /> Please wait a moment
+              </div>
+              <div className="dot__animation">
+                <div className="dot__item delay__one"></div>
+                <div className="dot__item delay__two"></div>
+                <div className="dot__item delay__three"></div>
+                <div className="dot__item delay__four"></div>
+                <div className="dot__item delay__five"></div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      {isProcessing && (
-        <div className="pop__container">
-          <div className="pop__content">
-            <div className="pop__headline">
-              Your order is being created. <br /> Please wait a moment
-            </div>
-            <div className="dot__animation">
-              <div className="dot__item delay__one"></div>
-              <div className="dot__item delay__two"></div>
-              <div className="dot__item delay__three"></div>
-              <div className="dot__item delay__four"></div>
-              <div className="dot__item delay__five"></div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

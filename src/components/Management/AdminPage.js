@@ -8,14 +8,15 @@ import { db } from "../../firebase";
 import { IoMdLogOut } from "react-icons/io";
 import { LuPackageSearch } from "react-icons/lu";
 import { MdOutlineDashboardCustomize, MdOutlineDiscount } from "react-icons/md";
-import { LuCalendarHeart } from "react-icons/lu";
-import { FaRegImage, FaRegStar } from "react-icons/fa";
+import { FaRegCalendarCheck, FaRegImage, FaRegStar } from "react-icons/fa";
 import OrderManage from "./OrderManage";
 import DiscountManage from "./DiscountManage";
 import CustomServiceManage from "./CustomServiceManage";
 import ReviewManage from "./ReviewManage";
 import UploadImage from "./UploadImage";
-import HolidayManage from "./HolidayManage";
+import WorkingDate from "./WorkingDate";
+import AreaManage from "./AreaManage";
+import { IoLocationOutline } from "react-icons/io5";
 
 export default function AdminPage() {
   const { navigateToPage } = usePageNavigation(); // Custom hook to navigate
@@ -28,11 +29,15 @@ export default function AdminPage() {
   const [orderList, setOrderList] = useState([]);
   const [discountList, setDiscountList] = useState([]);
   const [reviewList, setReviewList] = useState([]);
+  const [disableWorkingDates, setDisableWorkingDates] = useState([]);
+  const [areaList, setAreaList] = useState([]);
 
   useEffect(() => {
     getOrderList();
     getDiscountList();
     getReviewsList();
+    getDisableWorkingDate();
+    getAreaList();
   }, []);
 
   const getOrderList = async () => {
@@ -86,6 +91,40 @@ export default function AdminPage() {
       // Handle error as needed
     }
   };
+  const getDisableWorkingDate = async () => {
+    try {
+      const data = await getDocs(collection(db, "disableDatesList"));
+      const listData = data.docs.map((doc) => {
+        const itemData = doc.data();
+        return {
+          idFireBase: doc.id,
+          ...itemData,
+        };
+      });
+
+      setDisableWorkingDates(listData);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      // Handle error as needed
+    }
+  };
+  const getAreaList = async () => {
+    try {
+      const data = await getDocs(collection(db, "areaList"));
+      const listData = data.docs.map((doc) => {
+        const itemData = doc.data();
+        return {
+          idFireBase: doc.id,
+          ...itemData,
+        };
+      });
+
+      setAreaList(listData);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      // Handle error as needed
+    }
+  };
   return (
     <div className="admin__container">
       <div className="admin__content">
@@ -129,7 +168,7 @@ export default function AdminPage() {
                 <FaRegStar className="navbar__item_icon" />
                 <div className="navbar__item_title">Reviews</div>
               </div>
-              <div
+              {/* <div
                 onClick={() => setSideBarState(4)}
                 className={`navbar__item ${
                   sideBarState === 4 ? "navbar__item_active" : ""
@@ -137,6 +176,15 @@ export default function AdminPage() {
               >
                 <FaRegImage className="navbar__item_icon" />
                 <div className="navbar__item_title">Images</div>
+              </div> */}
+              <div
+                onClick={() => setSideBarState(6)}
+                className={`navbar__item ${
+                  sideBarState === 6 ? "navbar__item_active" : ""
+                }`}
+              >
+                <IoLocationOutline className="navbar__item_icon" />
+                <div className="navbar__item_title">Areas</div>
               </div>
               <div
                 onClick={() => setSideBarState(5)}
@@ -144,8 +192,8 @@ export default function AdminPage() {
                   sideBarState === 5 ? "navbar__item_active" : ""
                 }`}
               >
-                <LuCalendarHeart className="navbar__item_icon" />
-                <div className="navbar__item_title">Holidays</div>
+                <FaRegCalendarCheck className="navbar__item_icon" />
+                <div className="navbar__item_title">Working Date</div>
               </div>
             </div>
           </div>
@@ -167,8 +215,15 @@ export default function AdminPage() {
               <ReviewManage data={reviewList} refresh={getReviewsList} />
             ) : sideBarState === 4 ? (
               <UploadImage />
+            ) : sideBarState === 5 ? (
+              <WorkingDate
+                data={disableWorkingDates}
+                refresh={getDisableWorkingDate}
+              />
+            ) : sideBarState === 6 ? (
+              <AreaManage data={areaList} refresh={getAreaList} />
             ) : (
-              <HolidayManage />
+              <></>
             )}
           </div>
         </div>
