@@ -53,6 +53,7 @@ a {
 .container {
   width: 100%;
   background-color: $bgColor;
+  overflow-x: hidden;
   .content {
     max-width: 990px !important;
     min-height: 100vh;

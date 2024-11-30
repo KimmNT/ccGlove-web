@@ -51,49 +51,37 @@ export default function NavbarPage() {
           </div>
           <div className="navbar__content">
             <div
-              className={`menu__item ${
-                navState === 0 ? `menu__item_acitve` : ``
-              }`}
+              className={`menu__item `}
               onClick={() => {
                 navigateToPage("/");
                 setIsNavBar(false);
-                setNavState(0);
               }}
             >
               <div className="menu__item_value">home</div>
             </div>
             <div
-              className={`menu__item ${
-                navState === 1 ? `menu__item_acitve` : ``
-              }`}
+              className={`menu__item `}
               onClick={() => {
                 navigateToPage("/about");
                 setIsNavBar(false);
-                setNavState(1);
               }}
             >
               <div className="menu__item_value">about</div>
             </div>
             <div
-              className={`menu__item ${
-                navState === 2 ? `menu__item_acitve` : ``
-              }`}
+              className={`menu__item `}
               onClick={() => {
                 navigateToPage("/history");
                 setIsNavBar(false);
-                setNavState(2);
               }}
             >
               <div className="menu__item_value">history</div>
             </div>
             <div
-              className={`menu__item ${
-                navState === 3 ? `menu__item_acitve` : ``
-              }`}
+              className={`menu__item `}
               onClick={() => {
                 navigateToPage("/contact");
                 setIsNavBar(false);
-                setNavState(3);
               }}
             >
               <div className="menu__item_value">contact</div>
