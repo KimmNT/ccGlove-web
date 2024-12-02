@@ -103,165 +103,167 @@ export default function CustomOrder() {
   };
 
   return (
-    <div className="order__container">
-      <div className={`page__headline ${isOnTop && `onTop`}`}>
-        <div
-          className="page__headline_icon_container"
-          onClick={handleNavigateBack}
-        >
-          <FaArrowLeft className="page__headline_icon" />
-        </div>
-        <div className="page__headline_title">Custom Services</div>
-      </div>
-      <div className="order__content">
-        <div className="order__custom">
-          <div className="custom__service_filter">
-            <FaBarsStaggered
-              className="order__custom_title_btn"
-              onClick={() => setIsType(true)}
-            />
-            <div className="order__custom_title_value">{selectedType}</div>
+    <div className="content">
+      <div className="order__container">
+        <div className={`page__headline ${isOnTop && `onTop`}`}>
+          <div
+            className="page__headline_icon_container"
+            onClick={handleNavigateBack}
+          >
+            <FaArrowLeft className="page__headline_icon" />
           </div>
-          <div className="custom__service_filter_deskop">
-            <div className="custom__filter_list">
-              <div
-                className={`custom__filter_list_item ${
-                  selectedType === "All"
-                    ? `custom__filter_list_item_active`
-                    : ``
-                }`}
-                onClick={() => handleSortService("All")}
-              >
-                All
-              </div>
-              {serviceType.map((type, index) => (
+          <div className="page__headline_title">Custom Services</div>
+        </div>
+        <div className="order__content">
+          <div className="order__custom">
+            <div className="custom__service_filter">
+              <FaBarsStaggered
+                className="order__custom_title_btn"
+                onClick={() => setIsType(true)}
+              />
+              <div className="order__custom_title_value">{selectedType}</div>
+            </div>
+            <div className="custom__service_filter_deskop">
+              <div className="custom__filter_list">
                 <div
                   className={`custom__filter_list_item ${
-                    selectedType === type
+                    selectedType === "All"
                       ? `custom__filter_list_item_active`
                       : ``
                   }`}
-                  key={index}
-                  onClick={() => handleSortService(type)}
+                  onClick={() => handleSortService("All")}
                 >
-                  {type}
+                  All
+                </div>
+                {serviceType.map((type, index) => (
+                  <div
+                    className={`custom__filter_list_item ${
+                      selectedType === type
+                        ? `custom__filter_list_item_active`
+                        : ``
+                    }`}
+                    key={index}
+                    onClick={() => handleSortService(type)}
+                  >
+                    {type}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="custom__service_list">
+              {filterService.map((service, index) => (
+                <div
+                  className="service__item"
+                  key={index}
+                  onClick={() => handleSelectedItem(service)}
+                >
+                  <div className="service__item_title">{service.name}</div>
+                  <div className="service__item_content">
+                    {service.detail.substring(0, 100)}...
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="custom__service_list_desktop">
+              {selectedType === "All" && (
+                <div className="custom__service_list_desktop_headline">
+                  {customeServiceList
+                    .slice(randomNumber, randomNumber + 1)
+                    .map((service, index) => (
+                      <div
+                        className="custom__service_list_desktop_headline_item"
+                        key={index}
+                      >
+                        <div className="custom__service_list_desktop_headline_item_title">
+                          {service.name}
+                        </div>
+                        <div className="custom__service_list_desktop_headline_item_content">
+                          {service.detail}
+                        </div>
+                        <a
+                          href={service.link}
+                          target="_blank"
+                          className="custom__service_list_desktop_headline_item_link"
+                        >
+                          Click here for more information
+                          <MdArrowOutward className="link__icon" />
+                        </a>
+                      </div>
+                    ))}
+                </div>
+              )}
+              {filterService.map((service, index) => (
+                <div
+                  className="service__item"
+                  key={index}
+                  onClick={() => handleSelectedItem(service)}
+                >
+                  <div className="service__item_title">{service.name}</div>
+                  <div className="service__item_content">
+                    {service.detail.substring(0, 100)}...
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="custom__service_list">
-            {filterService.map((service, index) => (
-              <div
-                className="service__item"
-                key={index}
-                onClick={() => handleSelectedItem(service)}
+        </div>
+        {isSerivce && (
+          <div className="order__pop_container">
+            <div className="order__pop_content">
+              <div className="order__pop_item headline">
+                {selectedService?.name}
+              </div>
+              <div className="order__pop_item describe">
+                {selectedService?.detail}
+              </div>
+              <a
+                href={selectedService?.link}
+                target="_blank"
+                className="order__pop_item link"
               >
-                <div className="service__item_title">{service.name}</div>
-                <div className="service__item_content">
-                  {service.detail.substring(0, 100)}...
+                Click here for more information
+                <MdArrowOutward className="link__icon" />
+              </a>
+              <div className="order__pop_btn_container">
+                <div></div>
+                <div className="btn close" onClick={() => setIsService(false)}>
+                  close
                 </div>
               </div>
-            ))}
-          </div>
-          <div className="custom__service_list_desktop">
-            {selectedType === "All" && (
-              <div className="custom__service_list_desktop_headline">
-                {customeServiceList
-                  .slice(randomNumber, randomNumber + 1)
-                  .map((service, index) => (
-                    <div
-                      className="custom__service_list_desktop_headline_item"
-                      key={index}
-                    >
-                      <div className="custom__service_list_desktop_headline_item_title">
-                        {service.name}
-                      </div>
-                      <div className="custom__service_list_desktop_headline_item_content">
-                        {service.detail}
-                      </div>
-                      <a
-                        href={service.link}
-                        target="_blank"
-                        className="custom__service_list_desktop_headline_item_link"
-                      >
-                        Click here for more information
-                        <MdArrowOutward className="link__icon" />
-                      </a>
-                    </div>
-                  ))}
-              </div>
-            )}
-            {filterService.map((service, index) => (
-              <div
-                className="service__item"
-                key={index}
-                onClick={() => handleSelectedItem(service)}
-              >
-                <div className="service__item_title">{service.name}</div>
-                <div className="service__item_content">
-                  {service.detail.substring(0, 100)}...
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      {isSerivce && (
-        <div className="order__pop_container">
-          <div className="order__pop_content">
-            <div className="order__pop_item headline">
-              {selectedService?.name}
-            </div>
-            <div className="order__pop_item describe">
-              {selectedService?.detail}
-            </div>
-            <a
-              href={selectedService?.link}
-              target="_blank"
-              className="order__pop_item link"
-            >
-              Click here for more information
-              <MdArrowOutward className="link__icon" />
-            </a>
-            <div className="order__pop_btn_container">
-              <div></div>
-              <div className="btn close" onClick={() => setIsService(false)}>
-                close
-              </div>
             </div>
           </div>
-        </div>
-      )}
-      {/* FOR HIDE/SHOW SERVICE TYPE */}
-      {isType && (
-        <div className="order__pop_container">
-          <div className="order__pop_content">
-            <div className="order__pop_list">
-              <div
-                className="pop__list_item"
-                onClick={() => handleSortService("All")}
-              >
-                All
-              </div>
-              {serviceType.map((type, index) => (
+        )}
+        {/* FOR HIDE/SHOW SERVICE TYPE */}
+        {isType && (
+          <div className="order__pop_container">
+            <div className="order__pop_content">
+              <div className="order__pop_list">
                 <div
                   className="pop__list_item"
-                  key={index}
-                  onClick={() => handleSortService(type)}
+                  onClick={() => handleSortService("All")}
                 >
-                  {type}
+                  All
                 </div>
-              ))}
-            </div>
-            <div className="order__pop_btn_container">
-              <div></div>
-              <div className="btn close" onClick={() => setIsType(false)}>
-                close
+                {serviceType.map((type, index) => (
+                  <div
+                    className="pop__list_item"
+                    key={index}
+                    onClick={() => handleSortService(type)}
+                  >
+                    {type}
+                  </div>
+                ))}
+              </div>
+              <div className="order__pop_btn_container">
+                <div></div>
+                <div className="btn close" onClick={() => setIsType(false)}>
+                  close
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

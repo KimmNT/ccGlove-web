@@ -115,103 +115,106 @@ export default function YearroundOrder() {
   };
 
   return (
-    <div className="order__container">
-      {" "}
-      <div className={`page__headline ${isOnTop && `onTop`}`}>
-        <div
-          className="page__headline_icon_container"
-          onClick={handleNavigateBack}
-        >
-          <FaArrowLeft className="page__headline_icon" />
-        </div>
-        <div className="page__headline_title">Year-round Service</div>
-      </div>
-      <div className="order__content">
-        <div className="order__year">
-          <div className="order__year_btn_container">
-            <div
-              className={`order__year_btn ${
-                customType === 0 ? `order__year_btn_active` : ``
-              }`}
-              onClick={() => {
-                setCustomType(0);
-                setIsSending(false);
-                setIsSent(false);
-              }}
-            >
-              Year-round Service
-            </div>
-            <div
-              className={`order__year_btn ${
-                customType === 1 ? `order__year_btn_active` : ``
-              }`}
-              onClick={() => {
-                setCustomType(1);
-                setIsSending(false);
-                setIsSent(false);
-              }}
-            >
-              Custom Service
-            </div>
+    <div className="content">
+      <div className="order__container">
+        {" "}
+        <div className={`page__headline ${isOnTop && `onTop`}`}>
+          <div
+            className="page__headline_icon_container"
+            onClick={handleNavigateBack}
+          >
+            <FaArrowLeft className="page__headline_icon" />
           </div>
-          <div className="order__year_content colored">
-            <div className="order__year_image_container">
-              <img
-                src={customType === 0 ? YearroundImage : CustomImage}
-                alt="service image"
-              />
+          <div className="page__headline_title">Year-round Service</div>
+        </div>
+        <div className="order__content">
+          <div className="order__year">
+            <div className="order__year_btn_container">
+              <div
+                className={`order__year_btn ${
+                  customType === 0 ? `order__year_btn_active` : ``
+                }`}
+                onClick={() => {
+                  setCustomType(0);
+                  setIsSending(false);
+                  setIsSent(false);
+                }}
+              >
+                Year-round Service
+              </div>
+              <div
+                className={`order__year_btn ${
+                  customType === 1 ? `order__year_btn_active` : ``
+                }`}
+                onClick={() => {
+                  setCustomType(1);
+                  setIsSending(false);
+                  setIsSent(false);
+                }}
+              >
+                Custom Service
+              </div>
             </div>
-            <div className="order__year_option_container">
-              {customType === 0 ? (
-                <div className="order__year_describe ">
-                  People who use year-round cleaning services include apartments
-                  for rent, houses for rent, and dormitory for rent. We provide
-                  not only cleaning but also amenities, soaps and kitchen
-                  supplies.
-                </div>
-              ) : (
-                <div className="order__year_describe ">
-                  Custom service lets you tailor cleaning exactly to your needs,
-                  giving you the flexibility and personalized care you deserve.
-                </div>
-              )}
-              <input
-                placeholder="Enter your name"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-              <input
-                placeholder="Enter your phone number"
-                value={userPhone}
-                onChange={(e) => setUserPhone(e.target.value)}
-              />
-              <input
-                placeholder="Enter your email"
-                value={userEmail}
-                onChange={(e) => setuserEmail(e.target.value)}
-              />
-              <textarea
-                className="contact__textarea"
-                placeholder="Tell us more about your needs"
-                value={userMessag}
-                ref={textareaRef}
-                rows={3}
-                onChange={(e) => setUserMessage(e.target.value)}
-              ></textarea>
-              <div className="order__year_option_btn_container">
-                {isSent ? (
-                  <div className="order__year_option_btn sent">
-                    <FaCheck />
+            <div className="order__year_content colored">
+              <div className="order__year_image_container">
+                <img
+                  src={customType === 0 ? YearroundImage : CustomImage}
+                  alt="service image"
+                />
+              </div>
+              <div className="order__year_option_container">
+                {customType === 0 ? (
+                  <div className="order__year_describe ">
+                    People who use year-round cleaning services include
+                    apartments for rent, houses for rent, and dormitory for
+                    rent. We provide not only cleaning but also amenities, soaps
+                    and kitchen supplies.
                   </div>
                 ) : (
-                  <button
-                    className="order__year_option_btn"
-                    onClick={handleSendEmail}
-                    disabled={isSending}
-                  >
-                    {isSending ? `SENDING...` : `SUBMIT`}
-                  </button>
+                  <div className="order__year_describe ">
+                    Custom service lets you tailor cleaning exactly to your
+                    needs, giving you the flexibility and personalized care you
+                    deserve.
+                  </div>
                 )}
+                <input
+                  placeholder="Enter your name"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+                <input
+                  placeholder="Enter your phone number"
+                  value={userPhone}
+                  onChange={(e) => setUserPhone(e.target.value)}
+                />
+                <input
+                  placeholder="Enter your email"
+                  value={userEmail}
+                  onChange={(e) => setuserEmail(e.target.value)}
+                />
+                <textarea
+                  className="contact__textarea"
+                  placeholder="Tell us more about your needs"
+                  value={userMessag}
+                  ref={textareaRef}
+                  rows={3}
+                  onChange={(e) => setUserMessage(e.target.value)}
+                ></textarea>
+                <div className="order__year_option_btn_container">
+                  {isSent ? (
+                    <div className="order__year_option_btn sent">
+                      <FaCheck />
+                    </div>
+                  ) : (
+                    <button
+                      className="order__year_option_btn"
+                      onClick={handleSendEmail}
+                      disabled={isSending}
+                    >
+                      {isSending ? `SENDING...` : `SUBMIT`}
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
