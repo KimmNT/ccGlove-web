@@ -3,7 +3,7 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
 import "../../assets/sass/orderStyle.scss";
-import { FaClock, FaCoins } from "react-icons/fa";
+import { FaClock, FaCoins, FaRegCalendarCheck } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaArrowLeft } from "react-icons/fa";
 import Calendar from "react-calendar";
@@ -26,6 +26,7 @@ export default function HourOrder() {
   const [isAlert, setIsAlert] = useState(false);
   const [isOnTop, setIsOnTop] = useState(false);
   const [disabledDatesList, setDisabledDatesList] = useState([]);
+  const [notBooking, setNotBooking] = useState(false);
 
   const durationTime = [
     { time: 3 },
@@ -62,34 +63,43 @@ export default function HourOrder() {
     getDisableWorkingDate();
     if (state) {
       const currentTime = new Date();
-      const currentDay = moment().startOf("day"); // Get current day without time
-      state.workingTime.workingTime.map((working) => {
+      const currentHour = currentTime.getHours();
+      const currentDay = moment().startOf("day");
+
+      state.workingTime.workingTime.forEach((working) => {
+        const selectedDay = moment(working.selectedDate);
+
         if (
-          moment(working.selectedDate).isSame(currentDay, "day") &&
-          currentTime.getHours() >= 19
+          selectedDay.isSame(currentDay, "day") &&
+          (currentHour >= 18 || currentHour < 8) // Outside working hours
         ) {
-          setAlertValue(
-            "Sorry, we’re fully booked for today. Please select another day."
-          );
-          setStartTime(0);
-          setIsAlert(true);
-        } else {
-          setSelectedDate(
-            moment(working.selectedDate, "DD/MM/YYYY").toString()
-          );
+          setNotBooking(true);
+        } else if (selectedDay.isSame(currentDay, "day")) {
+          // Set booking details for today
+          setSelectedDate(selectedDay.format("DD/MM/YYYY"));
           setStartTime(working.startTime);
           setDuration(working.duration);
         }
       });
-    } else if (getCurrentHour() > 7 && getCurrentHour() < 16) {
-      setStartTime(getCurrentHour() + 4);
     } else {
-      setIsAlert(true);
-      setStartTime(0);
-      setAlertValue(
-        "Sorry, we’re fully booked for today. Please select another day."
-      );
-      setIsClose(true);
+      const currentHour = getCurrentHour();
+      if (currentHour > 7 && currentHour < 16) {
+        setStartTime(currentHour + 4);
+        console.log("allow to booking");
+        console.log("for today");
+      } else if (currentHour >= 16 && currentHour < 18) {
+        setIsAlert(true);
+        setStartTime(0);
+        setAlertValue(
+          "Sorry, we’re fully booked for today. Please select another day."
+        );
+        setIsClose(true);
+        console.log("allow to booking");
+        console.log("for the next day");
+      } else if (currentHour < 8 || currentHour >= 18) {
+        setNotBooking(true);
+        console.log("not allow to booking");
+      }
     }
   }, [state]);
 
@@ -230,65 +240,85 @@ export default function HourOrder() {
           </div>
           <div className="page__headline_title">Hourly Service</div>
         </div>
-        <div className="order__content">
-          <div className="order__headline_content">
-            {" "}
-            <div className="order__headline">
-              <div className="order__value">
-                <FaClock /> 07:00 - 22:00
-              </div>
-              <div className="order__value">
-                <FaCoins /> 3000¥/h (at least 3hrs)
-              </div>
+        {notBooking ? (
+          <div className="order__not_booking">
+            <div className="not__booking_text">Closed for booking.</div>
+            <div className="not__booking_text">
+              Please visit us later at 08:00 tomorrow.
             </div>
-            <Calendar
-              onChange={handleDateChange}
-              value={selectedDate}
-              tileDisabled={isDateDisabled}
-            />
+            <div className="not__booking_text">Thank you!</div>
+            <div className="not__booking_text booking__time">
+              Booking time: 08:00 - 17:00
+            </div>
           </div>
-          {isClose ? (
-            <></>
-          ) : (
-            <div className="order__hours">
-              <div className="order__hours_headline">Choose working hours</div>
-              <div className="order__hours_content">
-                <div
-                  className="order__hours_item"
-                  onClick={() => {
-                    setIsPopUp(true);
-                    setIsDuration(true);
-                  }}
-                >
-                  <div className="item__title">Duration</div>
-                  <div className="item__break"></div>
-                  <div className="item__value">{duration} hrs</div>
+        ) : (
+          <div className="order__content">
+            <div className="order__headline_content">
+              {" "}
+              <div className="order__headline">
+                <div className="order__value_column">
+                  <div className="order__value">
+                    <FaClock /> 07:00 - 22:00
+                  </div>
+                  <div className="order__value">
+                    <FaRegCalendarCheck /> 08:00 - 17:00
+                  </div>
                 </div>
-                <div
-                  className="order__hours_item"
-                  onClick={() => {
-                    setIsPopUp(true);
-                    setIsDuration(false);
-                  }}
-                >
-                  <div className="item__title">Start time</div>
-                  <div className="item__break"></div>
-                  <div className="item__value">{startTime}:00</div>
+                <div className="order__value">
+                  <FaCoins /> 3000¥/h (at least 3hrs)
                 </div>
               </div>
-              {startTime > 0 && (
-                <div className="order__payment" onClick={handleNavigate}>
-                  <div className="order__payment_value">
-                    {formatNumber(paymentCount)}¥
+              <Calendar
+                onChange={handleDateChange}
+                value={selectedDate}
+                tileDisabled={isDateDisabled}
+              />
+            </div>
+            {isClose ? (
+              <></>
+            ) : (
+              <div className="order__hours">
+                <div className="order__hours_headline">
+                  Choose working hours
+                </div>
+                <div className="order__hours_content">
+                  <div
+                    className="order__hours_item"
+                    onClick={() => {
+                      setIsPopUp(true);
+                      setIsDuration(true);
+                    }}
+                  >
+                    <div className="item__title">Duration</div>
+                    <div className="item__break"></div>
+                    <div className="item__value">{duration} hrs</div>
                   </div>
-                  <div className="order__payment_btn">
-                    <IoIosArrowForward className="order__payment_icon" />
+                  <div
+                    className="order__hours_item"
+                    onClick={() => {
+                      setIsPopUp(true);
+                      setIsDuration(false);
+                    }}
+                  >
+                    <div className="item__title">Start time</div>
+                    <div className="item__break"></div>
+                    <div className="item__value">{startTime}:00</div>
                   </div>
                 </div>
-              )}
-            </div>
-          )}
-        </div>
+                {startTime > 0 && (
+                  <div className="order__payment" onClick={handleNavigate}>
+                    <div className="order__payment_value">
+                      {formatNumber(paymentCount)}¥
+                    </div>
+                    <div className="order__payment_btn">
+                      <IoIosArrowForward className="order__payment_icon" />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
         {isPopUp && (
           <div className="pop__container">
             <div className="pop__content pop__container_larger">

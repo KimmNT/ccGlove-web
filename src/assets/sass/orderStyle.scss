@@ -34,6 +34,19 @@ $breakpoint-large: 1200px;
   align-items: center;
   justify-content: center;
   gap: 3rem;
+  .order__not_booking{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 4rem;
+    margin-top: 5rem;
+    .not__booking_text{
+      font-size: 2rem;
+      &.booking__time{
+        font-weight: 600;
+      }
+    }
+  }
   .order__content {
     gap: 3rem;
     width: 100%;
@@ -58,20 +71,25 @@ $breakpoint-large: 1200px;
               display: flex;
               align-items: center;
               justify-content: space-around;
+              flex-direction: column;
               width: 100%;
               background-color: $light;
               box-shadow: $boxShadow;
               border-radius: 2rem;
               padding: 2rem 0;
+              gap: 2rem;
+              .order__value_column{
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                width: 100%;
+              }
                   .order__value{
-                      font-size: 1rem;
+                      font-size: 1.5rem;
                       font-weight: 600;
                       display: flex;
                       align-items: center;
                       gap: 1rem;
-                      @media (min-width:$breakpoint-small) {
-                          font-size: 1.5rem;
-                      }
                   }
           }
         }

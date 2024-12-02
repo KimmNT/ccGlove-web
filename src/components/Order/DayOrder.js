@@ -3,7 +3,13 @@ import usePageNavigation from "../../uesPageNavigation"; // Corrected import pat
 import "../../assets/sass/shareStyle.scss";
 import "../../assets/sass/homeStyle.scss";
 import "../../assets/sass/orderStyle.scss";
-import { FaClock, FaCoins, FaEdit, FaPenAlt } from "react-icons/fa";
+import {
+  FaClock,
+  FaCoins,
+  FaEdit,
+  FaPenAlt,
+  FaRegCalendarCheck,
+} from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaArrowLeft } from "react-icons/fa";
 import Calendar from "react-calendar";
@@ -26,6 +32,7 @@ export default function DayOrder() {
   const [isAlert, setIsAlert] = useState(false);
   const [isOnTop, setIsOnTop] = useState(false);
   const [disabledDatesList, setDisabledDatesList] = useState([]);
+  const [notBooking, setNotBooking] = useState(false);
 
   const startTimeArray = [
     {
@@ -66,7 +73,14 @@ export default function DayOrder() {
   useEffect(() => {
     getDisableWorkingDate();
     if (state) {
-      setSelectedDates(state.workingTime.workingTime);
+      const currentTime = new Date();
+      const currentHour = currentTime.getHours();
+      if (currentHour < 8 || currentHour >= 18) {
+        setNotBooking(true);
+        console.log("not allow to booking");
+      } else {
+        setSelectedDates(state.workingTime.workingTime);
+      }
     }
   }, [state]);
 
@@ -265,73 +279,94 @@ export default function DayOrder() {
           </div>
           <div className="page__headline_title">Daily Service</div>
         </div>
-        <div className="order__content">
-          <div className="order__headline_content">
-            {" "}
-            <div className="order__headline">
-              <div className="order__value">
-                <FaClock /> 07:00 - 20:00
-              </div>
-              <div className="order__value">
-                <FaCoins /> 20,000¥/8hrs (1hr break included)
-              </div>
+        {notBooking ? (
+          <div className="order__not_booking">
+            <div className="not__booking_text">Closed for booking.</div>
+            <div className="not__booking_text">
+              Please visit us later at 08:00 tomorrow.
             </div>
-            <Calendar
-              key={calendarKey}
-              onClickDay={handleDateChange} // Use onClickDay for selecting multiple days
-              tileDisabled={isDateDisabled}
-              tileClassName={({ date, view }) =>
-                view === "month" && isDateSelected(date) ? "selected-date" : ""
-              }
-            />
+            <div className="not__booking_text">Thank you!</div>
+            <div className="not__booking_text booking__time">
+              Booking time: 08:00 - 17:00
+            </div>
           </div>
-          {selectedDates.length > 0 && (
-            <div className="order__days">
-              <div className="order__days_headline">
-                {selectedDates.length} days
-              </div>
-              <div className="order__days_list">
-                {selectedDates.map((date, index) => (
-                  <div
-                    key={index}
-                    className="day__item"
-                    onClick={() => handleUpdateDate(date, index)}
-                  >
-                    <div className="day__item_group">
-                      <div className="day__item_group_title">Date</div>
-                      <div className="day__item_group_value">
-                        {date.selectedDate}
-                      </div>
-                    </div>
-                    <div className="day__item_group">
-                      <div className="day__item_group_title">Duration</div>
-                      <div className="day__item_group_value">
-                        {date.duration}hrs
-                      </div>
-                    </div>
-                    <div className="day__item_group">
-                      <div className="day__item_group_title">Start time</div>
-                      <div className="day__item_group_value">
-                        {date.startTime}:00-{date.startTime + date.duration}:00
-                      </div>
-                    </div>
-                    <div className="day__item_group_close">
-                      <FaEdit />
-                    </div>
+        ) : (
+          <div className="order__content">
+            <div className="order__headline_content">
+              {" "}
+              <div className="order__headline">
+                <div className="order__value_column">
+                  <div className="order__value">
+                    <FaClock /> 07:00 - 22:00
                   </div>
-                ))}
-              </div>
-              <div className="order__payment" onClick={handleNavigate}>
-                <div className="order__payment_value">
-                  {formatNumber(paymentCount)}¥
+                  <div className="order__value">
+                    <FaRegCalendarCheck /> 08:00 - 17:00
+                  </div>
                 </div>
-                <div className="order__payment_btn">
-                  <IoIosArrowForward className="order__payment_icon" />
+                <div className="order__value">
+                  <FaCoins /> 20,000¥/8hrs (1hr break included)
                 </div>
               </div>
+              <Calendar
+                key={calendarKey}
+                onClickDay={handleDateChange} // Use onClickDay for selecting multiple days
+                tileDisabled={isDateDisabled}
+                tileClassName={({ date, view }) =>
+                  view === "month" && isDateSelected(date)
+                    ? "selected-date"
+                    : ""
+                }
+              />
             </div>
-          )}
-        </div>
+            {selectedDates.length > 0 && (
+              <div className="order__days">
+                <div className="order__days_headline">
+                  {selectedDates.length} days
+                </div>
+                <div className="order__days_list">
+                  {selectedDates.map((date, index) => (
+                    <div
+                      key={index}
+                      className="day__item"
+                      onClick={() => handleUpdateDate(date, index)}
+                    >
+                      <div className="day__item_group">
+                        <div className="day__item_group_title">Date</div>
+                        <div className="day__item_group_value">
+                          {date.selectedDate}
+                        </div>
+                      </div>
+                      <div className="day__item_group">
+                        <div className="day__item_group_title">Duration</div>
+                        <div className="day__item_group_value">
+                          {date.duration}hrs
+                        </div>
+                      </div>
+                      <div className="day__item_group">
+                        <div className="day__item_group_title">Start time</div>
+                        <div className="day__item_group_value">
+                          {date.startTime}:00-{date.startTime + date.duration}
+                          :00
+                        </div>
+                      </div>
+                      <div className="day__item_group_close">
+                        <FaEdit />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="order__payment" onClick={handleNavigate}>
+                  <div className="order__payment_value">
+                    {formatNumber(paymentCount)}¥
+                  </div>
+                  <div className="order__payment_btn">
+                    <IoIosArrowForward className="order__payment_icon" />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
         {isPopUp && (
           <div className="pop__container">
             <div className="pop__content pop__container_larger">
