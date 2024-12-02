@@ -71,7 +71,7 @@ export default function DayOrder() {
   }, []);
 
   useEffect(() => {
-    // getDisableWorkingDate();
+    getDisableWorkingDate();
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
     if (state) {

@@ -87,7 +87,7 @@ export default function HourOrder() {
         setStartTime(currentHour + 4);
         console.log("allow to booking");
         console.log("for today");
-      } else if (currentHour >= 16 && currentHour < 18) {
+      } else if (currentHour >= 16 && currentHour < 17) {
         setIsAlert(true);
         setStartTime(0);
         setAlertValue(
