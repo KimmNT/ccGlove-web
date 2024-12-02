@@ -71,16 +71,19 @@ export default function DayOrder() {
   }, []);
 
   useEffect(() => {
-    getDisableWorkingDate();
+    // getDisableWorkingDate();
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
     if (state) {
-      const currentTime = new Date();
-      const currentHour = currentTime.getHours();
-      if (currentHour < 8 || currentHour >= 18) {
-        setNotBooking(true);
+      if (currentHour < 8 || currentHour >= 17) {
+        setNotBooking(currentHour);
         console.log("not allow to booking");
       } else {
         setSelectedDates(state.workingTime.workingTime);
       }
+    } else if (currentHour < 8 || currentHour >= 17) {
+      setNotBooking(currentHour);
+      console.log("not allow to booking");
     }
   }, [state]);
 

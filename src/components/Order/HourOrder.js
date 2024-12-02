@@ -71,7 +71,7 @@ export default function HourOrder() {
 
         if (
           selectedDay.isSame(currentDay, "day") &&
-          (currentHour >= 18 || currentHour < 8) // Outside working hours
+          (currentHour >= 17 || currentHour < 8) // Outside working hours
         ) {
           setNotBooking(true);
         } else if (selectedDay.isSame(currentDay, "day")) {
@@ -96,7 +96,7 @@ export default function HourOrder() {
         setIsClose(true);
         console.log("allow to booking");
         console.log("for the next day");
-      } else if (currentHour < 8 || currentHour >= 18) {
+      } else if (currentHour < 8 || currentHour >= 17) {
         setNotBooking(true);
         console.log("not allow to booking");
       }
