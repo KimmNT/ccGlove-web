@@ -69,8 +69,8 @@ export default function PaymentOrder() {
     const movingFee = state.userInfo.movingFee;
 
     const servicePrice =
-      (grandTotal - 1.137 * movingFee) /
-      1.137 /
+      (grandTotal - 1.146 * movingFee) /
+      1.146 /
       (1 - state.discountInfo.discountResult / 100);
 
     // Round and return the final value

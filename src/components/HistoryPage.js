@@ -485,7 +485,7 @@ export default function HistoryPage() {
                     onClick={() => {
                       setIsDetail(false);
                     }}
-                    className="btn close"
+                    className="btn success"
                   >
                     close
                   </div>

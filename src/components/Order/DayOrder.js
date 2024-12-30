@@ -286,7 +286,7 @@ export default function DayOrder() {
           <div className="order__not_booking">
             <div className="not__booking_text">Closed for booking.</div>
             <div className="not__booking_text">
-              Please visit us later at 08:00 tomorrow.
+              Please visit us later at 08:00 AM.
             </div>
             <div className="not__booking_text">Thank you!</div>
             <div className="not__booking_text booking__time">

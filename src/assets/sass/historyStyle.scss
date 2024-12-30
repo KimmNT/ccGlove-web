@@ -367,7 +367,7 @@ a {
         align-items: center;
         justify-content: space-between;
         .btn{
-          &.close{
+          &.success {
             background-color: $softYellow;
             border-color: $softYellow;
           }
@@ -380,7 +380,8 @@ a {
             font-size: 1.3rem;
           }
           .close {
-            border: none;
+            border-color: $dark;
+            background-color: none;
           }
           .success {
             background-color: $softYellow;

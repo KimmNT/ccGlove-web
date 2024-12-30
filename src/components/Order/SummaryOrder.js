@@ -219,7 +219,7 @@ export default function SummaryOrder() {
   };
 
   const handleGrandTotalPrice = () => {
-    const paymentFee = 0.037; // 3.7% processing fee
+    const paymentFee = 0.046; // 3.7% processing fee
     const taxMultiplier = 0.1; // 10% tax
     const movingFee = state.userInfo.movingFee;
 
@@ -313,7 +313,7 @@ export default function SummaryOrder() {
                     (paymentCount -
                       (paymentCount * discountResult) / 100 +
                       state.userInfo.movingFee) *
-                      0.037
+                      0.046
                   )}
                   ¥
                 </div>

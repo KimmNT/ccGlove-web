@@ -107,6 +107,33 @@ export default function HourOrder() {
     setPaymentCount(duration * 3000);
   }, [duration]);
 
+  useEffect(() => {
+    // Format today's date to match the disabled dates format
+    const today = moment();
+    const formattedToday = today.format("MM/DD/YYYY");
+
+    // If today is disabled, find the nearest selectable date
+    if (disabledDatesList.includes(formattedToday)) {
+      const nearestDate = findNearestSelectableDate(today, disabledDatesList);
+      setSelectedDate(nearestDate); // Set the nearest selectable date as default
+    }
+  }, [disabledDatesList]);
+
+  // Helper to find the nearest selectable date
+  const findNearestSelectableDate = (currentDate, disabledDatesList) => {
+    const disabledDates = disabledDatesList.map((date) =>
+      moment(date, "MM/DD/YYYY")
+    );
+    let nearestDate = moment(currentDate);
+
+    // Iterate forward until a selectable date is found
+    while (disabledDates.some((date) => date.isSame(nearestDate, "day"))) {
+      nearestDate.add(1, "day");
+    }
+
+    return nearestDate.toDate(); // Return as JavaScript Date
+  };
+
   const getDisableWorkingDate = async () => {
     try {
       const data = await getDocs(collection(db, "disableDatesList"));
@@ -244,7 +271,7 @@ export default function HourOrder() {
           <div className="order__not_booking">
             <div className="not__booking_text">Closed for booking.</div>
             <div className="not__booking_text">
-              Please visit us later at 08:00 tomorrow.
+              Please visit us later at 08:00 AM.
             </div>
             <div className="not__booking_text">Thank you!</div>
             <div className="not__booking_text booking__time">

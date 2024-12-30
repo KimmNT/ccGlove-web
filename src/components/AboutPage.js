@@ -202,7 +202,7 @@ function AboutPage() {
           </div>
           <div className="box__images box__images_row">
             <div className="image__group">
-              <div className="service hour__background">
+              <div className="service">
                 <div className="service_content">
                   <div className="service_headline">
                     <FaClock className="headline__icon" />
@@ -229,7 +229,7 @@ function AboutPage() {
               </div>
             </div>
             <div className="image__group">
-              <div className="service day__background">
+              <div className="service">
                 <div className="service_content">
                   <div className="service_headline">
                     <FaCalendarCheck className="headline__icon" />
@@ -256,7 +256,7 @@ function AboutPage() {
               </div>
             </div>
             <div className="image__group">
-              <div className="service year__background">
+              <div className="service">
                 <div className="service_content">
                   <div className="service_headline">
                     <FaToolbox className="headline__icon" />

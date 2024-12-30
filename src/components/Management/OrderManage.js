@@ -241,6 +241,8 @@ export default function OrderManage({ data, refresh }) {
     setIsSave(false);
     if (orderStatus === 1) {
       await sendEmail();
+    } else if (orderStatus === 3) {
+      await sendEmailCompleted();
     }
     const orderRef = doc(db, "orderList", selectedOrder?.idFireBase);
     await updateDoc(orderRef, {
@@ -333,6 +335,45 @@ export default function OrderManage({ data, refresh }) {
         }
       );
   };
+  // Function to send email completed
+  const sendEmailCompleted = () => {
+    // Template parameters to be sent via EmailJS
+    const templateParams = {
+      email__subject_content: `Your order #${selectedOrder?.id} has beed completed!`,
+      user_name: `${selectedOrder?.user.userFirstName} ${selectedOrder?.user.userLastName}`,
+      user_email: selectedOrder?.user.userEmail,
+      email__content_welcome:
+        "Your order has been completed! Please rate your order at https://ccgniseko.com/history to receive a 5% discount code for your next purchase.",
+      email__content_headline:
+        "Thank you for choosing us, and have a great day!",
+      order_id: selectedOrder?.id,
+      order__created: selectedOrder?.created.date,
+      order__type:
+        selectedOrder?.type === 0
+          ? "Hourly"
+          : selectedOrder?.type === 1
+          ? "Daily"
+          : "Custom Service",
+      order__total: selectedOrder?.total,
+      user__address: selectedOrder?.user.userAddress,
+    };
+    emailjs
+      .send(
+        "service_w0kfb1d",
+        "template_62uq3kh",
+        templateParams,
+        "UCOII6_f0u6pockwH"
+      )
+      .then(
+        () => {
+          console.log("SUCCESS!");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
+  };
+
   const handleDeleteOrder = async () => {
     try {
       await deleteDoc(doc(db, "orderList", selectedOrder?.idFireBase));
