@@ -19,40 +19,48 @@ export default function LoginPage() {
   const [loginLock, setLoginLock] = useState(4);
 
   useEffect(() => {
-    const now = new Date();
-    const currentTime = now.getTime(); // Get time in milliseconds since epoch
-    const loadLoginLock = JSON.parse(localStorage.getItem("gr6q94t2v3"));
-    if (loadLoginLock) {
-      const lockedDuration = currentTime - loadLoginLock.time; // Time difference in milliseconds
-      if (lockedDuration > 1 * 60 * 1000) {
-        // If more than 5 minutes
-        localStorage.removeItem("gr6q94t2v3");
-        const loadSavedInfo = JSON.parse(localStorage.getItem("cfxo6u7xp5"));
-        if (loadSavedInfo !== null) {
-          setIsAlreadySaved(true);
-          setEmail(loadSavedInfo.userName);
-          setPassword(loadSavedInfo.password);
-        }
-      } else {
-        setErrCount(loadLoginLock.state);
-      }
+    // const now = new Date();
+    // const currentTime = now.getTime(); // Get time in milliseconds since epoch
+    // const loadLoginLock = JSON.parse(localStorage.getItem("gr6q94t2v3"));
+    // if (loadLoginLock) {
+    //   const lockedDuration = currentTime - loadLoginLock.time; // Time difference in milliseconds
+    //   if (lockedDuration > 1 * 60 * 1000) {
+    //     // If more than 5 minutes
+    //     localStorage.removeItem("gr6q94t2v3");
+    //     const loadSavedInfo = JSON.parse(localStorage.getItem("cfxo6u7xp5"));
+    //     if (loadSavedInfo !== null) {
+    //       console.log("saved");
+    //       setIsAlreadySaved(true);
+    //       setEmail(loadSavedInfo.userName);
+    //       setPassword(loadSavedInfo.password);
+    //     }
+    //   } else {
+    //     setErrCount(loadLoginLock.state);
+    //   }
+    // }
+    const loadSavedInfo = JSON.parse(localStorage.getItem("cfxo6u7xp5"));
+    if (loadSavedInfo !== null) {
+      console.log("saved");
+      setIsAlreadySaved(true);
+      setEmail(loadSavedInfo.userName);
+      setPassword(loadSavedInfo.password);
     }
   }, []);
 
-  useEffect(() => {
-    if (errCount === 5) {
-      const now = new Date();
-      const lockedTime = now.getTime(); // Time in milliseconds since epoch
-      setErr("Too many attempts. Please try again in 5 minutes.");
+  // useEffect(() => {
+  //   if (errCount === 5) {
+  //     const now = new Date();
+  //     const lockedTime = now.getTime(); // Time in milliseconds since epoch
+  //     setErr("Too many attempts. Please try again in 5 minutes.");
 
-      const loginLocked = {
-        state: errCount,
-        time: lockedTime, // Save exact time of lock
-      };
+  //     const loginLocked = {
+  //       state: errCount,
+  //       time: lockedTime, // Save exact time of lock
+  //     };
 
-      localStorage.setItem("gr6q94t2v3", JSON.stringify(loginLocked));
-    }
-  }, [errCount]);
+  //     localStorage.setItem("gr6q94t2v3", JSON.stringify(loginLocked));
+  //   }
+  // }, [errCount]);
 
   const generateRandomToken = (length) => {
     const characters =
@@ -86,12 +94,14 @@ export default function LoginPage() {
       const querySnapshot = await getDocs(roleQuery);
 
       if (querySnapshot.empty) {
-        setLoginLock(loginLock - 1);
+        // setLoginLock(loginLock - 1);
         // If no user is found, handle the case where login credentials are incorrect
-        setErr(`Incorrect email or password. ${loginLock} times left.`);
+        setErr(
+          `Incorrect email or password. Please check your information and try again.`
+        );
         setEmail("");
         setPassword("");
-        setErrCount(errCount + 1);
+        // setErrCount(errCount + 1);
         return;
       }
 

@@ -35,13 +35,6 @@ export default function HourOrder() {
     { time: 6 },
     { time: 7 },
     { time: 8 },
-    { time: 9 },
-    { time: 10 },
-    { time: 11 },
-    { time: 12 },
-    { time: 13 },
-    { time: 14 },
-    { time: 15 },
   ];
 
   useEffect(() => {
@@ -83,11 +76,11 @@ export default function HourOrder() {
       });
     } else {
       const currentHour = getCurrentHour();
-      if (currentHour > 7 && currentHour < 16) {
+      if (currentHour > 7 && currentHour < 11) {
         setStartTime(currentHour + 4);
         console.log("allow to booking");
         console.log("for today");
-      } else if (currentHour >= 16 && currentHour < 17) {
+      } else if (currentHour >= 11 && currentHour < 17) {
         setIsAlert(true);
         setStartTime(0);
         setAlertValue(
@@ -189,7 +182,7 @@ export default function HourOrder() {
       setStartTime(0);
       setIsClose(true);
     }
-    if (selectedDay.isSame(currentDay, "day") && currentTime.getHours() >= 16) {
+    if (selectedDay.isSame(currentDay, "day") && currentTime.getHours() >= 11) {
       setAlertValue(
         "Sorry, we’re fully booked for today. Please select another day."
       );
@@ -216,7 +209,7 @@ export default function HourOrder() {
       return times;
     } else {
       const times = [];
-      for (let i = 7; i <= 22; i++) {
+      for (let i = 9; i <= 17; i++) {
         times.push({ time: i });
       }
       return times;
@@ -225,7 +218,7 @@ export default function HourOrder() {
 
   const numbers = generateTimesArray();
 
-  const maxTime = 22 - duration;
+  const maxTime = 17 - duration;
   const sortedNumbers = numbers
     .filter((number) => number.time <= maxTime)
     .sort((a, b) => a.time - b.time);
@@ -285,7 +278,7 @@ export default function HourOrder() {
               <div className="order__headline">
                 <div className="order__value_column">
                   <div className="order__value">
-                    <FaClock /> 07:00 - 22:00
+                    <FaClock /> 09:00 - 17:00
                   </div>
                   <div className="order__value">
                     <FaRegCalendarCheck /> 08:00 - 17:00
@@ -329,7 +322,13 @@ export default function HourOrder() {
                   >
                     <div className="item__title">Start time</div>
                     <div className="item__break"></div>
-                    <div className="item__value">{startTime}:00</div>
+                    {startTime > 0 ? (
+                      <div className="item__value">
+                        {startTime}:00-{startTime + duration}:00
+                      </div>
+                    ) : (
+                      <div className="item__value">{startTime}:00</div>
+                    )}
                   </div>
                 </div>
                 {startTime > 0 && (

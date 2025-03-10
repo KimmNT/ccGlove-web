@@ -159,16 +159,28 @@ export default function NavbarPage() {
               </div>
             </div>
             <div className="navbar__menu_controller">
-              <div
-                className="menu__login"
-                onClick={() => {
-                  setIsNavBar(false);
-                  // navigateToPage("/order");
-                  scrollToSection("services");
-                }}
-              >
-                <div className="menu__login_value">book now</div>
-                <FaLongArrowAltRight className="menu__login_icon" />
+              <div className="navbar__menu_btn_container">
+                <div
+                  className="menu__login booknow"
+                  onClick={() => {
+                    setIsNavBar(false);
+                    // navigateToPage("/order");
+                    scrollToSection("services");
+                  }}
+                >
+                  <div className="menu__login_value">book now</div>
+                  {/* <FaLongArrowAltRight className="menu__login_icon" /> */}
+                </div>
+                <div
+                  className="menu__login"
+                  onClick={() => {
+                    setIsNavBar(false);
+                    navigateToPage("/order/yearroundOrder");
+                  }}
+                >
+                  <div className="menu__login_value">quote now</div>
+                  {/* <FaLongArrowAltRight className="menu__login_icon" /> */}
+                </div>
               </div>
               <div className="menu__close" onClick={() => setIsNavBar(false)}>
                 <FaTimes />

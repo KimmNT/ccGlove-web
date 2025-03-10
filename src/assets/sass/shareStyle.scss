@@ -1,14 +1,14 @@
 //COLORES
-$primary : #141E46;
-$btnColor : #F0EEED;
-$bgColor : #EDEDED;
-$softRed : #F45050;
-$softYellow : #FFC861;
-$softYelloToWhite:#FFD381;
-$dark : #000;
-$darkText:#4b4b4b;
-$light : #FFF;
-$softGrey:#d3d3d3;
+$primary: #141e46;
+$btnColor: #f0eeed;
+$bgColor: #ededed;
+$softRed: #f45050;
+$softYellow: #ffc861;
+$softYelloToWhite: #ffd381;
+$dark: #000;
+$darkText: #4b4b4b;
+$light: #fff;
+$softGrey: #d3d3d3;
 $darkGreen: #1b5e20;
 $lightGreen: #109b27;
 $darkGrey: #b7b7b7;
@@ -126,7 +126,7 @@ a {
             color: $light;
             cursor: pointer;
             transition: $transition;
-            &.menu__item_acitve{
+            &.menu__item_acitve {
               &::after {
                 content: "";
                 display: block;
@@ -258,6 +258,45 @@ a {
           align-items: center;
           justify-content: space-between;
           padding: 1rem;
+          .navbar__menu_btn_container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            .menu__login {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+              background-color: $light;
+              color: $dark;
+              padding: 1rem 2rem;
+              border-radius: 1rem;
+              cursor: pointer;
+              transition: $transition;
+              border: 2px solid $dark;
+              &:hover {
+                transition: $transition;
+                background-color: $dark;
+                color: $light;
+                border: 2px solid $dark;
+                .menu__login_icon {
+                  transform: translateX(10px);
+                }
+              }
+              .menu__login_value {
+                font-size: 2rem;
+                text-transform: uppercase;
+                font-weight: 600;
+              }
+              .menu__login_icon {
+                transition: $transition;
+                font-size: 2rem;
+              }
+              &.booknow {
+                background-color: $dark;
+                color: $light;
+              }
+            }
+          }
           .menu__close {
             font-size: 2rem;
             background-color: $softRed;
@@ -271,36 +310,6 @@ a {
             display: flex;
             justify-content: center;
             align-items: center;
-          }
-          .menu__login {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background-color: $dark;
-            color: $light;
-            padding: 1rem 2rem;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: $transition;
-            border: 2px solid $dark;
-            &:hover {
-              transition: $transition;
-              background-color: $softYellow;
-              color: $dark;
-              border: 2px solid $dark;
-              .menu__login_icon {
-                transform: translateX(10px);
-              }
-            }
-            .menu__login_value {
-              font-size: 2rem;
-              text-transform: uppercase;
-              font-weight: 600;
-            }
-            .menu__login_icon {
-              transition: $transition;
-              font-size: 2rem;
-            }
           }
         }
       }
@@ -618,34 +627,30 @@ a {
   transition: $transition;
   animation: movingLeftRight forwards infinite 4s;
 }
-.dot__animation{
+.dot__animation {
   display: flex;
   align-items: center;
   gap: 2rem;
-  .dot__item{
+  .dot__item {
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
     background-color: $primary;
     animation: dotMoving 1s forwards infinite;
-    &.delay__one{
-      animation-delay: .2s;
+    &.delay__one {
+      animation-delay: 0.2s;
     }
-    &.delay__two{
-      animation-delay: .4s;
-
+    &.delay__two {
+      animation-delay: 0.4s;
     }
-    &.delay__three{
-      animation-delay: .6s;
-
+    &.delay__three {
+      animation-delay: 0.6s;
     }
-    &.delay__four{
-      animation-delay: .8s;
-
+    &.delay__four {
+      animation-delay: 0.8s;
     }
-    &.delay__five{
+    &.delay__five {
       animation-delay: 1s;
-
     }
   }
 }
@@ -716,13 +721,13 @@ a {
   }
 }
 @keyframes dotMoving {
-  0%{
-    transform:scale(.7)
+  0% {
+    transform: scale(0.7);
   }
-  50%{
-    transform:scale(1.5)
+  50% {
+    transform: scale(1.5);
   }
-  100%{
-    transform: scale(.7);
+  100% {
+    transform: scale(0.7);
   }
 }

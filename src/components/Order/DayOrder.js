@@ -203,13 +203,13 @@ export default function DayOrder() {
     if (getCurrentDate === moment(selectedDates).format("DD/MM/YYYY")) {
       const currentHour = getCurrentHour();
       const times = [];
-      for (let i = currentHour + 4; i <= 22; i++) {
+      for (let i = currentHour + 4; i <= 17; i++) {
         times.push({ time: i });
       }
       return times;
     } else {
       const times = [];
-      for (let i = 7; i <= 22; i++) {
+      for (let i = 7; i <= 17; i++) {
         times.push({ time: i });
       }
       return times;
@@ -218,7 +218,7 @@ export default function DayOrder() {
 
   const numbers = generateTimesArray();
 
-  const maxTime = 22 - duration;
+  const maxTime = 17 - duration;
   const sortedNumbers = numbers
     .filter((number) => number.time <= maxTime)
     .sort((a, b) => a.time - b.time);
@@ -300,7 +300,7 @@ export default function DayOrder() {
               <div className="order__headline">
                 <div className="order__value_column">
                   <div className="order__value">
-                    <FaClock /> 07:00 - 22:00
+                    <FaClock /> 09:00 - 17:00
                   </div>
                   <div className="order__value">
                     <FaRegCalendarCheck /> 08:00 - 17:00
@@ -331,7 +331,7 @@ export default function DayOrder() {
                     <div
                       key={index}
                       className="day__item"
-                      onClick={() => handleUpdateDate(date, index)}
+                      // onClick={() => handleUpdateDate(date, index)}
                     >
                       <div className="day__item_group">
                         <div className="day__item_group_title">Date</div>
@@ -348,13 +348,14 @@ export default function DayOrder() {
                       <div className="day__item_group">
                         <div className="day__item_group_title">Start time</div>
                         <div className="day__item_group_value">
-                          {date.startTime}:00-{date.startTime + date.duration}
-                          :00
+                          {/* {date.startTime}:00-{date.startTime + date.duration}
+                          :00 */}
+                          9:00-17:00
                         </div>
                       </div>
-                      <div className="day__item_group_close">
+                      {/* <div className="day__item_group_close">
                         <FaEdit />
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 </div>

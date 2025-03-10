@@ -102,12 +102,21 @@ function HomePage() {
             {/* <span className="slogan__hightlight"> cleaning needs! 🫧</span> */}
             <span className="slogan__hightlight"> cleaning needs!</span>
           </div>
-          <div
-            className="headline__btn_book"
-            onClick={() => scrollToSection("services")}
-          >
-            <div className="btn__book_text">book now</div>
-            <FaLongArrowAltRight className="btn__book_icon" />
+          <div className="headline__btn_container">
+            <div
+              className="headline__btn_book booknow"
+              onClick={() => scrollToSection("services")}
+            >
+              <div className="btn__book_text">book now</div>
+              {/* <FaLongArrowAltRight className="btn__book_icon" /> */}
+            </div>
+            <div
+              className="headline__btn_book"
+              onClick={() => navigateToPage("/order/yearroundOrder")}
+            >
+              <div className="btn__book_text">quote now</div>
+              {/* <FaLongArrowAltRight className="btn__book_icon" /> */}
+            </div>
           </div>
         </div>
       </div>

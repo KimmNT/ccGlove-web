@@ -1,14 +1,14 @@
 //COLORES
-$primary : #141E46;
-$btnColor : #F0EEED;
-$bgColor : #EDEDED;
-$softRed : #F45050;
-$softYellow : #FFC861;
-$softYelloToWhite:#FFD381;
-$dark : #000;
-$darkText:#4b4b4b;
-$light : #FFF;
-$softGrey:#d3d3d3;
+$primary: #141e46;
+$btnColor: #f0eeed;
+$bgColor: #ededed;
+$softRed: #f45050;
+$softYellow: #ffc861;
+$softYelloToWhite: #ffd381;
+$dark: #000;
+$darkText: #4b4b4b;
+$light: #fff;
+$softGrey: #d3d3d3;
 $darkGreen: #1b5e20;
 $lightGreen: #109b27;
 $darkGrey: #b7b7b7;
@@ -41,7 +41,7 @@ $breakpoint-large: 1200px;
     background-image: url("https://res.cloudinary.com/dovp2f63c/image/upload/v1732714023/za2utl6z9g4divuuxgta.jpg");
     background-position: center center;
     background-repeat: no-repeat;
-    background-size:cover;
+    background-size: cover;
     height: 100vh;
     width: 100%;
     .home__headline_image {
@@ -64,9 +64,9 @@ $breakpoint-large: 1200px;
     padding: 5rem 0;
     border-radius: 0rem;
 
-    &.home__headline_title_background{
+    &.home__headline_title_background {
       margin-top: 5rem;
-      @media (min-width:$breakpoint-small) {
+      @media (min-width: $breakpoint-small) {
         margin-top: 0;
       }
       .slogan {
@@ -81,7 +81,7 @@ $breakpoint-large: 1200px;
         .slogan__hightlight {
           font-size: 6rem;
           font-weight: 600;
-          padding: .5rem 1rem;
+          padding: 0.5rem 1rem;
           border-radius: 1rem;
         }
       }
@@ -118,38 +118,47 @@ $breakpoint-large: 1200px;
       color: $dark;
       transition: $transition;
     }
-
-    .headline__btn_book {
+    .headline__btn_container {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 2px solid $light;
-      color: $light;
-      padding: 1rem 2rem;
-      border-radius: 1rem;
+      flex-direction: row;
       gap: 1rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: $transition;
-      &:hover {
+      .headline__btn_book {
+        &.booknow {
+          background-color: $softYellow;
+          color: $dark;
+          border-color: $softYellow;
+        }
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 2px solid $light;
+        color: $light;
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        gap: 1rem;
+        cursor: pointer;
+        text-transform: uppercase;
         transition: $transition;
-        background-color: $softYellow;
-        color: $dark;
-        border-color: $dark;
+        &:hover {
+          transition: $transition;
+          background-color: $softYellow;
+          color: $dark;
+          border-color: $dark;
+          .btn__book_icon {
+            transition: $transition;
+            transform: translateX(10px);
+          }
+        }
+
+        .btn__book_text {
+          font-size: 2rem;
+          font-weight: 600;
+        }
+
         .btn__book_icon {
           transition: $transition;
-          transform: translateX(10px);
+          font-size: 2rem;
         }
-      }
-
-      .btn__book_text {
-        font-size: 2rem;
-        font-weight: 600;
-      }
-
-      .btn__book_icon {
-        transition: $transition;
-        font-size: 2rem;
       }
     }
   }
@@ -304,16 +313,16 @@ $breakpoint-large: 1200px;
           border-radius: 0.5rem;
           padding: 1rem;
         }
-        .review__images{
+        .review__images {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          img{
+          img {
             width: 48%;
             height: 20rem;
-            border-radius: .5rem;
+            border-radius: 0.5rem;
             object-fit: cover;
-            @media (min-width:$breakpoint-small) {
+            @media (min-width: $breakpoint-small) {
               height: 10rem;
             }
           }
@@ -389,34 +398,34 @@ $breakpoint-large: 1200px;
           justify-content: space-between;
           gap: 3rem;
           transition: $transition;
-          &.hour__background{
+          &.hour__background {
             background-image: url("https://res.cloudinary.com/dovp2f63c/image/upload/v1730108189/geaeaj3jr7jfxjsrniyp.jpg");
             background-position: center center;
             background-repeat: no-repeat;
-            background-size:cover;
+            background-size: cover;
             height: 100%;
             width: 100%;
           }
-          &.day__background{
+          &.day__background {
             background-image: url("https://res.cloudinary.com/dovp2f63c/image/upload/v1730108181/ulh0yhbtfzqemzs5n5ut.jpg");
             background-position: center center;
             background-repeat: no-repeat;
-            background-size:cover;
+            background-size: cover;
             height: 100%;
             width: 100%;
           }
-          &.year__background{
+          &.year__background {
             background-image: url("https://res.cloudinary.com/dovp2f63c/image/upload/v1732714023/ojxayfw7ye0db1onzwga.jpg");
             background-position: center center;
             background-repeat: no-repeat;
-            background-size:cover;
+            background-size: cover;
             height: 100%;
             width: 100%;
           }
           &:hover {
             transition: $transition;
-            .service_content{
-            background-color: #FFF
+            .service_content {
+              background-color: #fff;
             }
             .service__btn_icon {
               transition: $transition;
@@ -429,7 +438,7 @@ $breakpoint-large: 1200px;
             gap: 3rem;
             // width: 100%;
             color: $dark;
-            background-color: rgba($color: #FFF, $alpha: 0.6);
+            background-color: rgba($color: #fff, $alpha: 0.6);
             padding: 1rem 1.5rem;
             border-radius: 1rem;
             transition: $transition;
@@ -446,7 +455,7 @@ $breakpoint-large: 1200px;
                 font-weight: 600;
               }
             }
-            .service__content_value{
+            .service__content_value {
               display: flex;
               align-items: center;
               gap: 2rem;
@@ -543,7 +552,7 @@ $breakpoint-large: 1200px;
             align-items: flex-end;
             gap: 5rem;
           }
-          &.contact__center{
+          &.contact__center {
             justify-content: center;
           }
           &.contact__form {
@@ -572,7 +581,7 @@ $breakpoint-large: 1200px;
               font-family: "Firasan";
               font-size: 2rem;
               color: $dark;
-              &.sent{
+              &.sent {
                 transition: $transition;
                 background-color: $lightGreen;
                 pointer-events: none;
