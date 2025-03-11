@@ -22,6 +22,12 @@ export default function YearroundOrder() {
   const [isSent, setIsSent] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
+  const [bathRoom, setBathRoom] = useState(0);
+  const [toilet, setToilet] = useState(0);
+  const [bed, setBed] = useState(0);
+  const [kitchenSize, setKitchenSize] = useState(0);
+  const [square, setSquare] = useState(0);
+
   useEffect(() => {
     window.scrollTo({
       top: 0, // Scroll to the top
@@ -74,10 +80,20 @@ export default function YearroundOrder() {
       user_name: userName,
       user_phone: `Customer phone number: ${userPhone}`,
       message: `${
+        customType === 1
+          ? `I need a custom service. ${userMessag} `
+          : `I need a year-round service. I have`
+      }`,
+      bathroom: customType === 0 ? `${bathRoom} bathroom(s)` : ``,
+      toilet: customType === 0 ? `${toilet} toilet(s)` : ``,
+      bed: customType === 0 ? `${bed} bed(s)` : ``,
+      kitchenSize:
         customType === 0
-          ? `I would like to know more about your year-round cleaning services. `
-          : `I need a custom service. `
-      } ${userMessag}`,
+          ? `Kitchen size: ${
+              kitchenSize === 0 ? "S" : kitchenSize === 1 ? "M" : "L"
+            }`
+          : ``,
+      square: customType === 0 ? `Total square: ${square} square meters` : ``,
     };
     emailjs
       .send(
@@ -93,6 +109,11 @@ export default function YearroundOrder() {
           setUserMessage("");
           setUserName("");
           setUserPhone("");
+          setBathRoom(0);
+          setToilet(0);
+          setBed(0);
+          setKitchenSize(0);
+          setSquare(0);
         },
         (error) => {
           console.log("FAILED...", error.text);
@@ -165,10 +186,7 @@ export default function YearroundOrder() {
               <div className="order__year_option_container">
                 {customType === 0 ? (
                   <div className="order__year_describe ">
-                    People who use year-round cleaning services include
-                    apartments for rent, houses for rent, and dormitory for
-                    rent. We provide not only cleaning but also amenities, soaps
-                    and kitchen supplies.
+                    Tell us more about your places.
                   </div>
                 ) : (
                   <div className="order__year_describe ">
@@ -177,44 +195,186 @@ export default function YearroundOrder() {
                     deserve.
                   </div>
                 )}
-                <input
-                  placeholder="Enter your name"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-                <input
-                  placeholder="Enter your phone number"
-                  value={userPhone}
-                  onChange={(e) => setUserPhone(e.target.value)}
-                />
-                <input
-                  placeholder="Enter your email"
-                  value={userEmail}
-                  onChange={(e) => setuserEmail(e.target.value)}
-                />
-                <textarea
-                  className="contact__textarea"
-                  placeholder="Tell us more about your needs"
-                  value={userMessag}
-                  ref={textareaRef}
-                  rows={3}
-                  onChange={(e) => setUserMessage(e.target.value)}
-                ></textarea>
-                <div className="order__year_option_btn_container">
-                  {isSent ? (
-                    <div className="order__year_option_btn sent">
-                      <FaCheck />
+                {customType === 0 ? (
+                  <>
+                    <div className="order__year_selection">
+                      <input
+                        placeholder="Enter your name"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                      />
+                      <div className="order__year_selection_item_breakline"></div>
+
+                      <input
+                        placeholder="Enter your phone number"
+                        value={userPhone}
+                        onChange={(e) => setUserPhone(e.target.value)}
+                      />
+                      <div className="order__year_selection_item_breakline"></div>
+
+                      <input
+                        placeholder="Enter your email"
+                        value={userEmail}
+                        onChange={(e) => setuserEmail(e.target.value)}
+                      />
+                      <div className="order__year_selection_item_breakline"></div>
+
+                      <div className="order__year_selection_item">
+                        <div className="order__year_selection_title">
+                          How many bathroom:
+                        </div>
+                        <div className="order__year_selection_input">
+                          <input
+                            value={bathRoom}
+                            onChange={(e) => setBathRoom(e.target.value)}
+                          />
+                          <div className="order__year_selection_input_unit">
+                            bathroom(s)
+                          </div>
+                        </div>
+                      </div>
+                      <div className="order__year_selection_item_breakline"></div>
+                      <div className="order__year_selection_item">
+                        <div className="order__year_selection_title">
+                          How many toilet:
+                        </div>
+                        <div className="order__year_selection_input">
+                          <input
+                            value={toilet}
+                            onChange={(e) => setToilet(e.target.value)}
+                          />
+                          <div className="order__year_selection_input_unit">
+                            toilet(s)
+                          </div>
+                        </div>
+                      </div>
+                      <div className="order__year_selection_item_breakline"></div>
+                      <div className="order__year_selection_item">
+                        <div className="order__year_selection_title">
+                          How many bed:
+                        </div>
+                        <div className="order__year_selection_input">
+                          <input
+                            value={bed}
+                            onChange={(e) => setBed(e.target.value)}
+                          />
+                          <div className="order__year_selection_input_unit">
+                            bed(s)
+                          </div>
+                        </div>
+                      </div>
+                      <div className="order__year_selection_item_breakline"></div>
+                      <div className="order__year_selection_item">
+                        <div className="order__year_selection_title">
+                          Kitchen size:
+                        </div>
+                        <div className="order__year_selection_list">
+                          <div
+                            onClick={() => setKitchenSize(0)}
+                            className={`order__year_selection_list_item ${
+                              kitchenSize === 0
+                                ? "order__year_selection_list_item_active"
+                                : ""
+                            }`}
+                          >
+                            s
+                          </div>
+                          <div
+                            onClick={() => setKitchenSize(1)}
+                            className={`order__year_selection_list_item ${
+                              kitchenSize === 1
+                                ? "order__year_selection_list_item_active"
+                                : ""
+                            }`}
+                          >
+                            m
+                          </div>
+                          <div
+                            onClick={() => setKitchenSize(2)}
+                            className={`order__year_selection_list_item ${
+                              kitchenSize === 2
+                                ? "order__year_selection_list_item_active"
+                                : ""
+                            }`}
+                          >
+                            l
+                          </div>
+                        </div>
+                      </div>
+                      <div className="order__year_selection_item_breakline"></div>
+                      <div className="order__year_selection_item">
+                        <div className="order__year_selection_title">
+                          Total house square:
+                        </div>
+                        <div className="order__year_selection_input">
+                          <input
+                            value={square}
+                            onChange={(e) => setSquare(e.target.value)}
+                          />
+                          <div className="order__year_selection_input_unit">
+                            square meters
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    <button
-                      className="order__year_option_btn"
-                      onClick={handleSendEmail}
-                      disabled={isSending}
-                    >
-                      {isSending ? `SENDING...` : `SUBMIT`}
-                    </button>
-                  )}
-                </div>
+                    <div className="order__year_option_btn_container">
+                      {isSent ? (
+                        <div className="order__year_option_btn sent">
+                          <FaCheck />
+                        </div>
+                      ) : (
+                        <button
+                          className="order__year_option_btn"
+                          onClick={handleSendEmail}
+                          disabled={isSending}
+                        >
+                          {isSending ? `SENDING...` : `SUBMIT`}
+                        </button>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      placeholder="Enter your name"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                    />
+                    <input
+                      placeholder="Enter your phone number"
+                      value={userPhone}
+                      onChange={(e) => setUserPhone(e.target.value)}
+                    />
+                    <input
+                      placeholder="Enter your email"
+                      value={userEmail}
+                      onChange={(e) => setuserEmail(e.target.value)}
+                    />
+                    <textarea
+                      className="contact__textarea"
+                      placeholder="Tell us more about your needs"
+                      value={userMessag}
+                      ref={textareaRef}
+                      rows={3}
+                      onChange={(e) => setUserMessage(e.target.value)}
+                    ></textarea>
+                    <div className="order__year_option_btn_container">
+                      {isSent ? (
+                        <div className="order__year_option_btn sent">
+                          <FaCheck />
+                        </div>
+                      ) : (
+                        <button
+                          className="order__year_option_btn"
+                          onClick={handleSendEmail}
+                          disabled={isSending}
+                        >
+                          {isSending ? `SENDING...` : `SUBMIT`}
+                        </button>
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

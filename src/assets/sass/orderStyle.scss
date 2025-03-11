@@ -300,12 +300,86 @@ $breakpoint-large: 1200px;
           width: 45%;
         }
         .order__year_describe {
-          font-size: 1.3rem;
-          line-height: 2rem;
+          font-size: 1.7rem;
+          line-height: 2.5rem;
           margin-bottom: 2rem;
-          width: 90%;
+          width: 100%;
+          &::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 0.1rem;
+            background-color: $darkGrey;
+            margin-top: 2rem;
+          }
           @media (min-width: $breakpoint-small) {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
+          }
+        }
+        .order__year_selection {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          overflow-y: auto;
+          max-height: 30rem;
+          .order__year_selection_item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .order__year_selection_title {
+              width: 50%;
+              font-size: 1.5rem;
+            }
+            .order__year_selection_input {
+              width: 40%;
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+              justify-content: space-between;
+              input {
+                width: 30%;
+                padding: 1rem;
+                border-radius: 1rem;
+                outline: none;
+                border: none;
+                font-weight: 600;
+                font-family: FiraSan;
+                text-align: center;
+              }
+              .order__year_selection_input_unit {
+                font-size: 1.2rem;
+              }
+            }
+            .order__year_selection_list {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              width: 40%;
+              gap: 2rem;
+              .order__year_selection_list_item {
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 1.5rem;
+                cursor: pointer;
+                background-color: transparent;
+                color: $light;
+                padding: 0.5rem 1rem;
+                border-radius: 0.5rem;
+                transition: $transition;
+                &.order__year_selection_list_item_active {
+                  transition: $transition;
+                  color: $dark;
+                  background-color: $light;
+                }
+              }
+            }
+          }
+          .order__year_selection_item_breakline {
+            width: 100%;
+            height: 10%;
+            background-color: $darkGrey;
           }
         }
         input {
@@ -326,32 +400,32 @@ $breakpoint-large: 1200px;
           font-family: FiraSan;
           padding: 2rem;
         }
-        .order__year_option_btn_container {
+      }
+      .order__year_option_btn_container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .order__year_option_btn {
           width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .order__year_option_btn {
-            width: 100%;
-            font-size: 2rem;
-            background-color: $softYellow;
-            padding: 1rem 10rem;
-            border-radius: 1rem;
-            color: $dark;
-            font-weight: 600;
-            margin-top: 2rem;
-            text-align: center;
-            cursor: pointer;
-            outline: none;
-            border: none;
-            font-family: "Firasan";
+          font-size: 2rem;
+          background-color: $softYellow;
+          padding: 1rem 10rem;
+          border-radius: 1rem;
+          color: $dark;
+          font-weight: 600;
+          margin-top: 2rem;
+          text-align: center;
+          cursor: pointer;
+          outline: none;
+          border: none;
+          font-family: "Firasan";
+          transition: $transition;
+          &.sent {
             transition: $transition;
-            &.sent {
-              transition: $transition;
-              background-color: $lightGreen;
-              pointer-events: none;
-              color: $light;
-            }
+            background-color: $lightGreen;
+            pointer-events: none;
+            color: $light;
           }
         }
       }
