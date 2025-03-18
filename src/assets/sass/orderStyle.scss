@@ -92,6 +92,10 @@ $breakpoint-large: 1200px;
           gap: 1rem;
         }
       }
+      .order__date_disabled {
+        background-color: $bgColor;
+        color: #727272;
+      }
     }
   }
   .react-calendar {

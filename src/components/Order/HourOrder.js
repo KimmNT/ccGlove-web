@@ -146,7 +146,7 @@ export default function HourOrder() {
     }
   };
 
-  const isDateDisabled = ({ date, view }) => {
+  const isDateDisabledStyle = ({ date, view }) => {
     // Disable only specific dates
     if (view === "month") {
       // Format the current date to DD/MM/YYYY
@@ -155,10 +155,12 @@ export default function HourOrder() {
         "0"
       )}/${String(date.getDate()).padStart(2, "0")}/${date.getFullYear()}`;
 
-      // Check if the formatted date is in the disabledDates array
-      return disabledDatesList.includes(formattedDate);
+      // Check if the date is disabled or not
+      return disabledDatesList.includes(formattedDate)
+        ? "order__date_disabled"
+        : "";
     }
-    return false; // Only check for month view
+    return "";
   };
 
   const checkIfAtTop = () => {
@@ -167,6 +169,13 @@ export default function HourOrder() {
     } else {
       setIsOnTop(false);
     }
+  };
+
+  const isDisable = (newDate) => {
+    const result = disabledDatesList.some(
+      (date) => date === moment(newDate).format("MM/DD/YYYY")
+    );
+    return result;
   };
 
   const handleDateChange = (newDate) => {
@@ -182,9 +191,17 @@ export default function HourOrder() {
       setStartTime(0);
       setIsClose(true);
     }
+    if (isDisable(newDate)) {
+      setAlertValue(
+        "Sorry, we’re fully booked for today. Please select another day!"
+      );
+      setStartTime(0);
+      setIsAlert(true);
+      setIsClose(true);
+    }
     if (selectedDay.isSame(currentDay, "day") && currentTime.getHours() >= 11) {
       setAlertValue(
-        "Sorry, we’re fully booked for today. Please select another day."
+        "Sorry, we’re fully booked for today. Please select another day!"
       );
       setStartTime(0);
       setIsAlert(true);
@@ -291,7 +308,7 @@ export default function HourOrder() {
               <Calendar
                 onChange={handleDateChange}
                 value={selectedDate}
-                tileDisabled={isDateDisabled}
+                tileClassName={isDateDisabledStyle}
               />
             </div>
             {isClose ? (

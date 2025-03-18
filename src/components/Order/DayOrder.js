@@ -118,7 +118,18 @@ export default function DayOrder() {
     }
   };
 
-  const isDateDisabled = ({ date, view }) => {
+  // Check if a particular date is selected based on the selectedDate field in the object
+  const isDateSelected = (date) => {
+    const formattedDate = moment(date).format("DD/MM/YYYY");
+    return selectedDates.some(
+      (dateObj) => dateObj.selectedDate === formattedDate
+    );
+  };
+
+  const isDateDisabledStyle = ({ date, view }) => {
+    if (view === "month" && isDateSelected(date)) {
+      return "selected-date";
+    }
     // Disable only specific dates
     if (view === "month") {
       // Format the current date to DD/MM/YYYY
@@ -127,17 +138,25 @@ export default function DayOrder() {
         "0"
       )}/${String(date.getDate()).padStart(2, "0")}/${date.getFullYear()}`;
 
-      // Check if the formatted date is in the disabledDates array
-      return disabledDatesList.includes(formattedDate);
+      // Check if the date is disabled or not
+      return disabledDatesList.includes(formattedDate)
+        ? "order__date_disabled"
+        : "";
     }
-    return false; // Only check for month view
+    return "";
+  };
+
+  const isDisable = (newDate) => {
+    const result = disabledDatesList.some(
+      (date) => date === moment(newDate).format("MM/DD/YYYY")
+    );
+    return result;
   };
 
   const handleDateChange = (newDate) => {
     const formattedDate = moment(newDate).format("DD/MM/YYYY");
     const currentDay = moment().startOf("day"); // Get current day without time
     const formattedDateMoment = moment(newDate); // Convert selected date to moment object
-    const currentTime = new Date();
 
     // Check if selected date is in the past
     if (formattedDateMoment.isBefore(currentDay, "day")) {
@@ -145,9 +164,16 @@ export default function DayOrder() {
       setIsAlert(true);
       return;
     }
+    if (isDisable(newDate)) {
+      setAlertValue(
+        "Sorry, we’re fully booked for today. Please select another day!"
+      );
+      setIsAlert(true);
+      return;
+    }
     if (formattedDateMoment.isSame(currentDay, "day")) {
       setAlertValue(
-        "Sorry, we’re fully booked for today. Please select another day."
+        "Sorry, we’re fully booked for today. Please select another day!"
       );
       setIsAlert(true);
       return;
@@ -183,13 +209,6 @@ export default function DayOrder() {
       });
       setCalendarKey(calendarKey + 1);
     }
-  };
-  // Check if a particular date is selected based on the selectedDate field in the object
-  const isDateSelected = (date) => {
-    const formattedDate = moment(date).format("DD/MM/YYYY");
-    return selectedDates.some(
-      (dateObj) => dateObj.selectedDate === formattedDate
-    );
   };
 
   const getCurrentHour = () => {
@@ -313,12 +332,13 @@ export default function DayOrder() {
               <Calendar
                 key={calendarKey}
                 onClickDay={handleDateChange} // Use onClickDay for selecting multiple days
-                tileDisabled={isDateDisabled}
-                tileClassName={({ date, view }) =>
-                  view === "month" && isDateSelected(date)
-                    ? "selected-date"
-                    : ""
-                }
+                // tileDisabled={isDateDisabled}
+                // tileClassName={({ date, view }) =>
+                //   view === "month" && isDateSelected(date)
+                //     ? "selected-date"
+                //     : ""
+                // }
+                tileClassName={isDateDisabledStyle}
               />
             </div>
             {selectedDates.length > 0 && (
